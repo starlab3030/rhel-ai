@@ -1,5 +1,17 @@
 # AI를 보험 앱에 통합하기
 
+목차
+* [파라솔 앱 사용](./integrate-ai-into-app.md#파라솔-앱-사용)<br>
+* [텍소노미(Taxonomy) 이해하기](./integrate-ai-into-app.md#텍소노미taxonomy-이해하기)<br>
+* [합성 데이터 생성](./integrate-ai-into-app.md#합성-데이터-생성)<br>
+* [모델 학습 및 상호 작용](./integrate-ai-into-app.md#모델-학습-및-상호-작용)<br>
+* [앱 검증](./integrate-ai-into-app.md#앱-검증)<br>
+* [랩 요약](./integrate-ai-into-app.md#랩-요약)<br>
+
+<br>
+<hr>
+<br>
+
 이전 섹션에서는 InstructLab과 상호 작용하는 방법의 기본 사항을 보여주었습니다. 이제 예제 애플리케이션과 함께 InstructLab을 사용하여 한 단계 더 나아가 보겠습니다.
 * RHEL AI를 사용하여 granite LLM을 활용
 * 지식(knowledge) 및/또는 기술(skills) 형태로 추가 데이터를 더함
@@ -19,6 +31,7 @@
   - 추가된 지식으로 모델을 학습
   - 권장 사항을 개선
 <br>
+<br>
 
 ## 파라솔 앱 사용
 
@@ -28,6 +41,7 @@
 
 <img src="images/parasol-view.png" title="100px" alt="파라솔_뷰"></img><br>
 * 청구 담당자는 화면에서 청구 번호를 클릭하여 기존 청구를 탐색하고 볼 수 있음
+<br>
 
 ### 2. *Marty McFly*가 제기한 청구인 **CLM195501**을 조사
 
@@ -37,6 +51,7 @@
 * 이 페이지에서 청구 내용을 자세히 읽을 수 있음
 * DeLorean 이미지를 확대하면 *Marty*가 자신의 차를 얼마나 심하게 파손했는지 확인할 수 있음
   - 바닥의 플럭스 커패시터에 주목
+<br>
 
 ### 3. 챗봇 확인
 
@@ -46,6 +61,7 @@
 
 > [!NOTE]
 > 챗봇은 이전에 제공한 Granite 모델에 의해 지원되므로 실행 중인 프로세스를 종료한 경우 다음을 실행하여 터미널에서 다시 시작해야 합니다.
+<br>
 
 ### 4. 챗봇에 질문하기
 
@@ -59,6 +75,7 @@ How much does it cost to repair a flux capacitor?
 > 랩에서 한 것은, Prompt Engineering을 사용하여 LLM과의 각 대화에서 청구에 대한 맥락적 정보를 제공하는 것입니다. 하지만 안타깝게도 챗봇은 플럭스 커패시터를 수리하는 데 드는 비용이나 우리 조직의 도메인별 지식을 알지 못합니다.<br>
 > <br>
 > InstructLab과 RHEL AI를 사용하면 모델을 학습시켜 이를 바꿀 수 있습니다!
+<br>
 <br>
 
 ## 텍소노미(Taxonomy) 이해하기
@@ -157,6 +174,7 @@ taxonomy/
 30 directories, 19 files
 [instruct@bastion instructlab]$ 
 ```
+<br>
 
 ### 2. 디렉터리 생성
 
@@ -180,6 +198,7 @@ mkdir: created directory '/home/instruct/instructlab/taxonomy/knowledge/parasol/
 
 (venv) [instruct@bastion instructlab]$
 ```
+<br>
 
 ### 3. 새로운 지식을 통해 모델에 새로운 기능을 추가
 
@@ -191,6 +210,7 @@ mkdir: created directory '/home/instruct/instructlab/taxonomy/knowledge/parasol/
 * 중요한 점은 InstructLab에서 합성적으로 더 많은 예제를 생성하기 위해, 이 파일이 특정 스키마를 따라야 함
 * 해당 파일은 택소노미 디렉토리의 knowledge 하위 디렉토리 내의 폴더(~/taxonomy/knowledge/parasol/)에 저장
   - 데이터 토픽과 일치하는 적절한 이름의 폴더에 저장
+<br>
 
 ### 4. 정보 입력
 
@@ -263,6 +283,7 @@ document:
 |`task_description`|특정 지식(knowledge) 기여를 쉽게 이해하기 위한 선택적 설명|
 |`document`|지식(knowledge) 마크다운 파일을 가리키는 **저장소(repo)** URL과 특정 파일을 포함하는 **커밋(commit)** SHA로 구성된 지식(knowledge) 기여의 소스|
 |`patterns`|저장소(repository)에 있는 마크다운 파일을 지정하는 글로브 패턴 목록|
+<br>
 
 ### 5. 시드 데이터가 올바르게 큐레이션되었는지 확인
 
@@ -281,6 +302,7 @@ Taxonomy in taxonomy is valid :)
 
 (venv) [instruct@bastion instructlab]$ 
 ```
+<br>
 <br>
 
 ## 합성 데이터 생성
@@ -347,6 +369,7 @@ INFO 2024-10-08 05:58:36,276 generate_data.py:613: generate_data Generation took
 > [!NOTE]
 > 새로 생성된 데이터를 사용하여 훈련하는 것은 시간과 리소스가 많이 드는 작업입니다.<br>
 > 원하는 반복 횟수, safetensor 다운로드를 위한 인터넷 연결 및 기타 요인에 따라 20분에서 1시간까지 걸릴 수 있습니다. 2500개의 명령어와 300개의 반복을 사용하여, 생성 단계를 통해 만든 이미 훈련된 모델을 사용하므로 랩을 계속 진행하기 위해 모델을 훈련할 필요는 없습니다.
+<br>
 <br>
 
 ## 모델 학습 및 상호 작용
@@ -465,6 +488,7 @@ INFO 2024-08-06 17:04:15,452 server.py:219: server After application startup com
 ```
 * 몇 초 소요 후 모델이 준비됨
 <br>
+<br>
 
 ## 앱 검증
 
@@ -489,6 +513,7 @@ How much does it cost to repair a flux capacitor?
 바뀐 응답 확인
 
 <img src="images/parasol-new-response.webp" title="100px" alt="파라솔 챗봇의 바뀐 응답"></img><br>
+<br>
 <br>
 
 ## 랩 요약
