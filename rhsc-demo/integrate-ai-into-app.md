@@ -487,5 +487,10 @@ How much does it cost to repair a flux capacitor?
 ```
 
 바뀐 응답 확인
+
 <img src="images/parasol-new-response.webp" title="100px" alt="파라솔 챗봇의 바뀐 응답"></img><br>
 <br>
+
+## 랩 요약
+
+파라솔 보험을 위한 챗봇을 학습시켰고 모든 클레임 담당자의 업무가 조금 더 나아지는 것을 확인 했습니다. 이는 비즈니스에 긍정적익 영향을 줍니다.
