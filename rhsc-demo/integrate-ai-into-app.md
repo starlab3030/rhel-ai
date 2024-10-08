@@ -285,6 +285,66 @@ Taxonomy in taxonomy is valid :)
 
 ## 합성 데이터 생성
 
+qna.yaml 파일이 포함된 택소노미를 사용하여 LLM이 자동으로 더 많은 예제를 생성하도록 하겠습니다.
+* 생성 단계는 종종 시간이 오래 걸릴 수 있으며 생성하려는 명령어 수에 따라 달라짐
+  - 즉, InstructLab은 제공된 샘플을 기반으로 X개의 추가 질문과 답변을 생성한다는 의미
+
+* 소요 시간  
+  - 100개의 추가 질문과 답변을 생성하는 데 일반적으로 사양이 좋은 소비자 등급 GPU 가속 리눅스 머신을 사용할 때 약 7분이 소요
+  - 애플 실리콘을 사용하면 약 15분이 소요
+  - 여러 요인에 따라 달라짐
+  
+랩의 목적을 위해 5개의 추가 샘플만 생성하기 위해 다음 명령을 실행
+```bash
+ilab data generate --model models/granite-7b-lab-Q4_K_M.gguf --num-instructions 5
+```
+* 다른 터미널은 여전히 ​​이전의 Granite 모델을 제공
+
+실행 결과
+```
+(venv) [instruct@bastion instructlab]$ ilab data generate --model models/granite-7b-lab-Q4_K_M.gguf --num-instructions 5
+Generating synthetic data using 'models/granite-7b-lab-Q4_K_M.gguf' model, taxonomy:'taxonomy' against http://127.0.0.1:8000/v1 server
+Cannot find prompt.txt. Using default prompt depending on model-family.
+  0%|                                                                                         | 0/5 [00:00<?, ?it/s]Synthesizing new instructions. If you aren't satisfied with the generated instructions, interrupt training (Ctrl-C) and try adjusting your YAML files. Adding more examples may help.
+INFO 2024-10-08 05:57:28,020 generate_data.py:505: generate_data Selected taxonomy path knowledge->parasol->claims
+  0%|                                                                                         | 0/5 [00:02<?, ?it/s]INFO 2024-10-08 05:57:30,814 generate_data.py:505: generate_data Selected taxonomy path knowledge->parasol->claims
+  0%|                                                                                         | 0/5 [00:03<?, ?it/s]INFO 2024-10-08 05:57:31,653 generate_data.py:505: generate_data Selected taxonomy path knowledge->parasol->claims
+$\color{red}{\texttt{Q> What is the significance of the flux capacitor in the DeLorean DMC-12?}}$
+I> 
+A> The flux capacitor in the DeLorean DMC-12 is a crucial component for time travel, as it enables the vehicle to reach 88 miles per hour, the speed required for time travel according to the "Back to the Future" film trilogy. However, it should be noted that repairing or replacing the flux capacitor can cost up to $10,000,000.
+
+ 20%|████████████████▏                                                                | 1/5 [00:17<00:54, 13.72s/it]INFO 2024-10-08 05:57:45,363 generate_data.py:505: generate_data Selected taxonomy path knowledge->parasol->claims
+Q> What is the typical lifespan of the battery in a DeLorean DMC-12?
+I> 
+A> The battery in a DeLorean DMC-12 typically lasts between 2 to 5 years. Regularly checking for corrosion and ensuring proper connection can help maintain the battery's lifespan.
+
+ 40%|████████████████████████████████▍                                                | 2/5 [00:29<00:39, 13.04s/it]INFO 2024-10-08 05:57:57,920 generate_data.py:505: generate_data Selected taxonomy path knowledge->parasol->claims
+Q> What is the cost to repair a DeLorean DMC-12's Flux Capacitor?
+I> 
+A> Repairing the Flux Capacitor in a DeLorean DMC-12 costs between $10,000,000 and $10,000,000.
+
+Q> What are the regular maintenance tasks for a DeLorean DMC-12 and how often should they be done?
+I> 
+A> Regular maintenance for a DeLorean DMC-12 includes oil changes every 3,000 miles or 3 months, brake fluid changes every 2 years, transmission fluid changes every 30,000 miles, coolant changes every 2 years, and regularly checking the battery for corrosion and proper connection.
+
+ 80%|████████████████████████████████████████████████████████████████▊                | 4/5 [00:56<00:13, 13.09s/it]INFO 2024-10-08 05:58:24,162 generate_data.py:505: generate_data Selected taxonomy path knowledge->parasol->claims
+Q> What is the engine type of the DeLorean DMC-12?
+I> 
+A> The DeLorean DMC-12 is equipped with a 2.85 L V6 PRV engine.
+
+100%|█████████████████████████████████████████████████████████████████████████████████| 5/5 [01:08<00:00, 13.65s/it]
+INFO 2024-10-08 05:58:36,276 generate_data.py:609: generate_data 5 instructions generated, 2 discarded due to format (see generated/discarded_granite-7b-lab-Q4_K_M_2024-10-08T05_57_28.log), 0 discarded due to rouge score
+INFO 2024-10-08 05:58:36,276 generate_data.py:613: generate_data Generation took 68.62s
+
+(venv) [instruct@bastion instructlab]$ 
+```
+* 명령 실행 후, InstructLab이 qna.yaml 파일에서 제공한 시드 데이터를 기반으로 5개의 예를 합성적으로 생성
+하는 것을 볼 수 있습니다. 생성된 질문과 답변을 살펴보고 모델이 무엇을 생성했는지 확인하세요!
+
+### 2. 
+
+
+### 3. 
 <br>
 
 ## 모델 학습 및 제공
