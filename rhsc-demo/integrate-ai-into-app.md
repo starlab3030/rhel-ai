@@ -25,7 +25,7 @@
 
 ### 1. *Parasol*로 전환하여 브라우저에서 파라솔 회사의 클레임 신청서를 확인
 
-<img src="images/parasol-view.png" width="300px" height="300px" title="100px" alt="파라솔_뷰"></img><br>
+<img src="images/parasol-view.png" title="100px" alt="파라솔_뷰"></img><br>
 * 청구 담당자는 화면에서 청구 번호를 클릭하여 기존 청구를 탐색하고 볼 수 있음
 
 ### 2. 
