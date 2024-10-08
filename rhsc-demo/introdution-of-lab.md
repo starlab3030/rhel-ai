@@ -11,6 +11,13 @@
 InstructLab은 레드햇과 MIT-IBM Watson AI Lab의 완전 오픈소스 프로젝트로, "Large-scale Alignment for ChatBots (LAB)"을 소개합니다. 이 프로젝트의 혁신은 LLM 학습 중 교육-튜닝(instruction-tuning) 단계에서 도움이 됩니다. 그러나 이 프로젝트의 이점을 완전히 이해하려면 *LLM이 무엇인지에 대한 몇 가지 기본 개념*과 *모델을 교육하는 데 따른 어려움과 비용*에 대해 잘 알고 있어야 합니다.
 <br>
 
+목차
+* [Large Language Model (LLM)은 무엇 인가?](./introdution-of-lab.md#large-language-model-llm은-무엇-인가)<br>
+* [LLM은 어떻게 훈련 되는 가?](./introdution-of-lab.md#llm은-어떻게-훈련-되는-가)<br>
+* [LLM이 InstructLab과 어떤 관련이 있는가?](./introdution-of-lab.md#llm이-instructlab과-어떤-관련이-있는가)<br>
+
+<hr>
+
 ## Large Language Model (LLM)은 무엇 인가?
 
 LLM은 딥 러닝 기술을 사용하여 입력 데이터를 기반으로 인간과 유사한 텍스트를 이해하고 생성하는 인공 지능(AI) 모델의 한 유형입니다. 이러한 모델은 방대한 양의 텍스트 데이터를 분석하고 데이터 내의 패턴, 관계 및 구조를 학습하도록 설계되었습니다.
