@@ -41,6 +41,7 @@
 ### 3. 챗봇 확인
 
 청구를 읽은 후 페이지 오른쪽 하단에 있는 작은 파란색 아이콘을 사용하여 챗봇을 클릭
+
 <img src="images/parasol-chat.webp" title="100px" alt="파라솔_챗"></img><br>
 
 > [!NOTE]
