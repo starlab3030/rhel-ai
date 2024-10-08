@@ -6,6 +6,7 @@
 * 새로운 지식으로 모델을 학습
 * 질문에 효과적으로 답할 수 있게 함
 이는 보험 청구를 처리하는 가상 회사인 파라솔(parasol)의 맥락에서 수행됩니다.
+<br>
 
 **파라솔(parasol) 보험 시나리오**
 파라솔에는 제출된 청구에 대한 수리 제안을 제공하는 AI(granite 모델)가 주입된 챗봇 애플리케이션이 있습니다.
@@ -34,13 +35,29 @@
 <img src="images/parasol-claim.png" title="100px" alt="파라솔_청구건_확인"></img><br>
 
 * 이 페이지에서 청구 내용을 자세히 읽을 수 있음
-* DeLorean 이미지를 확대하면 Marty가 자신의 차를 얼마나 심하게 파손했는지 확인할 수 있음
+* DeLorean 이미지를 확대하면 *Marty*가 자신의 차를 얼마나 심하게 파손했는지 확인할 수 있음
   - 바닥의 플럭스 커패시터에 주목
 
-### 3.
+### 3. 챗봇 확인
 
-### 4.
+청구를 읽은 후 페이지 오른쪽 하단에 있는 작은 파란색 아이콘을 사용하여 챗봇을 클릭
+<img src="images/parasol-chat.webp" title="100px" alt="파라솔_챗"></img><br>
 
+> [!NOTE]
+> 챗봇은 이전에 제공한 Granite 모델에 의해 지원되므로 실행 중인 프로세스를 종료한 경우 다음을 실행하여 터미널에서 다시 시작해야 합니다.
+
+### 4. 챗봇에 질문하기
+
+청구 담당자로서 *Marty*의 DeLorean에서 플럭스 커패시터를 수리하는 데 드는 비용이 얼마인지 알고 싶다고 가정해 보겠습니다. 챗봇에 다음과 같이 입렵합니다.
+```
+How much does it cost to repair a flux capacitor?
+```
+<img src="images/parasol-chat-response.png" title="100px" alt="파라솔_챗봇_답변"></img><br>
+
+> [!NOTE]
+> 랩에서 한 것은, Prompt Engineering을 사용하여 LLM과의 각 대화에서 청구에 대한 맥락적 정보를 제공하는 것입니다. 하지만 안타깝게도 챗봇은 플럭스 커패시터를 수리하는 데 드는 비용이나 우리 조직의 도메인별 지식을 알지 못합니다.<br>
+> <br>
+> InstructLab과 RHEL AI를 사용하면 모델을 학습시켜 이를 바꿀 수 있습니다!
 <br>
 
 ## 텍소노미(Taxonomy) 이해하기
