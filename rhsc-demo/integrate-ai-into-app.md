@@ -28,7 +28,14 @@
 <img src="images/parasol-view.png" title="100px" alt="파라솔_뷰"></img><br>
 * 청구 담당자는 화면에서 청구 번호를 클릭하여 기존 청구를 탐색하고 볼 수 있음
 
-### 2. 
+### 2. *Marty McFly*가 제기한 청구인 **CLM195501**을 조사
+
+해당 청구를 클릭
+<img src="images/parasol-claim.png" title="100px" alt="파라솔_청구건_확인"></img><br>
+
+* 이 페이지에서 청구 내용을 자세히 읽을 수 있음
+* DeLorean 이미지를 확대하면 Marty가 자신의 차를 얼마나 심하게 파손했는지 확인할 수 있음
+  - 바닥의 플럭스 커패시터에 주목
 
 ### 3.
 
