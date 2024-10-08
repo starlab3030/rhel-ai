@@ -314,7 +314,7 @@ I>
 A> The flux capacitor in the DeLorean DMC-12 is a crucial component for time travel, as it enables the vehicle to reach 88 miles per hour, the speed required for time travel according to the "Back to the Future" film trilogy. However, it should be noted that repairing or replacing the flux capacitor can cost up to $10,000,000.
 
  20%|████████████████▏                                                                | 1/5 [00:17<00:54, 13.72s/it]INFO 2024-10-08 05:57:45,363 generate_data.py:505: generate_data Selected taxonomy path knowledge->parasol->claims
-$${\color{red}Q> What is the typical lifespan of the battery in a DeLorean DMC-12?}$$
+Q> What is the typical lifespan of the battery in a DeLorean DMC-12?
 I> 
 A> The battery in a DeLorean DMC-12 typically lasts between 2 to 5 years. Regularly checking for corrosion and ensuring proper connection can help maintain the battery's lifespan.
 
@@ -339,18 +339,153 @@ INFO 2024-10-08 05:58:36,276 generate_data.py:613: generate_data Generation took
 (venv) [instruct@bastion instructlab]$ 
 ```
 * 명령 실행 후, InstructLab이 qna.yaml 파일에서 제공한 시드 데이터를 기반으로 5개의 예를 합성하여 생성
+* 이제 추가 데이터를 생성했으므로 *ilab train* 명령을 사용하여 이 데이터 세트를 모델에 통합 가능
 
+> [!NOTE]
+> 일반적으로 5개의 추가 예제를 생성하는 것은 모델의 지식(knowledge)이나 기술(skills)에 효과적으로 영향을 미치기에 충분하지 않습니다. 해당 랩의 경우, 시간 제약으로 인해 목표는 실제 명령을 사용하여 이것이 어떻게 작동하는지 보여주기 위한 것입니다.
 
-### 2. 
-
-
-### 3. 
+> [!NOTE]
+> 새로 생성된 데이터를 사용하여 훈련하는 것은 시간과 리소스가 많이 드는 작업입니다.<br>
+> 원하는 반복 횟수, safetensor 다운로드를 위한 인터넷 연결 및 기타 요인에 따라 20분에서 1시간까지 걸릴 수 있습니다. 2500개의 명령어와 300개의 반복을 사용하여, 생성 단계를 통해 만든 이미 훈련된 모델을 사용하므로 랩을 계속 진행하기 위해 모델을 훈련할 필요는 없습니다.
 <br>
 
-## 모델 학습 및 제공
+## 모델 학습 및 상호 작용
 
+이 랩의 시간 제약으로 인해 실제로 모델을 훈련하지 않습니다. 훈련된 모델이 제공됩니다. 
+
+단지 훈련이 어떻게 작동하는지 보여주기 위해 다음 명령을 실행
+```bash
+ilab model train --iters 10 --device cuda
+```
+
+실행 결과
+```
+(venv) [instruct@bastion instructlab]$ ilab model train --iters 10 --device cuda
+LINUX_TRAIN.PY: NUM EPOCHS IS:  1
+LINUX_TRAIN.PY: TRAIN FILE IS:  taxonomy_data/train_gen.jsonl
+LINUX_TRAIN.PY: TEST FILE IS:  taxonomy_data/test_gen.jsonl
+LINUX_TRAIN.PY: Using device 'cuda:0'
+  NVidia CUDA version: 12.1
+  AMD ROCm HIP version: n/a
+  cuda:0 is 'NVIDIA L4' (15.4 GiB of 22.1 GiB free, capability: 8.9)
+  WARNING: You have less than 18253611008 GiB of free GPU memory on '{index}'. Training may fail, use slow shared host memory, or move some layers to CPU.
+  Training does not use the local InstructLab serve. Consider stopping the server to free up about 5 GiB of GPU memory.
+LINUX_TRAIN.PY: LOADING DATASETS
+Generating train split: 5 examples [00:00, 1692.48 examples/s]
+Generating train split: 7 examples [00:00, 6508.56 examples/s]
+/home/instruct/instructlab/venv/lib64/python3.11/site-packages/huggingface_hub/file_download.py:1142: FutureWarning: `resume_download` is deprecated and will be removed in version 1.0.0. Downloads always resume when possible. If you want to force a new download, use `force_download=True`.
+  warnings.warn(
+Special tokens have been added in the vocabulary, make sure the associated word embeddings are fine-tuned or trained.
+LINUX_TRAIN.PY: NOT USING 4-bit quantization
+LINUX_TRAIN.PY: LOADING THE BASE MODEL
+Loading checkpoint shards: 100%|███████████████████████████████████████████████████████████████████████| 3/3 [00:00<00:00,  5.13it/s]
+LINUX_TRAIN.PY: Model device cuda:0
+|===========================================================================|
+|                  PyTorch CUDA memory summary, device ID 0                 |
+|---------------------------------------------------------------------------|
+|            CUDA OOMs: 0            |        cudaMalloc retries: 0         |
+|===========================================================================|
+|        Metric         | Cur Usage  | Peak Usage | Tot Alloc  | Tot Freed  |
+|---------------------------------------------------------------------------|
+| Allocated memory      |  14324 MiB |  14324 MiB |  14324 MiB |      0 B   |
+|       from large pool |  14324 MiB |  14324 MiB |  14324 MiB |      0 B   |
+|       from small pool |      0 MiB |      0 MiB |      0 MiB |      0 B   |
+|---------------------------------------------------------------------------|
+| Active memory         |  14324 MiB |  14324 MiB |  14324 MiB |      0 B   |
+|       from large pool |  14324 MiB |  14324 MiB |  14324 MiB |      0 B   |
+|       from small pool |      0 MiB |      0 MiB |      0 MiB |      0 B   |
+|---------------------------------------------------------------------------|
+| Requested memory      |  14324 MiB |  14324 MiB |  14324 MiB |      0 B   |
+|       from large pool |  14324 MiB |  14324 MiB |  14324 MiB |      0 B   |
+|       from small pool |      0 MiB |      0 MiB |      0 MiB |      0 B   |
+|---------------------------------------------------------------------------|
+| GPU reserved memory   |  14586 MiB |  14586 MiB |  14586 MiB |      0 B   |
+|       from large pool |  14584 MiB |  14584 MiB |  14584 MiB |      0 B   |
+|       from small pool |      2 MiB |      2 MiB |      2 MiB |      0 B   |
+|---------------------------------------------------------------------------|
+| Non-releasable memory | 267624 KiB | 273856 KiB |    773 MiB | 524823 KiB |
+|       from large pool | 266112 KiB | 272320 KiB |    771 MiB | 524288 KiB |
+|       from small pool |   1512 KiB |   2047 KiB |      1 MiB |    535 KiB |
+|---------------------------------------------------------------------------|
+| Allocations           |     387    |     387    |     387    |       0    |
+|       from large pool |     290    |     290    |     290    |       0    |
+|       from small pool |      97    |      97    |      97    |       0    |
+|---------------------------------------------------------------------------|
+| Active allocs         |     387    |     387    |     387    |       0    |
+|       from large pool |     290    |     290    |     290    |       0    |
+|       from small pool |      97    |      97    |      97    |       0    |
+|---------------------------------------------------------------------------|
+| GPU reserved segments |     227    |     227    |     227    |       0    |
+|       from large pool |     226    |     226    |     226    |       0    |
+|       from small pool |       1    |       1    |       1    |       0    |
+|---------------------------------------------------------------------------|
+| Non-releasable allocs |      67    |      67    |      67    |       0    |
+|       from large pool |      66    |      66    |      66    |       0    |
+|       from small pool |       1    |       1    |       1    |       0    |
+|---------------------------------------------------------------------------|
+| Oversize allocations  |       0    |       0    |       0    |       0    |
+|---------------------------------------------------------------------------|
+| Oversize GPU segments |       0    |       0    |       0    |       0    |
+|===========================================================================|
+
+LINUX_TRAIN.PY: SANITY CHECKING THE BASE MODEL
+100%|██████████████████████████████████████████████████████████████████████████████████████████████████| 7/7 [01:23<00:00, 11.93s/it]
+LINUX_TRAIN.PY: GETTING THE ATTENTION LAYERS
+LINUX_TRAIN.PY: CONFIGURING LoRA
+Map: 100%|██████████████████████████████████████████████████████████████████████████████████████| 5/5 [00:00<00:00, 51.99 examples/s]
+Map: 100%|████████████████████████████████████████████████████████████████████████████████████| 7/7 [00:00<00:00, 1432.48 examples/s]
+/home/instruct/instructlab/venv/lib64/python3.11/site-packages/accelerate/accelerator.py:457: FutureWarning: Passing the following arguments to `Accelerator` is deprecated and will be removed in version 1.0 of Accelerate: dict_keys(['dispatch_batches', 'split_batches', 'even_batches', 'use_seedable_sampler']). Please pass an `accelerate.DataLoaderConfiguration` instead: 
+dataloader_config = DataLoaderConfiguration(dispatch_batches=None, split_batches=False, even_batches=True, use_seedable_sampler=True)
+  warnings.warn(
+LINUX_TRAIN.PY: TRAINING
+100%|██████████████████████████████████████████████████████████████████████████████████████████████████| 5/5 [00:01<00:00,  4.52it/s]/home/instruct/instructlab/venv/lib64/python3.11/site-packages/huggingface_hub/file_download.py:1142: FutureWarning: `resume_download` is deprecated and will be removed in version 1.0.0. Downloads always resume when possible. If you want to force a new download, use `force_download=True`.
+  warnings.warn(
+{'train_runtime': 1.4782, 'train_samples_per_second': 3.383, 'train_steps_per_second': 3.383, 'train_loss': 0.7682202816009521, 'epoch': 1.0}
+100%|██████████████████████████████████████████████████████████████████████████████████████████████████| 5/5 [00:01<00:00,  3.39it/s]
+LINUX_TRAIN.PY: RUNNING INFERENCE ON THE OUTPUT MODEL
+
+...<snip>...
+
+```
+* 이 프로세스를 완료하는 데 한 시간 이상 소요
+* 이미 이 프로세스를 거친 모델을 제공했으로므, 먼저 키보드에서 CTRL+C를 눌러 모델 서버를 중지
+
+새로 훈련된 모델을 제공하기 위해 명령 창에서 다음을 실행
+```bash
+ilab model serve --model-family merlinite --model-path /home/instruct/summit-connect-merlinite-lab-Q4.gguf
+```
+
+실행 결과
+```
+(venv) [instruct@bastion instructlab]$ ilab model serve --model-family merlinite --model-path /home/instruct/summit-connect-merlinite-lab-Q4.gguf
+INFO 2024-08-06 17:04:12,748 serve.py:51: serve Using model 'models/summit-connect-merlinite-7b-lab-Q4_K_M.gguf' with -1 gpu-layers and 4096 max context size.
+INFO 2024-08-06 17:04:15,452 server.py:218: server Starting server process, press CTRL+C to shutdown server...
+INFO 2024-08-06 17:04:15,452 server.py:219: server After application startup complete see http://127.0.0.1:8000/docs for API.
+
+```
+* 몇 초 소요 후 모델이 준비됨
 <br>
 
 ## 앱 검증
 
+지식(knowledge)을 추가하고, 합성 데이터를 생성하고, 모델을 학습했습니다. 
+
+### 1. 파라솔 뷰 새로 고침
+파라솔 보험 신청서에서 *Marty McFly*의 청구를 보고 있던 브라우저 창을 새로 고침
+
+<img src="images/parasol-view_refresh.png" title="100px" alt="파라솔 뷰 새로 고침"></img><br>
+
+### 2. 파란색 챗봇 아이콘을 클릭하여 챗봇 실행
+
+<img src="images/parasol-chat.webp" title="100px" alt="파라솔 챗봇"></img><br>
+
+### 3. 새로 훈련된 모델로 챗봇에 같은 질문을 던져보고 응답이 개선되었는지 확인
+
+챗봇에 다음을 입력
+```
+How much does it cost to repair a flux capacitor?
+```
+
+바뀐 응답 확인
+<img src="images/parasol-new-response.webp" title="100px" alt="파라솔 챗봇의 바뀐 응답"></img><br>
 <br>
