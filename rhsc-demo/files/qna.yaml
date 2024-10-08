@@ -1,0 +1,28 @@
+created_by: Marty_McFly
+domain: parasol
+seed_examples:
+  - answer: The DeLorean was manufactured from 1981 to 1983.
+    question: When was the DeLorean manufactured?
+  - answer: The DeLorean Motor Company manufactured the DeLorean DMC-12.
+    question: Who manufactured the DeLorean DMC-12?
+  - answer: Transmission Repair costs between $2,500 and $4,000 for the Delorean DMC-12.
+    question: How much does it cost to repair the transmission on a DeLorean DMC-12?
+  - answer: The top speed of the DeLorean DMC-12 was 110MPH and the 0-60 time was
+      approximately 8.8 seconds.
+    question: How fast was the Delorean DMC-12?
+  - answer: The DeLorean DMC-12 weighs 2,712lb (1,230kg).
+    question: How much does the DeLorean DMC-12 weigh?
+  - answer: Maintenance on a DeLorean DMC-12 includes regular oil changes every 3,000
+      miles or 3 months, brake fluid change every 2 years, transmission fluid changes
+      every 30,000 miles, coolant change every 2 years, and regularly checking the
+      battery for corrosion and proper connection.
+    question: What does maintenance for a DeLorean DMC12 look like?
+  - answer: It costs between $800 and $1000 to repair the suspension on a DeLorean
+      DMC-12.
+    question: How much does it cost to repair the supension on a DeLorean DMC-12?
+task_description: Details on instructlab community project
+document:
+  repo: https://github.com/gshipley/backToTheFuture.git
+  commit: 8bd9220c616afe24b9673d94ec1adce85320809c
+  patterns:
+    - data.md
