@@ -119,6 +119,7 @@ hash -r 2> /dev/null
 
 (venv) [instruct@bastion instructlab]$ 
 ```
+<br>
 
 ### 2. *ilab* 명령어를 실행하여 정상적으로 설치되었는 지 확인
 
@@ -160,6 +161,7 @@ Aliases:
   train: model train
 (venv) [instruct@bastion instructlab]$
 ```
+<br>
 <br>
 
 ## ilab 초기화
@@ -235,6 +237,7 @@ serve:
   model_path: models/merlinite-7b-lab-Q4_K_M.gguf
 ```
 <br>
+<br>
 
 ## 모델 다운로드
 
@@ -269,6 +272,7 @@ total 3.9G
   - 단순히 API 호출을 하는 것과 유사하게 다른 프로그램이 데이터와 상호 작용할 수 있도록 하는 서버를 실행한다는 것
 * 모델과 채팅
 <br>
+<br>
 
 ## 모델 제공 (Serving the model)
 
@@ -288,6 +292,7 @@ INFO 2024-10-08 00:14:32,516 server.py:219: server After application startup com
 * serve 명령은 선택 사항인 -–model-path 인수를 사용
 * 해당 랩에서는 Granite 모델(granite-7b)을 제공
 * 모델 경로가 제공되지 않으면 config.yaml 파일의 기본값을 사용
+<br>
 <br>
 
 ## 모델과 채팅하기
@@ -314,6 +319,7 @@ ilab model chat -m models/granite-7b-lab-Q4_K_M.gguf
 >>>                                                                                 [S][default]
 ```
 * 채팅 프롬프트 확인
+<br>
 
 ### 2. 질문을 통해 모델과 상호 작용
 
