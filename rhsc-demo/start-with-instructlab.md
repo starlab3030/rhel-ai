@@ -314,3 +314,7 @@ ilab model chat -m models/granite-7b-lab-Q4_K_M.gguf
 >>>                                                                                 [S][default]
 ```
 <br>
+<br>
+
+------
+[차례](../README.md) &nbsp;&nbsp;&nbsp;&nbsp; [<< RHSC 키노트 데모 소개 <<](./introdution-of-lab.md) &nbsp;&nbsp;&nbsp;&nbsp; [>> AI를 앱에 통합 >>](./integrate-ai-into-app.md)

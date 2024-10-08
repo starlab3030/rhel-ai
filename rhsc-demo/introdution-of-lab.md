@@ -66,3 +66,7 @@ LAB (Large-scale Alignment for ChatBots) 기술 이전에는 사용자가 일반
 
 InstructLab을 사용하면 기술(skills)과 지식(knowledge)이라는 용어를 보게 될 것입니다. 기술과 지식의 차이점은 무엇입니까? 간단한 비유로 **기술**은 *누군가에게 낚시하는 법을 가르치는 것*으로 생각하면 됩니다. 반면 **지식**은 *해가 질 때, 둑을 따라 나무 줄기 근처에 줄을 던지면서 농어를 잡기에 가장 좋은 장소라는 것을 아는 것*입니다.
 <br>
+<br>
+
+------
+[차례](../README.md) &nbsp;&nbsp;&nbsp;&nbsp; [>> InstructLab 시작 >>](./start-with-instructlab.md)
