@@ -309,12 +309,12 @@ Cannot find prompt.txt. Using default prompt depending on model-family.
 INFO 2024-10-08 05:57:28,020 generate_data.py:505: generate_data Selected taxonomy path knowledge->parasol->claims
   0%|                                                                                         | 0/5 [00:02<?, ?it/s]INFO 2024-10-08 05:57:30,814 generate_data.py:505: generate_data Selected taxonomy path knowledge->parasol->claims
   0%|                                                                                         | 0/5 [00:03<?, ?it/s]INFO 2024-10-08 05:57:31,653 generate_data.py:505: generate_data Selected taxonomy path knowledge->parasol->claims
-$\color{red}{\texttt{Q> What is the significance of the flux capacitor in the DeLorean DMC-12?}}$
+Q> What is the significance of the flux capacitor in the DeLorean DMC-12?
 I> 
 A> The flux capacitor in the DeLorean DMC-12 is a crucial component for time travel, as it enables the vehicle to reach 88 miles per hour, the speed required for time travel according to the "Back to the Future" film trilogy. However, it should be noted that repairing or replacing the flux capacitor can cost up to $10,000,000.
 
  20%|████████████████▏                                                                | 1/5 [00:17<00:54, 13.72s/it]INFO 2024-10-08 05:57:45,363 generate_data.py:505: generate_data Selected taxonomy path knowledge->parasol->claims
-Q> What is the typical lifespan of the battery in a DeLorean DMC-12?
+$${\color{red}Q> What is the typical lifespan of the battery in a DeLorean DMC-12?}$$
 I> 
 A> The battery in a DeLorean DMC-12 typically lasts between 2 to 5 years. Regularly checking for corrosion and ensuring proper connection can help maintain the battery's lifespan.
 
@@ -338,8 +338,8 @@ INFO 2024-10-08 05:58:36,276 generate_data.py:613: generate_data Generation took
 
 (venv) [instruct@bastion instructlab]$ 
 ```
-* 명령 실행 후, InstructLab이 qna.yaml 파일에서 제공한 시드 데이터를 기반으로 5개의 예를 합성적으로 생성
-하는 것을 볼 수 있습니다. 생성된 질문과 답변을 살펴보고 모델이 무엇을 생성했는지 확인하세요!
+* 명령 실행 후, InstructLab이 qna.yaml 파일에서 제공한 시드 데이터를 기반으로 5개의 예를 합성하여 생성
+
 
 ### 2. 
 
