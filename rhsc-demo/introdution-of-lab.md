@@ -1,5 +1,12 @@
 # RHSC 키노트 데모 소개
 
+목차
+* [Large Language Model (LLM)은 무엇 인가?](./introdution-of-lab.md#large-language-model-llm은-무엇-인가)<br>
+* [LLM은 어떻게 훈련 되는 가?](./introdution-of-lab.md#llm은-어떻게-훈련-되는-가)<br>
+* [LLM이 InstructLab과 어떤 관련이 있는가?](./introdution-of-lab.md#llm이-instructlab과-어떤-관련이-있는가)<br>
+
+<hr>
+
 해당 랩에서는 **RHEL AI**가 무엇인지, 여러 분의 비즈니스에 어떻게 가치를 제공할 것인가에 대하여 설명할 것 입니다. 또한 **RHEL AI**를 이용하여 Large Language Model (LLM)을 향상 시키고, 합성 데이터 생성을 사용하여 이를 학습 시키는 것에 대하여 배울 것 입니다.
 
 **RHEL AI**는 몇 개의 핵심 요소로 구성되어 있습니다.
@@ -10,13 +17,6 @@
 
 InstructLab은 레드햇과 MIT-IBM Watson AI Lab의 완전 오픈소스 프로젝트로, "Large-scale Alignment for ChatBots (LAB)"을 소개합니다. 이 프로젝트의 혁신은 LLM 학습 중 교육-튜닝(instruction-tuning) 단계에서 도움이 됩니다. 그러나 이 프로젝트의 이점을 완전히 이해하려면 *LLM이 무엇인지에 대한 몇 가지 기본 개념*과 *모델을 교육하는 데 따른 어려움과 비용*에 대해 잘 알고 있어야 합니다.
 <br>
-
-목차
-* [Large Language Model (LLM)은 무엇 인가?](./introdution-of-lab.md#large-language-model-llm은-무엇-인가)<br>
-* [LLM은 어떻게 훈련 되는 가?](./introdution-of-lab.md#llm은-어떻게-훈련-되는-가)<br>
-* [LLM이 InstructLab과 어떤 관련이 있는가?](./introdution-of-lab.md#llm이-instructlab과-어떤-관련이-있는가)<br>
-
-<hr>
 
 ## Large Language Model (LLM)은 무엇 인가?
 
