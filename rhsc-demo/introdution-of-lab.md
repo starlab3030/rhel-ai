@@ -5,7 +5,9 @@
 * [LLM은 어떻게 훈련 되는 가?](./introdution-of-lab.md#llm은-어떻게-훈련-되는-가)<br>
 * [LLM이 InstructLab과 어떤 관련이 있는가?](./introdution-of-lab.md#llm이-instructlab과-어떤-관련이-있는가)<br>
 
+<br>
 <hr>
+<br>
 
 해당 랩에서는 **RHEL AI**가 무엇인지, 여러 분의 비즈니스에 어떻게 가치를 제공할 것인가에 대하여 설명할 것 입니다. 또한 **RHEL AI**를 이용하여 Large Language Model (LLM)을 향상 시키고, 합성 데이터 생성을 사용하여 이를 학습 시키는 것에 대하여 배울 것 입니다.
 
@@ -16,6 +18,7 @@
 4. 레드햇의 지원 및 보상
 
 InstructLab은 레드햇과 MIT-IBM Watson AI Lab의 완전 오픈소스 프로젝트로, "Large-scale Alignment for ChatBots (LAB)"을 소개합니다. 이 프로젝트의 혁신은 LLM 학습 중 교육-튜닝(instruction-tuning) 단계에서 도움이 됩니다. 그러나 이 프로젝트의 이점을 완전히 이해하려면 *LLM이 무엇인지에 대한 몇 가지 기본 개념*과 *모델을 교육하는 데 따른 어려움과 비용*에 대해 잘 알고 있어야 합니다.
+<br>
 <br>
 
 ## Large Language Model (LLM)은 무엇 인가?
@@ -39,6 +42,7 @@ LLM은 일반적으로 복잡한 언어 패턴과 데이터 관계를 포착할 
 **요약**
 * LLM은 딥 러닝 기술을 사용하여 입력 데이터를 기반으로 인간과 유사한 텍스트를 이해하고 생성하는 인공 지능 모델
 * LLM은 방대한 양의 텍스트 데이터를 분석하고 데이터 내의 패턴, 관계 및 구조를 학습하도록 설계되었으며 다양한 자연어 처리 작업에 사용 가능
+<br>
 <br>
 
 ## LLM은 어떻게 훈련 되는 가?
