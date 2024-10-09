@@ -101,24 +101,6 @@ tree -F -L 1 taxonomy/
 ```
 [instruct@bastion ~]$ cd ~/instructlab/
 
-[instruct@bastion instructlab]$ tree -F -L 1 taxonomy/
-taxonomy/
-├── CODE_OF_CONDUCT.md
-├── compositional_skills/
-├── CONTRIBUTING.md
-├── CONTRIBUTOR_ROLES.md
-├── docs/
-├── foundational_skills/
-├── governance.md
-├── knowledge/
-├── LICENSE
-├── MAINTAINERS.md
-├── Makefile
-├── README.md
-├── scripts/
-└── SECURITY.md
-
-5 directories, 9 files
 [instruct@bastion instructlab]$ tree -F -L 2 taxonomy/
 taxonomy/
 ├── CODE_OF_CONDUCT.md
@@ -172,6 +154,7 @@ taxonomy/
 └── SECURITY.md
 
 30 directories, 19 files
+
 [instruct@bastion instructlab]$ 
 ```
 <br>

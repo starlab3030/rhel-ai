@@ -325,7 +325,7 @@ ilab model chat -m models/granite-7b-lab-Q4_K_M.gguf
 
 실행 결과
 ```
->>> What is openshift in 20 words or less?                                                            [S][default]
+>>> What is openshift in 20 words or less?                                          [S][default]
 ╭───────────────────────────── models/granite-7b-lab-Q4_K_M.gguf ──────────────────────────────╮
 │ Openshift: A container application platform for rapid deployment, scaling, and management of │
 │ applications across hybrid cloud environments.                                               │
