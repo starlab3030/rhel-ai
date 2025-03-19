@@ -54,7 +54,7 @@ Granite LLM을 훈련하는 데 사용할 수 있는 지식 문서 유형
 
 지식에 대한 qna.yaml 파일에 포함되는 ***키***-***값*** 항목 세트
 
-**$\color{lime}{\texttt{`version`}}$**
+`$\color{lime}{\texttt{version}}$`
 
 |`version`|현재 지원되는 값은 `3`|qna.yaml 파일에서 사용된 분류 스키마 버전|`3`|
 |`created_by`|-|기여자 또는 사용자 이름|`seulee`|
