@@ -69,7 +69,7 @@ $\color{lime}{\texttt{domain}}$
 * 도메인은 합성 데이터 생성 중에 교사 모델에 프롬프트를 표시하고 추가 컨텍스트를 추가
 * 도메인 필드는 3개 단어를 넘지 않는 것이 좋음
 
-$\color{lime}{\texttt{seed_examples}}$
+$\color{lime}{\texttt{seed\\_examples}}$
 * 지식 문서의 맥락과 함께 "*질문과 답변*" 쌍이 들어 있는 필드
 * *qna.yaml* 파일에는 최소 5개의 시드 예제가 필요
 
