@@ -9,9 +9,72 @@
 
 ## 1. RHEL AI 업그레이드
 
-### 1.1 업그레이드 진행
+### 1.1 현재 상태 확인
 
-#### 1.1.1 레지스트리 로그인
+#### 1.1.1 부팅 이미지 확인
+
+```bash
+sudo bootc status
+```
+
+실행결과
+```yaml
+apiVersion: org.containers.bootc/v1alpha1
+kind: BootcHost
+metadata:
+  name: host
+spec:
+  image:
+    image: registry.stage.redhat.io/rhelai1/bootc-aws-nvidia-rhel9:1.3.1
+    transport: registry
+  bootOrder: default
+status:
+  staged: null
+  booted:
+    image:
+      image:
+        image: registry.stage.redhat.io/rhelai1/bootc-aws-nvidia-rhel9:1.3.1
+        transport: registry
+      version: 9.20241104.0
+      timestamp: null
+      imageDigest: sha256:5ac008d151162e6c97f11f8e3c2523eccc0af0fb790cde8865b7d3d2a352df1a
+    cachedUpdate: null
+    incompatible: false
+    pinned: false
+    store: ostreeContainer
+    ostree:
+      checksum: b5da7da5ee90882e5c2de77493d3b4e142bf11aa0c58db0cc5d51b10f551b51f
+      deploySerial: 0
+  rollback: null
+  rollbackQueued: false
+  type: bootcHost
+```
+* 현재 시스템의 이미지
+  + registry.stage.redhat.io/rhelai1/bootc-aws-nvidia-rhel9:1.3.1
+
+#### 1.1.2 시스템의 이미지
+
+```bash
+podman images
+sudo podman images
+```
+
+실행 결과
+```
+[instruct@bastion ~]$ podman images
+REPOSITORY  TAG         IMAGE ID    CREATED     SIZE
+
+[instruct@bastion ~]$ sudo podman images
+REPOSITORY                                                 TAG               IMAGE ID      CREATED       SIZE        R/O
+registry.stage.redhat.io/rhelai1/instructlab-nvidia-rhel9  1.3.1-1733951397  5a5e2ed36334  3 months ago  18.1 GB     true
+
+[instruct@bastion ~]$
+```
+<br>
+
+### 1.2 업그레이드 진행
+
+#### 1.2.1 레지스트리 로그인
 
 실행 명령어
 ```bash
@@ -23,35 +86,156 @@ sudo podman login registry.redhat.io -u=<USER_NAME> -p=<USER_PASSWORD> --authfil
 [instruct@bastion ~]$ sudo podman login registry.redhat.io -u=<USER_NAME> -p=<USER_PASSWORD> --authfile /etc/ostree/auth.json
 Login Succeeded!
 
+[instruct@bastion ~]$ sudo cat /etc/ostree/auth.json
+{
+        "auths": {
+                "registry.redhat.io": {
+                        "auth": "...<SNIP>..."
+                }
+        }
+}
+
 [instruct@bastion ~]$
 ```
 
-#### 1.1.2 RHEL AI의 최신 이미지로 업그레이드
+#### 1.2.2 RHEL AI 이미지 리스트
 
 실행 명령어
 ```bash
-sudo bootc switch registry.redhat.io/rhelai1/bootc-nvidia-rhel9:1.4
+sudo podman search registry.redhat.io/rhelai1/bootc
+```
+
+실행 결과
+```
+[instruct@bastion ~]$ sudo podman search registry.redhat.io/rhelai1/bootc
+NAME                                                 DESCRIPTION
+registry.redhat.io/rhelai1/bootc-amd-rhel9           Red Hat image for bootc-amd-rhel9
+registry.redhat.io/rhelai1/bootc-nvidia-rhel9        Red Hat image for bootc-nvidia-rhel9
+registry.redhat.io/rhelai1/bootc-intel-rhel9         Red Hat image for bootc-intel-rhel9
+registry.redhat.io/rhelai1/bootc-azure-nvidia-rhel9  Red Hat image for bootc-azure-nvidia-rhel9
+registry.redhat.io/rhelai1/bootc-gcp-nvidia-rhel9    Red Hat image for bootc-gcp-nvidia-rhel9
+registry.redhat.io/rhelai1/bootc-ibm-nvidia-rhel9    Red Hat image for bootc-ibm-nvidia-rhel9
+registry.redhat.io/rhelai1/bootc-azure-amd-rhel9     Red Hat image for bootc-azure-amd-rhel9
+registry.redhat.io/rhelai1/bootc-aws-nvidia-rhel9    Red Hat image for bootc-aws-nvidia-rhel9
+
+[instruct@bastion ~]$
+```
+* 부팅 이미지 형식
+  + bootc-<hardware-vendor>-rhel9:<rhel-ai-version>
+* 하드웨어 벤더
+  + nvidia
+  + amd
+  + intel
+
+#### 1.2.3 RHEL AI 이미지의 태그 리스트
+
+실행 명령어
+```bash
+sudo skopeo list-tags docker://registry.redhat.io/rhelai1/bootc-aws-nvidia-rhel9 --authfile /etc/ostree/auth.json | jq -r '.Tags[]' | grep "^1.4"
+```
+
+실행 결과
+```
+[instruct@bastion ~]$ sudo skopeo list-tags docker://registry.redhat.io/rhelai1/bootc-aws-nvidia-rhel9 --authfile /etc/ostree/auth.json | jq -r '.Tags[]' | grep "^1.4"
+1.4
+1.4.0
+1.4.0-source
+1.4.1
+1.4.1-1740489361
+1.4.1-1740489361-source
+1.4-1739101341
+1.4-1739101341-source
+1.4.1-source
+1.4-source
+
+[instruct@bastion ~]$
+```
+
+#### 1.2.4 RHEL AI의 최신 이미지로 업그레이드
+
+실행 명령어
+```bash
+sudo bootc switch registry.redhat.io/rhelai1/bootc-aws-nvidia-rhel9:1.4
 sudo podman images
 ```
 * nVidia 기반 RHEL 9을 위한 이미지 1.4로 업그레이드
 
 실행 결과
 ```
-[instruct@bastion ~]$ sudo bootc switch registry.redhat.io/rhelai1/bootc-nvidia-rhel9:1.4
-layers already present: 24; layers needed: 43 (13.4 GB)
-Fetched layers: 12.51 GiB in 9 minutes (24.87 MiB/s)
-Queued for next boot: registry.redhat.io/rhelai1/bootc-nvidia-rhel9:1.4
+[instruct@bastion ~]$ sudo bootc switch registry.redhat.io/rhelai1/bootc-aws-nvidia-rhel9:1.4
+layers already present: 24; layers needed: 44 (13.8 GB)
+Fetched layers: 12.83 GiB in 7 minutes (32.93 MiB/s)
+Queued for next boot: registry.redhat.io/rhelai1/bootc-aws-nvidia-rhel9:1.4
   Version: 9.20250213.0
-  Digest: sha256:ba1448451eab5581993915ed55e79c4c52664a9b166dee6803888705d49d8bc3
+  Digest: sha256:fd646d49eed80d5fed7934837b76e12ceb5cfa30dcbc787d0eecd8265d511ea8
 
 [instruct@bastion ~]$ sudo podman images
-REPOSITORY                                           TAG               IMAGE ID      CREATED      SIZE        R/O
-registry.redhat.io/rhelai1/instructlab-nvidia-rhel9  1.4.1-1739870750  9549237ffb9a  4 weeks ago  21.2 GB     true
+REPOSITORY                                                 TAG               IMAGE ID      CREATED       SIZE        R/O
+registry.stage.redhat.io/rhelai1/instructlab-nvidia-rhel9  1.3.1-1733951397  5a5e2ed36334  3 months ago  18.1 GB     true
 
 [instruct@bastion ~]$
 ```
+* 이미지는 1.3.1 버전을 보여줌
 
-#### 1.1.3 RHEL AI 시스템 재부팅
+#### 1.2.5 bootc 상태 확인
+
+실행 명령어
+```bash
+sudo bootc status
+```
+
+실행 결과
+```yaml
+apiVersion: org.containers.bootc/v1alpha1
+kind: BootcHost
+metadata:
+  name: host
+spec:
+  image:
+    image: registry.redhat.io/rhelai1/bootc-aws-nvidia-rhel9:1.4
+    transport: registry
+  bootOrder: default
+status:
+  staged:
+    image:
+      image:
+        image: registry.redhat.io/rhelai1/bootc-aws-nvidia-rhel9:1.4
+        transport: registry
+      version: 9.20250213.0
+      timestamp: null
+      imageDigest: sha256:fd646d49eed80d5fed7934837b76e12ceb5cfa30dcbc787d0eecd8265d511ea8
+    cachedUpdate: null
+    incompatible: false
+    pinned: false
+    store: ostreeContainer
+    ostree:
+      checksum: 7bd6c3bff876879185995a5318ee838596a248d87d17b5cc87249282ee195d04
+      deploySerial: 0
+  booted:
+    image:
+      image:
+        image: registry.stage.redhat.io/rhelai1/bootc-aws-nvidia-rhel9:1.3.1
+        transport: registry
+      version: 9.20241104.0
+      timestamp: null
+      imageDigest: sha256:5ac008d151162e6c97f11f8e3c2523eccc0af0fb790cde8865b7d3d2a352df1a
+    cachedUpdate: null
+    incompatible: false
+    pinned: false
+    store: ostreeContainer
+    ostree:
+      checksum: b5da7da5ee90882e5c2de77493d3b4e142bf11aa0c58db0cc5d51b10f551b51f
+      deploySerial: 0
+  rollback: null
+  rollbackQueued: false
+  type: bootcHost
+```
+* `.status.staged` 이미지
+  + registry.redhat.io/rhelai1/bootc-aws-nvidia-rhel9:1.4
+* `.status.booted` 이미지
+  + registry.stage.redhat.io/rhelai1/bootc-aws-nvidia-rhel9:1.3.1
+
+#### 1.2.6 RHEL AI 시스템 재부팅
 
 실행 명령어
 ```bash
@@ -65,11 +249,86 @@ sudo reboot -n
 
 [instruct@bastion ~]
 ```
+
+#### 1.2.7 재부팅 후 이미지 확인
+
+실행 명령어
+```bash
+sudo podman images
+```
+
+실행 결과
+```
+[instruct@bastion ~]$ sudo podman images
+REPOSITORY                                           TAG               IMAGE ID      CREATED      SIZE        R/O
+registry.redhat.io/rhelai1/instructlab-nvidia-rhel9  1.4.1-1739870750  9549237ffb9a  4 weeks ago  21.2 GB     true
+
+[instruct@bastion ~]$
+```
+* 이미지 버전이 1.4.1로 바뀜
+
+#### 1.2.8 재부팅 후 bootc 상태 확인
+
+실행 명령어
+```bash
+sudo bootc status
+```
+
+실행 결과
+```yaml
+apiVersion: org.containers.bootc/v1alpha1
+kind: BootcHost
+metadata:
+  name: host
+spec:
+  image:
+    image: registry.redhat.io/rhelai1/bootc-aws-nvidia-rhel9:1.4
+    transport: registry
+  bootOrder: default
+status:
+  staged: null
+  booted:
+    image:
+      image:
+        image: registry.redhat.io/rhelai1/bootc-aws-nvidia-rhel9:1.4
+        transport: registry
+      version: 9.20250213.0
+      timestamp: null
+      imageDigest: sha256:fd646d49eed80d5fed7934837b76e12ceb5cfa30dcbc787d0eecd8265d511ea8
+    cachedUpdate: null
+    incompatible: false
+    pinned: false
+    store: ostreeContainer
+    ostree:
+      checksum: 7bd6c3bff876879185995a5318ee838596a248d87d17b5cc87249282ee195d04
+      deploySerial: 0
+  rollback:
+    image:
+      image:
+        image: registry.stage.redhat.io/rhelai1/bootc-aws-nvidia-rhel9:1.3.1
+        transport: registry
+      version: 9.20241104.0
+      timestamp: null
+      imageDigest: sha256:5ac008d151162e6c97f11f8e3c2523eccc0af0fb790cde8865b7d3d2a352df1a
+    cachedUpdate: null
+    incompatible: false
+    pinned: false
+    store: ostreeContainer
+    ostree:
+      checksum: b5da7da5ee90882e5c2de77493d3b4e142bf11aa0c58db0cc5d51b10f551b51f
+      deploySerial: 0
+  rollbackQueued: false
+  type: bootcHost
+```
+* `.status.booted` 이미지
+  + registry.redhat.io/rhelai1/bootc-aws-nvidia-rhel9:1.4
+* `.status.rollback` 이미지
+  + registry.stage.redhat.io/rhelai1/bootc-aws-nvidia-rhel9:1.3.1
 <br>
 
-### 1.2 업그레이드 후 작업
+### 1.3 업그레이드 후 작업
 
-#### 1.2.1 컨테이너 스토리지 구성 확인
+#### 1.3.1 컨테이너 스토리지 구성 확인
 
 실행 명령어
 ```bash
@@ -97,7 +356,7 @@ additionalimagestores = [ "/usr/lib/containers/storage",]
 force_mask = "shared"
 ```
 
-#### 1.2.2 스토리지 구성 파일을 사용자 환경으로 복사
+#### 1.3.2 스토리지 구성 파일을 사용자 환경으로 복사
 
 실행 명령어
 ```bash
@@ -119,7 +378,127 @@ mkdir: created directory '.config/containers'
 [instruct@bastion ~]$
 ```
 
-#### 1.2.3 InstructLab 구성 초기화
+#### 1.3.4 시스템 확인
+
+실행 명령어
+```bash
+lscpu
+free -h
+lspci |grep -i nvidia
+nvidia-smi --list-gpus
+nvidia-smi
+```
+
+실행 결과
+```
+[instruct@bastion ~]$ lscpu
+Architecture:             x86_64
+  CPU op-mode(s):         32-bit, 64-bit
+  Address sizes:          48 bits physical, 48 bits virtual
+  Byte Order:             Little Endian
+CPU(s):                   48
+  On-line CPU(s) list:    0-47
+Vendor ID:                AuthenticAMD
+  Model name:             AMD EPYC 7R13 Processor
+    CPU family:           25
+    Model:                1
+    Thread(s) per core:   2
+    Core(s) per socket:   24
+    Socket(s):            1
+    Stepping:             1
+    BogoMIPS:             5300.00
+    Flags:                fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ht
+                          syscall nx mmxext fxsr_opt pdpe1gb rdtscp lm constant_tsc rep_good nopl nonstop_tsc cpuid extd_apicid
+                           aperfmperf tsc_known_freq pni pclmulqdq ssse3 fma cx16 pcid sse4_1 sse4_2 x2apic movbe popcnt aes xs
+                          ave avx f16c rdrand hypervisor lahf_lm cmp_legacy cr8_legacy abm sse4a misalignsse 3dnowprefetch topo
+                          ext ssbd ibrs ibpb stibp vmmcall fsgsbase bmi1 avx2 smep bmi2 invpcid rdseed adx smap clflushopt clwb
+                           sha_ni xsaveopt xsavec xgetbv1 clzero xsaveerptr rdpru wbnoinvd arat npt nrip_save vaes vpclmulqdq r
+                          dpid
+Virtualization features:
+  Hypervisor vendor:      KVM
+  Virtualization type:    full
+Caches (sum of all):
+  L1d:                    768 KiB (24 instances)
+  L1i:                    768 KiB (24 instances)
+  L2:                     12 MiB (24 instances)
+  L3:                     96 MiB (3 instances)
+NUMA:
+  NUMA node(s):           1
+  NUMA node0 CPU(s):      0-47
+Vulnerabilities:
+  Gather data sampling:   Not affected
+  Itlb multihit:          Not affected
+  L1tf:                   Not affected
+  Mds:                    Not affected
+  Meltdown:               Not affected
+  Mmio stale data:        Not affected
+  Reg file data sampling: Not affected
+  Retbleed:               Not affected
+  Spec rstack overflow:   Vulnerable: Safe RET, no microcode
+  Spec store bypass:      Mitigation; Speculative Store Bypass disabled via prctl
+  Spectre v1:             Mitigation; usercopy/swapgs barriers and __user pointer sanitization
+  Spectre v2:             Mitigation; Retpolines; IBPB conditional; IBRS_FW; STIBP always-on; RSB filling; PBRSB-eIBRS Not affe
+                          cted; BHI Not affected
+  Srbds:                  Not affected
+  Tsx async abort:        Not affected
+
+[instruct@bastion ~]$ free -h
+               total        used        free      shared  buff/cache   available
+Mem:           181Gi       2.1Gi       180Gi       1.0Mi       683Mi       179Gi
+Swap:          8.0Gi          0B       8.0Gi
+
+
+[instruct@bastion ~]$ lspci |grep -i nvidia
+38:00.0 3D controller: NVIDIA Corporation AD104GL [L4] (rev a1)
+3a:00.0 3D controller: NVIDIA Corporation AD104GL [L4] (rev a1)
+3c:00.0 3D controller: NVIDIA Corporation AD104GL [L4] (rev a1)
+3e:00.0 3D controller: NVIDIA Corporation AD104GL [L4] (rev a1)
+
+[instruct@bastion ~]$ nvidia-smi --list-gpus
+GPU 0: NVIDIA L4 (UUID: GPU-c2507ce8-9002-692b-09ab-a911bef79d62)
+GPU 1: NVIDIA L4 (UUID: GPU-1a401bbb-397e-f2ab-8727-67ae75b10d44)
+GPU 2: NVIDIA L4 (UUID: GPU-d72a67a9-98af-e739-eaaa-4f6ccbf067d6)
+GPU 3: NVIDIA L4 (UUID: GPU-7575d30e-08e9-0606-7c8b-56eec2028340)
+
+[instruct@bastion ~]$ nvidia-smi
+Wed Mar 19 04:29:42 2025
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 550.144.03             Driver Version: 550.144.03     CUDA Version: 12.4     |
+|-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  NVIDIA L4                      On  |   00000000:38:00.0 Off |                    0 |
+| N/A   28C    P8             11W /   72W |       1MiB /  23034MiB |      0%      Default |
+|                                         |                        |                  N/A |
++-----------------------------------------+------------------------+----------------------+
+|   1  NVIDIA L4                      On  |   00000000:3A:00.0 Off |                    0 |
+| N/A   27C    P8             11W /   72W |       1MiB /  23034MiB |      0%      Default |
+|                                         |                        |                  N/A |
++-----------------------------------------+------------------------+----------------------+
+|   2  NVIDIA L4                      On  |   00000000:3C:00.0 Off |                    0 |
+| N/A   28C    P8             11W /   72W |       1MiB /  23034MiB |      0%      Default |
+|                                         |                        |                  N/A |
++-----------------------------------------+------------------------+----------------------+
+|   3  NVIDIA L4                      On  |   00000000:3E:00.0 Off |                    0 |
+| N/A   27C    P8             11W /   72W |       1MiB /  23034MiB |      0%      Default |
+|                                         |                        |                  N/A |
++-----------------------------------------+------------------------+----------------------+
+
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI        PID   Type   Process name                              GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
+
+[instruct@bastion ~]$
+
+```
+
+#### 1.3.3 InstructLab 구성 초기화
 
 실행 명령어
 ```bash
@@ -141,7 +520,7 @@ Cloning https://github.com/instructlab/taxonomy.git...
 Generating config file:
     /var/home/instruct/.config/instructlab/config.yaml
 
-INFO 2025-03-18 11:42:05,232 instructlab.config.init:259: Detecting hardware...
+INFO 2025-03-19 04:33:04,883 instructlab.config.init:259: Detecting hardware...
 Please choose a system profile.
 Profiles set hardware-specific defaults for all commands and sections of the configuration.
 First, please select the hardware vendor your system falls into
@@ -166,12 +545,11 @@ You selected: /var/home/instruct/.local/share/instructlab/internal/system_profil
 --------------------------------------------
     Initialization completed successfully!
   You're ready to start using `ilab`. Enjoy!
---------------------------------------------
 
 [instruct@bastion ~]$
 ```
 
-#### 1.1.4 InstructLab 구성 파일 확인
+#### 1.3.4 InstructLab 구성 파일 확인
 
 실행 명령어
 ```bash
@@ -375,7 +753,7 @@ The registered system name is: bastion.x8b9l.internal
 
 실행 명령어
 ```bash
-rpm-ostree search gdb
+rpm-ostree search pip
 ```
 
 실행 결과
@@ -393,25 +771,26 @@ python3-pip : A tool for installing and managing Python3 packages
 
 실행 명령어
 ```bash
-rpm-ostree install python3.11-pip
+rpm-ostree install gdb python3.12-pip strace tree
 ```
 
 실행 결과
 ```
-[root@bastion ~]# rpm-ostree install python3.11-pip
-Checking out tree a5b170a... done
+[root@bastion ~]# rpm-ostree install gdb python3.12-pip strace tree
+Checking out tree 7bd6c3b... done
 Enabled rpm-md repositories: rhel-9-for-x86_64-baseos-rpms rhel-9-for-x86_64-baseos-eus-rpms rhel-9-for-x86_64-appstream-rpms rhel-9-for-x86_64-appstream-eus-rpms codeready-builder-for-rhel-9-x86_64-rpms codeready-builder-for-rhel-9-x86_64-eus-rpms
 Importing rpm-md... done
 rpm-md repo 'rhel-9-for-x86_64-baseos-rpms' (cached); generated: 2025-03-17T18:43:21Z solvables: 8568
-rpm-md repo 'rhel-9-for-x86_64-baseos-eus-rpms' (cached); generated: 2025-03-17T18:44:04Z solvables: 9289
+rpm-md repo 'rhel-9-for-x86_64-baseos-eus-rpms' (cached); generated: 2025-03-19T00:13:45Z solvables: 9307
 rpm-md repo 'rhel-9-for-x86_64-appstream-rpms' (cached); generated: 2025-03-17T18:45:30Z solvables: 23716
-rpm-md repo 'rhel-9-for-x86_64-appstream-eus-rpms' (cached); generated: 2025-03-18T02:15:11Z solvables: 24834
+rpm-md repo 'rhel-9-for-x86_64-appstream-eus-rpms' (cached); generated: 2025-03-19T00:16:03Z solvables: 24844
 rpm-md repo 'codeready-builder-for-rhel-9-x86_64-rpms' (cached); generated: 2025-03-17T18:54:58Z solvables: 6335
-rpm-md repo 'codeready-builder-for-rhel-9-x86_64-eus-rpms' (cached); generated: 2025-03-17T18:55:44Z solvables: 6665
+rpm-md repo 'codeready-builder-for-rhel-9-x86_64-eus-rpms' (cached); generated: 2025-03-19T00:16:37Z solvables: 6669
 Resolving dependencies... done
-Will download: 8 packages (17.9 MB)
-Downloading from 'rhel-9-for-x86_64-appstream-rpms'... done
+Will download: 16 packages (23.7?MB)
 Downloading from 'rhel-9-for-x86_64-appstream-eus-rpms'... done
+Downloading from 'rhel-9-for-x86_64-appstream-rpms'... done
+Downloading from 'rhel-9-for-x86_64-baseos-rpms'... done
 Importing packages... done
 Checking out packages... done
 Running pre scripts... done
@@ -420,17 +799,23 @@ Running posttrans scripts... done
 Writing rpmdb... done
 Writing OSTree commit... done
 Staging deployment... done
-Freed: 60.0 MB (pkgcache branches: 0)
 Added:
+  boost-regex-1.75.0-8.el9.x86_64
+  dnf-plugins-core-4.3.0-13.el9.noarch
+  gdb-10.2-13.el9.x86_64
+  gdb-headless-10.2-13.el9.x86_64
+  libbabeltrace-1.5.8-10.el9.x86_64
+  libipt-2.0.4-5.el9.x86_64
   libnsl2-2.0.0-1.el9.x86_64
   mpdecimal-2.5.1-3.el9.x86_64
-  python3.11-3.11.7-1.el9_4.7.x86_64
-  python3.11-libs-3.11.7-1.el9_4.7.x86_64
-  python3.11-pip-22.3.1-5.el9.noarch
-  python3.11-pip-wheel-22.3.1-5.el9.noarch
-  python3.11-setuptools-65.5.1-2.el9_4.1.noarch
-  python3.11-setuptools-wheel-65.5.1-2.el9_4.1.noarch
+  python3.12-3.12.1-4.el9_4.5.x86_64
+  python3.12-libs-3.12.1-4.el9_4.5.x86_64
+  python3.12-pip-23.2.1-4.el9.noarch
+  python3.12-pip-wheel-23.2.1-4.el9.noarch
+  python3.12-setuptools-68.2.2-3.el9_4.1.noarch
+  source-highlight-3.1.9-11.el9.x86_64
   strace-5.18-2.el9.x86_64
+  tree-1.8.0-10.el9.x86_64
 Changes queued for next boot. Run "systemctl reboot" to start a reboot
 
 [root@bastion ~]#
@@ -439,7 +824,7 @@ Changes queued for next boot. Run "systemctl reboot" to start a reboot
 > [!NOTE]
 > 주요 패키지 리스트는 다음과 같습니다.<br>
 > * gdb
-> * python3.11-pip
+> * python3.12-pip
 > * strace
 > * tree
 
@@ -462,7 +847,7 @@ systemctl reboot
 
 실행 명령어
 ```bash
-which pip-3.11
+which pip-3.12
 mkdir -pv .local/bin
 ln -s /usr/bin/pip-3.11 .local/bin/pip
 ls -lh .local/bin/pip
@@ -470,16 +855,16 @@ ls -lh .local/bin/pip
 
 실행 결과
 ```
-[instruct@bastion ~]$ which pip-3.11
-/usr/bin/pip-3.11
+[instruct@bastion ~]$ which pip-3.12
+/usr/bin/pip-3.12
 
 [instruct@bastion ~]$ mkdir -pv .local/bin
 mkdir: created directory '.local/bin'
 
-[instruct@bastion ~]$ ln -s /usr/bin/pip-3.11 .local/bin/pip
+[instruct@bastion ~]$ ln -s /usr/bin/pip-3.12 .local//bin/pip
 
 [instruct@bastion ~]$ ls -lh .local/bin/pip
-lrwxrwxrwx. 1 instruct users 17 Mar 18 12:45 .local/bin/pip -> /usr/bin/pip-3.11
+lrwxrwxrwx. 1 instruct users 17 Mar 19 05:03 .local/bin/pip -> /usr/bin/pip-3.12
 
 [instruct@bastion ~]$
 ```
@@ -535,52 +920,51 @@ tree -Fa -L 3 .
 
 [instruct@bastion ~]$ tree -Fa -L 3 .
 .
-├── .bash_history
-├── .bash_logout
-├── .bash_profile
-├── .bashrc
-├── .cache/
-│   ├── huggingface/
-│   │   └── hub/
-│   ├── instructlab/
-│   │   ├── models/
-│   │   └── oci/
-│   ├── pip/
-│   │   ├── http/
-│   │   └── selfcheck/
-│   └── rhsm/
-│       └── rhsm.log
-├── .config/
-│   ├── cni/
-│   │   └── net.d/
-│   ├── containers/
-│   │   └── storage.conf
-│   └── instructlab/
-│       ├── config.yaml
-│       └── config.yaml.lock
-├── .local/
-│   ├── bin/
-│   │   ├── activate-global-python-argcomplete*
-│   │   ├── pip -> /usr/bin/pip-3.11*
-│   │   ├── python-argcomplete-check-easy-install-script*
-│   │   ├── register-python-argcomplete*
-│   │   ├── tomlq*
-│   │   ├── xq*
-│   │   └── yq*
-│   ├── lib/
-│   │   └── python3.11/
-│   └── share/
-│       ├── containers/
-│       └── instructlab/
-├── .ssh/
-│   ├── authorized_keys
-│   ├── config
-│   ├── x8b9lkey.pem
-│   └── x8b9lkey.pub
-├── .vimrc
-└── auth.json
+|-- .bash_history
+|-- .bash_logout
+|-- .bash_profile
+|-- .bashrc
+|-- .cache/
+|   |-- instructlab/
+|   |   |-- models/
+|   |   `-- oci/
+|   `-- pip/
+|       |-- http/
+|       `-- selfcheck/
+|-- .config/
+|   |-- cni/
+|   |   `-- net.d/
+|   |-- containers/
+|   |   `-- storage.conf
+|   `-- instructlab/
+|       |-- config.yaml
+|       `-- config.yaml.lock
+|-- .lesshst
+|-- .local/
+|   |-- bin/
+|   |   |-- activate-global-python-argcomplete*
+|   |   |-- pip -> /usr/bin/pip-3.12*
+|   |   |-- python-argcomplete-check-easy-install-script*
+|   |   |-- register-python-argcomplete*
+|   |   |-- tomlq*
+|   |   |-- xq*
+|   |   `-- yq*
+|   |-- lib/
+|   |   `-- python3.12/
+|   `-- share/
+|       |-- containers/
+|       `-- instructlab/
+|-- .python_history
+|-- .ssh/
+|   |-- 4djqlkey.pem
+|   |-- 4djqlkey.pub
+|   |-- authorized_keys
+|   `-- config
+|-- .viminfo
+|-- .vimrc
+`-- nvidia.txt
 
-23 directories, 21 files
+20 directories, 23 files
 
 [instruct@bastion ~]$
 ```
