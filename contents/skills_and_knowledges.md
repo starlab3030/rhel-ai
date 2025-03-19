@@ -60,7 +60,7 @@ $\color{lime}{\texttt{version}}$
 * *qna.yaml* 파일에서 사용된 분류 스키마 버전
 * 현재 지원되는 값은 `3`
 
-$\color{lime}{\texttt{created\_by}}$
+$\color{lime}{\texttt{created\\_by}}$
 * 기여자 또는 사용자 이름
 * 예: `shadowman`
 
