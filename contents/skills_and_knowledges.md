@@ -72,6 +72,11 @@ $\color{lime}{\texttt{domain}}$
 $\color{lime}{\texttt{seed\\_examples}}$
 * 지식 문서의 맥락과 함께 "*질문과 답변*" 쌍이 들어 있는 필드
 * *qna.yaml* 파일에는 최소 5개의 시드 예제가 필요
+  ```yaml
+  seed_examples:
+    - context:
+      questions_and_answers:
+  ```
 
 $\color{lime}{\texttt{context}}$
 * 지식 문서에서 정확히 가져온 정보 덩어리
