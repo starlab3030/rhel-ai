@@ -67,7 +67,9 @@ $\color{lime}{\texttt{created\\_by}}$
 $\color{lime}{\texttt{domain}}$
 * 지식 문서의 주제 또는 범주
 * 도메인은 합성 데이터 생성 중에 교사 모델에 프롬프트를 표시하고 추가 컨텍스트를 추가
-* 도메인 필드는 3개 단어를 넘지 않는 것이 좋음
+* `domain` 필드는 3개 단어를 넘지 않는 것이 좋음
+  + 천체 행성에 대한 경영 대회의 경우 도메인 예는 `Astronomy`
+  + 건강보험 정보에 대한 지식 문서의 경우 도메인 예는 `Healthcare`
 
 $\color{lime}{\texttt{seed\\_examples}}$
 * 지식 문서의 맥락과 함께 "*질문과 답변*" 쌍이 들어 있는 필드
@@ -84,6 +86,79 @@ $\color{lime}{\texttt{context}}$
 * 제한 사항
   + 각 *qna.yaml*에는 5개의 컨텍스트 블록이 필요
   + 최대 토큰 수는 500개
+* 예
+  ```
+  피닉스는 남쪽 하늘의 작은 별자리입니다. 신화 속 피닉스의 이름을 따서 지어졌으며, 요한 바이어가 1603년 Uranometria에서 천체 지도에 처음 묘사했습니다. 프랑스 탐험가이자 천문학자인 니콜라 루이 드 라카유는 더 밝은 별을 지도에 표시하고 1756년에 바이어 명칭을 부여했습니다.
+  ```
+
+$\color{lime}{\texttt{questions\\_and\\_answers}}$
+* 모델이 학습할 수 있는 질문과 답변이 포함된 필드
+* *qna.yaml*에는 `context` 블록당 세 개의 질문-답변 쌍이 필요
+  ```yaml
+  questions_and_answers:
+    - question:
+      answer:
+  ```
+
+$\color{lime}{\texttt{question}}$
+* 관련 맥락과 관련이 있고 이를 기반으로 하는 질문
+* 사실 기반, 추론 또는 설명을 포함하여 다양한 질문과 질문 유형을 제공
+* 최대 토큰 수는 250개
+* 예
+  ```
+  피닉스 별자리를 만든 사람은 누구입니까?
+  ```
+
+$\color{lime}{\texttt{answer}}$
+* 지정된 질문에 대한 답변
+* 답변은 완전한 문장이어야 하며, 맥락 필드에서 참조되어야 함
+* 최대 토큰 수는 250개
+* 예
+  ```
+  피닉스 별자리는 프랑스의 탐험가이자 천문학자 니콜라 루이 드 라카유가 기록했습니다.
+  ```
+
+$\color{lime}{\texttt{document\\_outline}}$
+* 논문 진술과 유사한 문서의 간략한 요약
+* 이는 문서 내용에 대한 높은 수준의 맥락을 제공
+* 이는 자세하고 `context` 필드의 내용을 참조해야 함
+* 예
+  ```
+  피닉스 별자리에 대한 정보에는 별자리에 있는 별의 역사, 특성, 특징 등이 포함됩니다.
+  ```
+
+$\color{lime}{\texttt{document}}$
+* 지식 데이터의 출처가 포함된 필드
+* 예
+  ```yaml
+  document:
+     repo:
+     commit:
+     patterns:
+  ```
+
+$\color{lime}{\texttt{repo}}$
+* 지식 파일이 들어 있는 Git 저장소의 URL
+* 예
+  ```
+  github.com/<profile>/<repo-name>
+  ```
+
+$\color{lime}{\texttt{commit}}$
+* 리포지토리의 문서에 해당하는 전체 커밋 해시
+
+$\color{lime}{\texttt{patterns}}$
+* git 저장소의 파일을 포함
+* 유효한 파일은 *.md 또는 *.pdf
+* 예
+  ```
+  phoenix_constellation.md
+  ```
+
+
+
+
+
 
 <br>
 <br>
