@@ -431,6 +431,7 @@ registry.redhat.io/rhelai1/modelcar-granite-8b-starter-v1      Red Hat image for
 registry.redhat.io/rhelai1/modelcar-knowledge-adapter-v3       Red Hat image for modelcar-knowledge-adapter...
 registry.redhat.io/rhelai1/modelcar-prometheus-8x7b-v2-0       Red Hat image for modelcar-prometheus-8x7b-v...
 registry.redhat.io/rhelai1/skills-adapter-v3                   Red Hat image for skills-adapter-v3
+
 [instruct@bastion ~]$
 ```
 
@@ -629,7 +630,7 @@ tree -F -L 1 .cache/instructlab/models/
 <br>
 <br>
 
-## 3. 
+## 3. 모델 기반 채팅 서비스
 
 ### 3.1 모델 서브 
 
@@ -669,7 +670,427 @@ yq '.serve' .config/instructlab/config.yaml
 }
 ```
 
+#### 3.1.2 모델 서브 실행
 
+실행 명령어
+```bash
+ilab model serve
+```
+
+실행 결과
+```
+[instruct@bastion ~]$ ilab model serve
+INFO 2025-03-19 08:08:22,795 instructlab.model.serve_backend:54: Setting backend_type in the serve config to vllm
+INFO 2025-03-19 08:08:22,811 instructlab.model.serve_backend:60: Using model '/var/home/instruct/.cache/instructlab/models/granite-3.1-8b-lab-v1' with -1 gpu-layers and 4096 max context size.
+INFO 2025-03-19 08:08:22,811 instructlab.model.serve_backend:92: '--gpus' flag used alongside '--tensor-parallel-size' in the vllm_args section of the config file. Using value of the --gpus flag.
+INFO 2025-03-19 08:08:22,925 instructlab.model.backends.vllm:332: vLLM starting up on pid 53 at http://127.0.0.1:8000/v1
+INFO 03-19 08:08:46 api_server.py:585] vLLM API server version 0.6.4.post1
+INFO 03-19 08:08:46 api_server.py:586] args: Namespace(host='127.0.0.1', port=8000, uvicorn_log_level='info', allow_credentials=False, allowed_origins=['*'], allowed_methods=['*'], allowed_headers=['*'], api_key=None, lora_modules=None, prompt_adapters=None, chat_template='/tmp/tmpl_guw8nd', response_role='assistant', ssl_keyfile=None, ssl_certfile=None, ssl_ca_certs=None, ssl_cert_reqs=0, root_path=None, middleware=[], return_tokens_as_token_ids=False, disable_frontend_multiprocessing=False, enable_auto_tool_choice=False, tool_call_parser=None, tool_parser_plugin='', model='/var/home/instruct/.cache/instructlab/models/granite-3.1-8b-lab-v1', task='auto', tokenizer=None, skip_tokenizer_init=False, revision=None, code_revision=None, tokenizer_revision=None, tokenizer_mode='auto', chat_template_text_format='string', trust_remote_code=False, allowed_local_media_path=None, download_dir=None, load_format='auto', config_format=<ConfigFormat.AUTO: 'auto'>, dtype='auto', kv_cache_dtype='auto', quantization_param_path=None, max_model_len=None, guided_decoding_backend='outlines', distributed_executor_backend='mp', worker_use_ray=False, pipeline_parallel_size=1, tensor_parallel_size=4, max_parallel_loading_workers=None, ray_workers_use_nsight=False, block_size=16, enable_prefix_caching=False, disable_sliding_window=False, use_v2_block_manager=False, num_lookahead_slots=0, seed=0, swap_space=4, cpu_offload_gb=0, gpu_memory_utilization=0.9, num_gpu_blocks_override=None, max_num_batched_tokens=None, max_num_seqs=256, max_logprobs=20, disable_log_stats=False, quantization=None, rope_scaling=None, rope_theta=None, hf_overrides=None, enforce_eager=False, max_seq_len_to_capture=8192, disable_custom_all_reduce=False, tokenizer_pool_size=0, tokenizer_pool_type='ray', tokenizer_pool_extra_config=None, limit_mm_per_prompt=None, mm_processor_kwargs=None, enable_lora=False, enable_lora_bias=False, max_loras=1, max_lora_rank=16, lora_extra_vocab_size=256, lora_dtype='auto', long_lora_scaling_factors=None, max_cpu_loras=None, fully_sharded_loras=False, enable_prompt_adapter=False, max_prompt_adapters=1, max_prompt_adapter_token=0, device='auto', num_scheduler_steps=1, multi_step_stream_outputs=True, scheduler_delay_factor=0.0, enable_chunked_prefill=None, speculative_model=None, speculative_model_quantization=None, num_speculative_tokens=None, speculative_disable_mqa_scorer=False, speculative_draft_tensor_parallel_size=None, speculative_max_model_len=None, speculative_disable_by_batch_size=None, ngram_prompt_lookup_max=None, ngram_prompt_lookup_min=None, spec_decoding_acceptance_method='rejection_sampler', typical_acceptance_sampler_posterior_threshold=None, typical_acceptance_sampler_posterior_alpha=None, disable_logprobs_during_spec_decoding=None, model_loader_extra_config=None, ignore_patterns=[], preemption_mode=None, served_model_name=None, qlora_adapter_name_or_path=None, otlp_traces_endpoint=None, collect_detailed_traces=None, disable_async_output_proc=False, scheduling_policy='fcfs', override_neuron_config=None, override_pooler_config=None, disable_log_requests=False, max_log_len=None, disable_fastapi_docs=False, enable_prompt_tokens_details=False)
+INFO 03-19 08:08:46 api_server.py:175] Multiprocessing frontend to use ipc:///tmp/cc1f00a5-a119-44e8-9804-88fa6f907607 for IPC Path.
+INFO 03-19 08:08:46 api_server.py:194] Started engine process with PID 73
+INFO 03-19 08:08:46 config.py:1861] Downcasting torch.float32 to torch.float16.
+INFO 03-19 08:08:53 config.py:1861] Downcasting torch.float32 to torch.float16.
+INFO 03-19 08:08:54 config.py:1136] Chunked prefill is enabled with max_num_batched_tokens=512.
+INFO 03-19 08:09:00 config.py:1136] Chunked prefill is enabled with max_num_batched_tokens=512.
+INFO 03-19 08:09:00 llm_engine.py:249] Initializing an LLM engine (v0.6.4.post1) with config: model='/var/home/instruct/.cache/instructlab/models/granite-3.1-8b-lab-v1', speculative_config=None, tokenizer='/var/home/instruct/.cache/instructlab/models/granite-3.1-8b-lab-v1', skip_tokenizer_init=False, tokenizer_mode=auto, revision=None, override_neuron_config=None, tokenizer_revision=None, trust_remote_code=False, dtype=torch.float16, max_seq_len=131072, download_dir=None, load_format=LoadFormat.AUTO, tensor_parallel_size=4, pipeline_parallel_size=1, disable_custom_all_reduce=False, quantization=None, enforce_eager=False, kv_cache_dtype=auto, quantization_param_path=None, device_config=cuda, decoding_config=DecodingConfig(guided_decoding_backend='outlines'), observability_config=ObservabilityConfig(otlp_traces_endpoint=None, collect_model_forward_time=False, collect_model_execute_time=False), seed=0, served_model_name=/var/home/instruct/.cache/instructlab/models/granite-3.1-8b-lab-v1, num_scheduler_steps=1, chunked_prefill_enabled=True multi_step_stream_outputs=True, enable_prefix_caching=False, use_async_output_proc=True, use_cached_outputs=True, chat_template_text_format=string, mm_processor_kwargs=None, pooler_config=None)
+INFO 03-19 08:09:00 custom_cache_manager.py:17] Setting Triton cache manager to: vllm.triton_utils.custom_cache_manager:CustomCacheManager
+INFO 03-19 08:09:01 selector.py:135] Using Flash Attention backend.
+(VllmWorkerProcess pid=181) INFO 03-19 08:09:01 selector.py:135] Using Flash Attention backend.
+(VllmWorkerProcess pid=181) INFO 03-19 08:09:01 multiproc_worker_utils.py:215] Worker ready; awaiting tasks
+(VllmWorkerProcess pid=180) INFO 03-19 08:09:01 selector.py:135] Using Flash Attention backend.
+(VllmWorkerProcess pid=180) INFO 03-19 08:09:01 multiproc_worker_utils.py:215] Worker ready; awaiting tasks
+(VllmWorkerProcess pid=182) INFO 03-19 08:09:01 selector.py:135] Using Flash Attention backend.
+(VllmWorkerProcess pid=182) INFO 03-19 08:09:01 multiproc_worker_utils.py:215] Worker ready; awaiting tasks
+(VllmWorkerProcess pid=181) INFO 03-19 08:09:02 utils.py:961] Found nccl from library libnccl.so.2
+INFO 03-19 08:09:02 utils.py:961] Found nccl from library libnccl.so.2
+(VllmWorkerProcess pid=180) INFO 03-19 08:09:02 utils.py:961] Found nccl from library libnccl.so.2
+(VllmWorkerProcess pid=182) INFO 03-19 08:09:02 utils.py:961] Found nccl from library libnccl.so.2
+INFO 03-19 08:09:02 pynccl.py:69] vLLM is using nccl==2.25.1
+(VllmWorkerProcess pid=181) INFO 03-19 08:09:02 pynccl.py:69] vLLM is using nccl==2.25.1
+(VllmWorkerProcess pid=180) INFO 03-19 08:09:02 pynccl.py:69] vLLM is using nccl==2.25.1
+(VllmWorkerProcess pid=182) INFO 03-19 08:09:02 pynccl.py:69] vLLM is using nccl==2.25.1
+(VllmWorkerProcess pid=180) WARNING 03-19 08:09:03 custom_all_reduce.py:134] Custom allreduce is disabled because it's not supported on more than two PCIe-only GPUs. To silence this warning, specify disable_custom_all_reduce=True explicitly.
+
+^C
+
+INFO 2025-03-19 08:17:28,422 instructlab.model.backends.vllm:85: vLLM server terminated by keyboard
+INFO 03-19 08:17:28 launcher.py:57] Shutting down FastAPI HTTP server.
+INFO 03-19 08:17:28 multiproc_worker_utils.py:133] Terminating local vLLM worker processes
+(VllmWorkerProcess pid=181) INFO 03-19 08:17:28 multiproc_worker_utils.py:240] Worker exiting
+(VllmWorkerProcess pid=180) INFO 03-19 08:17:28 multiproc_worker_utils.py:240] Worker exiting
+(VllmWorkerProcess pid=182) INFO 03-19 08:17:28 multiproc_worker_utils.py:240] Worker exiting
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+/usr/lib64/python3.11/multiprocessing/resource_tracker.py:254: UserWarning: resource_tracker: There appear to be 1 leaked shared_memory objects to clean up at shutdown
+  warnings.warn('resource_tracker: There appear to be %d '
+INFO 2025-03-19 08:17:35,898 instructlab.model.backends.vllm:494: Waiting for GPU VRAM reclamation...
+
+[instruct@bastion ~]$
+```
+
+#### 3.1.3 실행 중인 프로세스 확인
+
+실행 명령어
+```bash
+ps -u instruct
+```
+
+실행 결과
+```
+[instruct@bastion ~]$ ps -u instruct
+    PID TTY          TIME CMD
+   2029 ?        00:00:00 systemd
+   2031 ?        00:00:00 (sd-pam)
+   2045 ?        00:00:00 sshd
+   2046 pts/0    00:00:00 bash
+   2179 ?        00:00:00 catatonit
+   2195 ?        00:00:00 dbus-broker-lau
+   2196 ?        00:00:00 dbus-broker
+   7445 ?        00:00:00 sshd
+   7446 pts/1    00:00:00 bash
+   7914 pts/0    00:00:00 podman
+   7936 ?        00:00:09 fuse-overlayfs
+   7946 ?        00:00:00 conmon
+   7948 pts/0    00:00:05 ilab
+   8002 ?        00:00:10 python3.11
+   8023 ?        00:00:00 python3.11
+   8024 ?        00:00:37 python3.11
+   8133 ?        00:00:31 python3.11
+   8134 ?        00:00:31 python3.11
+   8135 ?        00:00:31 python3.11
+   8435 pts/1    00:00:00 ps
+
+[instruct@bastion ~]$
+```
+
+#### 3.1.4 `podman` 프로세스
+
+실행 명령어
+```bash
+pstree -ps -a 7914
+```
+
+실행 결과
+```
+[instruct@bastion ~]$ pstree -ps -a 7914
+systemd,1 --switched-root --system --deserialize 31
+  `-sshd,1981
+      `-sshd,2025
+          `-sshd,2045
+              `-bash,2046
+                  `-podman,7914 run --rm -it --device nvidia.com/gpu=all --security-opt label=disable --net host --shm-size 10G --pids-limit -1 -v /var/home/instruct:/var/home/instruct -v ...
+                      |-{podman},7918
+                      |-{podman},7919
+                      |-{podman},7920
+                      |-{podman},7921
+                      |-{podman},7922
+                      |-{podman},7923
+                      |-{podman},7924
+                      |-{podman},7925
+                      |-{podman},7926
+                      |-{podman},7927
+                      |-{podman},7928
+                      |-{podman},7929
+                      |-{podman},7930
+                      |-{podman},7931
+                      |-{podman},7932
+                      |-{podman},7933
+                      |-{podman},7934
+                      |-{podman},7939
+                      |-{podman},7940
+                      |-{podman},7941
+                      |-{podman},7943
+                      |-{podman},7944
+                      `-{podman},7945
+
+[instruct@bastion ~]$
+```
+
+#### 3.1.5 `fuse-overlayfs` 프로세스
+
+실행 명령어
+```bash
+pstree -ps -a 7936
+```
+
+실행 결과
+```
+[instruct@bastion ~]$ pstree -ps -a 7936
+systemd,1 --switched-root --system --deserialize 31
+  `-fuse-overlayfs,7936 -olowerdir=/usr/lib/containers/storage/overlay/l/3XMERXCKYN5AQ4UVB7KXEJIALJ,upperdir=/var/home/instruct/.local/share/containers/storage/overlay/466a656b79640ebdcbcef5752d4e41ea143d84fec9aa80a51d7a2b7eb8be5387/d
+
+[instruct@bastion ~]$ 
+```
+
+#### 3.1.6 `conmon` 프로세스
+
+실행 명령어
+```bash
+pstree -ps -a 7946
+```
+
+실행 결과
+```
+[instruct@bastion ~]$ pstree -ps -a 7946
+systemd,1 --switched-root --system --deserialize 31
+  `-conmon,7946 --api-version 1 -c 86b58abf47572315d2a55f3a7b99a3fb0cfac31cd8303ce342bffca2dd58cdc6 -u 86b58abf47572315d2a55f3a7b99a3fb0cfac31cd8303ce342bffca2dd58cdc6 -r /usr/bin/crun -b/var/home/instruct/.local/share/containers/stor
+      `-ilab,7948 /opt/app-root/bin/ilab model serve
+          `-python3.11,8002 -m vllm.entrypoints.openai.api_server --host 127.0.0.1 --port 8000 --model /var/home/instruct/.cache/instructlab/models/granite-3.1-8b-lab-v1 --chat-template /tmp/tmpx_hr9x31 ...
+              |-python3.11,8023 -c from multiprocessing.resource_tracker import main;main(14)
+              |-python3.11,8024 -c from multiprocessing.spawn import spawn_main; spawn_main(tracker_fd=15, pipe_handle=17) --multiprocessing-fork
+              |   |-python3.11,8133 -c from multiprocessing.spawn import spawn_main; spawn_main(tracker_fd=15, pipe_handle=17) --multiprocessing-fork
+              |   |   |-{python3.11},8142
+
+              ...<snip>...
+              
+              |   |   `-{python3.11},8280
+              |   |-python3.11,8134 -c from multiprocessing.spawn import spawn_main; spawn_main(tracker_fd=15, pipe_handle=17) --multiprocessing-fork
+              |   |   |-{python3.11},8143
+
+              ...<snip>...
+              
+              |   |   `-{python3.11},8279
+              |   |-python3.11,8135 -c from multiprocessing.spawn import spawn_main; spawn_main(tracker_fd=15, pipe_handle=17) --multiprocessing-fork
+              |   |   |-{python3.11},8157
+              
+              ...<snip>...
+
+              `-{python3.11},8310
+
+[instruct@bastion ~]$
+```
+
+#### 3.1.7 `ilab` 프로세스
+
+실행 명령어
+```bash
+pstree -ps -a 7948
+```
+
+실행 결과
+```
+[instruct@bastion ~]$ pstree -ps -a 7948
+systemd,1 --switched-root --system --deserialize 31
+  `-conmon,7946 --api-version 1 -c 86b58abf47572315d2a55f3a7b99a3fb0cfac31cd8303ce342bffca2dd58cdc6 -u 86b58abf47572315d2a55f3a7b99a3fb0cfac31cd8303ce342bffca2dd58cdc6 -r /usr/bin/crun -b/var/home/instruct/.local/share/containers/stor
+      `-ilab,7948 /opt/app-root/bin/ilab model serve
+          `-python3.11,8002 -m vllm.entrypoints.openai.api_server --host 127.0.0.1 --port 8000 --model /var/home/instruct/.cache/instructlab/models/granite-3.1-8b-lab-v1 --chat-template /tmp/tmpx_hr9x31 ...
+              |-python3.11,8023 -c from multiprocessing.resource_tracker import main;main(14)
+              |-python3.11,8024 -c from multiprocessing.spawn import spawn_main; spawn_main(tracker_fd=15, pipe_handle=17) --multiprocessing-fork
+              |   |-python3.11,8133 -c from multiprocessing.spawn import spawn_main; spawn_main(tracker_fd=15, pipe_handle=17) --multiprocessing-fork
+              |   |   |-{python3.11},8142
+              |   |   |-{python3.11},8158
+              
+              ...<snip>...
+
+              |   |   `-{python3.11},8280
+              |   |-python3.11,8134 -c from multiprocessing.spawn import spawn_main; spawn_main(tracker_fd=15, pipe_handle=17) --multiprocessing-fork
+              |   |   |-{python3.11},8143
+
+              ...<snip>...
+
+              |   |   `-{python3.11},8279
+              |   |-python3.11,8135 -c from multiprocessing.spawn import spawn_main; spawn_main(tracker_fd=15, pipe_handle=17) --multiprocessing-fork
+              |   |   |-{python3.11},8157
+
+              ...<snip>...
+
+              |-{python3.11},8309
+              `-{python3.11},8310
+
+[instruct@bastion ~]$
+```
+<br>
+
+### 3.2 모델 채팅
+
+#### 3.2.1 InstructLab의 기본 모델 채팅 확인
+
+실행 명령어
+```bash
+yq '.chat' .config/instructlab/config.yaml
+```
+
+실행 결과
+```json
+{
+  "context": "default",
+  "logs_dir": "/var/home/instruct/.local/share/instructlab/chatlogs",
+  "max_tokens": null,
+  "model": "/var/home/instruct/.cache/instructlab/models/granite-3.1-8b-lab-v1",
+  "session": null,
+  "temperature": 1.0,
+  "vi_mode": false,
+  "visible_overflow": true
+}
+```
+
+#### 3.2.2 채팅 실행
+
+실행 명령어
+```bash
+ilab model chat
+```
+
+실행 결과
+```
+[instruct@bastion ~]$ ilab model chat
+╭───────────────────────────────────────────────────── system ──────────────────────────────────────────────────────╮
+│ Welcome to InstructLab Chat w/ GRANITE-3.1-8B-LAB-V1 (type /h for help)                                           │
+╰───────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+>>> hello                                                                                                [S][default]
+╭────────────────────────────────────────────── granite-3.1-8b-lab-v1 ──────────────────────────────────────────────╮
+│ Hello! How can I assist you today?                                                                                │
+╰─────────────────────────────────────────────────────────────────────────────────────────── elapsed 0.176 seconds ─╯
+>>> 안녕하세요?                                                                                          [S][default]
+╭────────────────────────────────────────────── granite-3.1-8b-lab-v1 ──────────────────────────────────────────────╮
+│ 안녕하세요! I'm glad you reached out. I'm here to help answer any questions you have.                             │
+╰─────────────────────────────────────────────────────────────────────────────────────────── elapsed 0.481 seconds ─╯
+>>> what is your job?                                                                                    [S][default]
+╭────────────────────────────────────────────── granite-3.1-8b-lab-v1 ──────────────────────────────────────────────╮
+│ I'm designed to provide information and assistance to users, such as answering questions, providing               │
+│ recommendations, and helping users with tasks.                                                                    │
+╰─────────────────────────────────────────────────────────────────────────────────────────── elapsed 0.522 seconds ─╯
+>>> 당신의 직업은 무엇입니까?                                                                            [S][default]
+╭────────────────────────────────────────────── granite-3.1-8b-lab-v1 ──────────────────────────────────────────────╮
+│ 나는 정보와 지침을 제공하고 사용자를 도와주는 기계로 설계되어 있으며, 질문을 답변하고 상담을 제공하며, 작업을     │
+│ 돕는 등의 독특한 유능성을 가지고 있습니다.                                                                        │
+╰─────────────────────────────────────────────────────────────────────────────────────────── elapsed 1.248 seconds ─╯
+>>> exit                                                                                                 [S][default]
+[instruct@bastion ~]$
+```
+
+#### 3.2.3 실행 중인 프로세스 확인
+
+실행 명령어
+```bash
+ps -u instruct
+```
+
+실행 결과
+```
+[instruct@bastion ~]$ ps -u instruct
+    PID TTY          TIME CMD
+   2029 ?        00:00:00 systemd
+   2031 ?        00:00:00 (sd-pam)
+   2045 ?        00:00:00 sshd
+   2046 pts/0    00:00:00 bash
+   2179 ?        00:00:00 catatonit
+   2195 ?        00:00:00 dbus-broker-lau
+   2196 ?        00:00:00 dbus-broker
+   7445 ?        00:00:00 sshd
+   7446 pts/1    00:00:00 bash
+   7914 pts/0    00:00:03 podman
+   7936 ?        00:00:09 fuse-overlayfs
+   7946 ?        00:00:00 conmon
+   7948 pts/0    00:00:05 ilab
+   8002 ?        00:00:12 python3.11
+   8023 ?        00:00:00 python3.11
+   8024 ?        00:00:47 python3.11
+   8133 ?        00:00:42 python3.11
+   8134 ?        00:00:41 python3.11
+   8135 ?        00:00:41 python3.11
+   8564 pts/1    00:00:00 podman
+   8589 ?        00:00:02 fuse-overlayfs
+   8604 ?        00:00:00 conmon
+   8606 pts/0    00:00:05 ilab
+   8666 ?        00:00:00 sshd
+   8667 pts/2    00:00:00 bash
+   8694 pts/2    00:00:00 ps
+
+[instruct@bastion ~]$
+```
+
+#### 3.2.4 `podman` 프로세스
+
+실행 명령어
+```bash
+pstree -ps -a 8564
+```
+
+실행 결과
+```
+[instruct@bastion ~]$ pstree -ps -a 8564
+systemd,1 --switched-root --system --deserialize 31
+  `-sshd,1981
+      `-sshd,7442
+          `-sshd,7445
+              `-bash,7446
+                  `-podman,8564 run --rm -it --device nvidia.com/gpu=all --security-opt label=disable --net host --shm-size 10G ...
+                      |-{podman},8568
+                      |-{podman},8569
+                      |-{podman},8570
+                      |-{podman},8571
+                      |-{podman},8572
+                      |-{podman},8573
+                      |-{podman},8574
+                      |-{podman},8575
+                      |-{podman},8576
+                      |-{podman},8577
+                      |-{podman},8578
+                      |-{podman},8579
+                      |-{podman},8581
+                      |-{podman},8582
+                      |-{podman},8585
+                      |-{podman},8586
+                      |-{podman},8597
+                      |-{podman},8598
+                      |-{podman},8599
+                      |-{podman},8600
+                      `-{podman},8601
+
+[instruct@bastion ~]$
+```
+
+#### 3.2.5 `fuse-overlayfs` 프로세스
+
+실행 명령어
+```bash
+pstree -ps -a 8589
+```
+
+실행 결과
+```
+[instruct@bastion ~]$ pstree -ps -a 8589
+systemd,1 --switched-root --system --deserialize 31
+  `-fuse-overlayfs,8589 -olowerdir=/usr/lib/containers/storage/overlay/l/3XMERXCKYN5AQ4UVB7KXEJIALJ,upperdir=/var/home/instruct/.local/sh
+
+[instruct@bastion ~]$
+```
+
+#### 3.2.6 `conmon` 프로세스
+
+실행 명령어
+```bash
+pstree -ps -a 8604
+```
+
+실행 결과
+```
+[instruct@bastion ~]$ pstree -ps -a 8604
+systemd,1 --switched-root --system --deserialize 31
+  `-conmon,8604 --api-version 1 -c 7e8e8168543bc064e990b9fe6501f2e35fdee58566606e24e9d815622d870033 -u7e8e8168543bc064e990b9fe6501f2e35fd
+      `-ilab,8606 /opt/app-root/bin/ilab model chat
+
+[instruct@bastion ~]$
+```
+
+#### 3.2.7 `ilab` 프로세스
+
+실행 명령어
+```bash
+pstree -ps -a 8606
+```
+
+실행 결과
+```
+[instruct@bastion ~]$ pstree -ps -a 8606
+systemd,1 --switched-root --system --deserialize 31
+  `-conmon,8604 --api-version 1 -c 7e8e8168543bc064e990b9fe6501f2e35fdee58566606e24e9d815622d870033 -u7e8e8168543bc064e990b9fe6501f2e35fd
+      `-ilab,8606 /opt/app-root/bin/ilab model chat
+
+[instruct@bastion ~]$
+```
 <br>
 <br>
 
