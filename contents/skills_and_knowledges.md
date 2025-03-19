@@ -52,26 +52,28 @@ Granite LLM을 훈련하는 데 사용할 수 있는 지식 문서 유형
 * RHEL AI의 경우, 지식 데이터는 Git 저장소에 호스팅
 * 지식 기여는 qna.yaml 파일을 사용하여 "*모델에 가르치려는 문서*"를 읽는 방법을 학습
 
+### 2.1 지식을 위한 qna.yaml
+
 지식에 대한 qna.yaml 파일에 포함되는 ***키***-***값*** 항목 세트
 
 $\color{lime}{\texttt{version}}$
 * *qna.yaml* 파일에서 사용된 분류 스키마 버전
 * 현재 지원되는 값은 `3`
 
-**$\color{lime}{\texttt{created_by}}$**
+$\color{lime}{\texttt{created_by}}$
 * 기여자 또는 사용자 이름
 * 예: `shadowman`
 
-**$\color{lime}{\texttt{domain}}$**
+$\color{lime}{\texttt{domain}}$
 * 지식 문서의 주제 또는 범주
 * 도메인은 합성 데이터 생성 중에 교사 모델에 프롬프트를 표시하고 추가 컨텍스트를 추가
 * 도메인 필드는 3개 단어를 넘지 않는 것이 좋음
 
-**$\color{lime}{\texttt{seed_examples}}$**
+$\color{lime}{\texttt{seed_examples}}$
 * 지식 문서의 맥락과 함께 "*질문과 답변*" 쌍이 들어 있는 필드
 * *qna.yaml* 파일에는 최소 5개의 시드 예제가 필요
 
-**$\color{lime}{\texttt{context}}$**
+$\color{lime}{\texttt{context}}$
 * 지식 문서에서 정확히 가져온 정보 덩어리
 * 교사 모델을 안내하는 데 도움이 되도록 표, 단락 또는 목록을 포함한 다양한 유형의 콘텐츠를 강조 표시
 * 제한 사항
