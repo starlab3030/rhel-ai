@@ -3,6 +3,7 @@
 **목차**
 1. [RHEL AI 업그레이드](./manage_life-cycle_of_rhel_ai.md#1-rhel-ai-업그레이드)<br>
 2. [RHEL AI에 패키지 설치](./manage_life-cycle_of_rhel_ai.md#2-rhel-ai에-패키지-설치)<br>
+3. [RHEL AI 설정 관련 케이스들](./manage_life-cycle_of_rhel_ai.md#3-rhel-ai-설치-및-구성-관련)<br>
 <br>
 <hr>
 <br>
@@ -1145,7 +1146,7 @@ lspci -Dnn | egrep -i "nvidia|vga"
 
 [root@rhel_ai ~]# 
 ```
-* 각각의 nVidia의 GPU (.domain.devices.hostdev[].source)가 매핑된 주소(.domain.devices.hostdev[].address)로 가상머신에서 보임
+* 각각의 nVidia의 GPU (**domain.devices.hostdev[].source*)가 매핑된 주소(*domain.devices.hostdev[].address*)로 가상머신에서 보임
 
 <br>
 <br>
