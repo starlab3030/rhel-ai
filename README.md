@@ -4,10 +4,16 @@
 <br>
 <br>
 <br>
+CY24 RHSC 키노트 세션 데모
 &nbsp; 1. [RHSC 키노트 데모 소개](./rhsc-demo/introdution-of-lab.md)<br>
 &nbsp; 2. [InstructLab 시작](./rhsc-demo/start-with-instructlab.md)<br>
 &nbsp; 3. [AI를 앱에 통합](./rhsc-demo/integrate-ai-into-app.md)<br>
 
+**RHEL AI**
+&nbsp; 1. [RHEL AI 기본 소개](./contents/rhel_ai.md)<br>
+&nbsp; 2. [RHEL AI 관리](./contents/manage_life-cycle_of_rhel_ai.md)<br>
+&nbsp; 3. [기술 및 지식](./contents/skills_and_knowledges.md)<br>
+&nbsp; 4. [커스텀 LLM 구성](./contents/generate_custom_llm.md)<br>
 
 
 
