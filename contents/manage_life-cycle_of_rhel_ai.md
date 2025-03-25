@@ -1426,17 +1426,20 @@ GPU 7: NVIDIA H100 80GB HBM3 (UUID: GPU-5534d557-2a95-300a-81e6-7b626d87378a)
 
 실행 명령어 - [참조 URL](https://developer.nvidia.com/cuda-downloads?target_os=Linux&target_arch=x86_64&Distribution=RHEL&target_version=9&target_type=rpm_local)
 ```bash
-
+wget https://developer.download.nvidia.com/compute/cuda/12.8.1/local_installers/cuda-repo-rhel9-12-8-local-12.8.1_570.124.06-1.x86_64.rpm
+sudo rpm -i cuda-repo-rhel9-12-8-local-12.8.1_570.124.06-1.x86_64.rpm
+sudo dnf clean all
+sudo dnf -y install cuda-toolkit-12-8
 ```
 
 #### 3.2.2 nVidia의 CUDA 도구 네트워크 기반 설치
 
 실행 명령어 - [참조 URL](https://developer.nvidia.com/cuda-downloads?target_os=Linux&target_arch=x86_64&Distribution=RHEL&target_version=9&target_type=rpm_network)
 ```bash
-wget https://developer.download.nvidia.com/compute/cuda/12.8.1/local_installers/cuda-repo-rhel9-12-8-local-12.8.1_570.124.06-1.x86_64.rpm
-sudo rpm -i cuda-repo-rhel9-12-8-local-12.8.1_570.124.06-1.x86_64.rpm
-sudo dnf clean all
-sudo dnf -y install cuda-toolkit-12-8
+dnf config-manager --add-repo https://developer.download.nvidia.com/compute/cuda/repos/rhel9/x86_64/cuda-rhel9.repo
+dnf search cuda-toolkit*
+dnf clean all
+dnf -y install cuda-toolkit-12-4
 ```
 
 실행 결과
@@ -1473,9 +1476,9 @@ cuda-toolkit-12-8-config-common.noarch : Common config package for CUDA Toolkit 
 cuda-toolkit-12-config-common.noarch : Common config package for CUDA Toolkit 12.
 cuda-toolkit-config-common.noarch : Common config package for CUDA Toolkit.
 
-[root@rhel_ai ~]# sudo dnf clean all
+[root@rhel_ai ~]# dnf clean all
 
-[root@rhel_ai ~]# sudo dnf -y install cuda-toolkit-12-4
+[root@rhel_ai ~]# dnf -y install cuda-toolkit-12-4
 ...<snip>...
 
 [root@rhel_ai ~]# 
