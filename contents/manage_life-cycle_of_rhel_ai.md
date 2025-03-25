@@ -1184,10 +1184,6 @@ cat /redhat/assign-gpus/assign-nvswitch-to-rhel_ai.xml
 ```
 * 각각의 디바이스 별로, 위의 형식으로 구성
 
-
-
-
-
 #### 3.1.10 가상머신에 해당 디바이스를 추가
 
 실행 명령어
@@ -1255,8 +1251,171 @@ lspci -Dnn | egrep -i "nvidia|vga|nvswitch"
 ```
 * 각각의 nVidia의 NVSwitch (**domain.devices.hostdev[].source*)가 매핑된 주소(*domain.devices.hostdev[].address*)로 가상머신에서 보임
 
+> [!INFORTANT]
+> nVidia GPU는 종류/버전 등에 따라 토폴로지 구성이 다를 수 있습니다. 각각의 환경 및 조건에 맞게 가상머신 환경으로 구성이 필요합니다.
 
+#### 3.1.13 nVidia의 H100, NVLink 및 NVSwitch를 가상머신에 할당
 
+실행 명령어 - 가상머신 상에서 할당된 리소스 확인
+```bash
+lspci -Dnn | egrep -i "nvidia"
+```
+
+실행 결과
+```
+[root@rhel_ai ~]# lspci -Dnn | egrep -i "nvidia"
+0000:09:00.0 Bridge [0680]: NVIDIA Corporation GH100 [H100 NVSwitch] [10de:22a3] (rev a1)
+0000:0a:00.0 Bridge [0680]: NVIDIA Corporation GH100 [H100 NVSwitch] [10de:22a3] (rev a1)
+0000:0b:00.0 Bridge [0680]: NVIDIA Corporation GH100 [H100 NVSwitch] [10de:22a3] (rev a1)
+0000:0c:00.0 Bridge [0680]: NVIDIA Corporation GH100 [H100 NVSwitch] [10de:22a3] (rev a1)
+0000:0d:00.0 3D controller [0302]: NVIDIA Corporation GH100 [H100 SXM5 80GB] [10de:2330] (rev a1)
+0000:0e:00.0 3D controller [0302]: NVIDIA Corporation GH100 [H100 SXM5 80GB] [10de:2330] (rev a1)
+0000:0f:00.0 3D controller [0302]: NVIDIA Corporation GH100 [H100 SXM5 80GB] [10de:2330] (rev a1)
+0000:10:00.0 3D controller [0302]: NVIDIA Corporation GH100 [H100 SXM5 80GB] [10de:2330] (rev a1)
+0000:11:00.0 3D controller [0302]: NVIDIA Corporation GH100 [H100 SXM5 80GB] [10de:2330] (rev a1)
+0000:12:00.0 3D controller [0302]: NVIDIA Corporation GH100 [H100 SXM5 80GB] [10de:2330] (rev a1)
+0000:13:00.0 3D controller [0302]: NVIDIA Corporation GH100 [H100 SXM5 80GB] [10de:2330] (rev a1)
+0000:14:00.0 3D controller [0302]: NVIDIA Corporation GH100 [H100 SXM5 80GB] [10de:2330] (rev a1)
+
+[root@rhel_ai ~]# 
+```
+
+#### 3.1.14 nVidia의 패브릭 확안
+
+실행 명령어
+```bash
+systemctl status nvidia-fabricmanager.service 
+```
+
+실행 결과
+```
+[root@rhel_ai ~]# systemctl status nvidia-fabricmanager.service 
+● nvidia-fabricmanager.service - NVIDIA fabric manager service
+     Loaded: loaded (/usr/lib/systemd/system/nvidia-fabricmanager.service; enabled; preset: disabled)
+     Active: active (running) since Tue 2025-03-25 02:10:15 UTC; 2h 37min ago
+TriggeredBy: ● nvidia-nvswitch-devices.path
+    Process: 2114 ExecStart=/usr/bin/nv-fabricmanager -c /usr/share/nvidia/nvswitch/fabricmanager.cfg (code=exited, status=0/SUCCESS)
+   Main PID: 2116 (nv-fabricmanage)
+      Tasks: 18 (limit: 1649170)
+     Memory: 18.1M
+        CPU: 4.847s
+     CGroup: /system.slice/nvidia-fabricmanager.service
+             └─2116 /usr/bin/nv-fabricmanager -c /usr/share/nvidia/nvswitch/fabricmanager.cfg
+
+Mar 25 02:10:14 rhelai-02.redhat.lab systemd[1]: Starting NVIDIA fabric manager service...
+Mar 25 02:10:15 rhelai-02.redhat.lab nv-fabricmanager[2116]: Connected to 1 node.
+Mar 25 02:10:15 rhelai-02.redhat.lab nv-fabricmanager[2116]: Successfully configured all the available NVSwitches to route GPU NVLink traffic. NVLink Peer-to-Peer support will be enabled once the GPUs are succ>
+Mar 25 02:10:15 rhelai-02.redhat.lab systemd[1]: Started NVIDIA fabric manager service.
+
+[root@rhel_ai ~]#
+```
+* 패브릭 구성에 이슈가 없으며, NVSwitch가 GPU의 NVLink로 라우트 되는 것을 확인
+
+#### 3.1.15 nVidia의 NVSwitch 확인
+
+실행 명령어
+```bash
+systemctl status nvidia-nvswitch-devices.path 
+```
+
+실행 결과
+```
+[root@rhel_ai ~]# systemctl status nvidia-nvswitch-devices.path 
+● nvidia-nvswitch-devices.path - NVIDIA NVSwitch Devices
+     Loaded: loaded (/usr/lib/systemd/system/nvidia-nvswitch-devices.path; disabled; preset: disabled)
+     Active: active (running) since Tue 2025-03-25 02:14:46 UTC; 2h 34min ago
+      Until: Tue 2025-03-25 02:14:46 UTC; 2h 34min ago
+   Triggers: ● nvidia-fabricmanager.service
+
+Mar 25 02:14:46 rhelai-02.redhat.lab systemd[1]: Started NVIDIA NVSwitch Devices.
+
+[root@rhel_ai ~]# 
+```
+
+#### 3.1.16 가상머신에서 nVidia 확인
+
+실행 명령어
+```bash
+nvidia-smi --list-gpus
+```
+
+실행 결과
+```
+[root@rhel_ai ~]# nvidia-smi --list-gpus
+GPU 0: NVIDIA H100 80GB HBM3 (UUID: GPU-c7a0294c-c2c2-5476-438c-fb468eaa223b)
+GPU 1: NVIDIA H100 80GB HBM3 (UUID: GPU-27196ced-a067-4406-2159-46448710fc9c)
+GPU 2: NVIDIA H100 80GB HBM3 (UUID: GPU-0d9ce0d5-22a0-fdf7-c891-f26e86f907b6)
+GPU 3: NVIDIA H100 80GB HBM3 (UUID: GPU-7353c83a-0617-7238-ca5a-9b9c80212c46)
+GPU 4: NVIDIA H100 80GB HBM3 (UUID: GPU-b71a1811-5b24-ae65-9a8f-4118c7c1db31)
+GPU 5: NVIDIA H100 80GB HBM3 (UUID: GPU-4a360bd8-44cd-43cb-9dc8-1b47ce52e162)
+GPU 6: NVIDIA H100 80GB HBM3 (UUID: GPU-590d9f08-faf1-6a7d-70a1-b15156fd95aa)
+GPU 7: NVIDIA H100 80GB HBM3 (UUID: GPU-5534d557-2a95-300a-81e6-7b626d87378a)
+
+[root@rhel_ai ~]# nvidia-smi topo --matrix
+	GPU0	GPU1	GPU2	GPU3	GPU4	GPU5	GPU6	GPU7	CPU Affinity	NUMA Affinity	GPU NUMA ID
+GPU0	 X 	NV18	NV18	NV18	NV18	NV18	NV18	NV18	0-63	0		N/A
+GPU1	NV18	 X 	NV18	NV18	NV18	NV18	NV18	NV18	0-63	0		N/A
+GPU2	NV18	NV18	 X 	NV18	NV18	NV18	NV18	NV18	0-63	0		N/A
+GPU3	NV18	NV18	NV18	 X 	NV18	NV18	NV18	NV18	0-63	0		N/A
+GPU4	NV18	NV18	NV18	NV18	 X 	NV18	NV18	NV18	0-63	0		N/A
+GPU5	NV18	NV18	NV18	NV18	NV18	 X 	NV18	NV18	0-63	0		N/A
+GPU6	NV18	NV18	NV18	NV18	NV18	NV18	 X 	NV18	0-63	0		N/A
+GPU7	NV18	NV18	NV18	NV18	NV18	NV18	NV18	 X 	0-63	0		N/A
+
+Legend:
+
+  X    = Self
+  SYS  = Connection traversing PCIe as well as the SMP interconnect between NUMA nodes (e.g., QPI/UPI)
+  NODE = Connection traversing PCIe as well as the interconnect between PCIe Host Bridges within a NUMA node
+  PHB  = Connection traversing PCIe as well as a PCIe Host Bridge (typically the CPU)
+  PXB  = Connection traversing multiple PCIe bridges (without traversing the PCIe Host Bridge)
+  PIX  = Connection traversing at most a single PCIe bridge
+  NV#  = Connection traversing a bonded set of # NVLinks
+
+[root@rhel_ai ~]# nvidia-smi nvlink --status
+GPU 0: NVIDIA H100 80GB HBM3 (UUID: GPU-c7a0294c-c2c2-5476-438c-fb468eaa223b)
+	 Link 0: 26.562 GB/s
+	 Link 1: 26.562 GB/s
+   ...<snip>...
+	 Link 17: 26.562 GB/s
+GPU 1: NVIDIA H100 80GB HBM3 (UUID: GPU-27196ced-a067-4406-2159-46448710fc9c)
+	 Link 0: 26.562 GB/s
+	 Link 1: 26.562 GB/s
+   ...<snip>...
+	 Link 17: 26.562 GB/s
+GPU 2: NVIDIA H100 80GB HBM3 (UUID: GPU-0d9ce0d5-22a0-fdf7-c891-f26e86f907b6)
+	 Link 0: 26.562 GB/s
+	 Link 1: 26.562 GB/s
+   ...<snip>...
+	 Link 17: 26.562 GB/s
+GPU 3: NVIDIA H100 80GB HBM3 (UUID: GPU-7353c83a-0617-7238-ca5a-9b9c80212c46)
+	 Link 0: 26.562 GB/s
+	 Link 1: 26.562 GB/s
+   ...<snip>...
+	 Link 17: 26.562 GB/s
+GPU 4: NVIDIA H100 80GB HBM3 (UUID: GPU-b71a1811-5b24-ae65-9a8f-4118c7c1db31)
+	 Link 0: 26.562 GB/s
+	 Link 1: 26.562 GB/s
+   ...<snip>...
+	 Link 17: 26.562 GB/s
+GPU 5: NVIDIA H100 80GB HBM3 (UUID: GPU-4a360bd8-44cd-43cb-9dc8-1b47ce52e162)
+	 Link 0: 26.562 GB/s
+	 Link 1: 26.562 GB/s
+   ...<snip>...
+	 Link 17: 26.562 GB/s
+GPU 6: NVIDIA H100 80GB HBM3 (UUID: GPU-590d9f08-faf1-6a7d-70a1-b15156fd95aa)
+	 Link 0: 26.562 GB/s
+	 Link 1: 26.562 GB/s
+   ...<snip>...
+	 Link 17: 26.562 GB/s
+GPU 7: NVIDIA H100 80GB HBM3 (UUID: GPU-5534d557-2a95-300a-81e6-7b626d87378a)
+	 Link 0: 26.562 GB/s
+	 Link 1: 26.562 GB/s
+   ...<snip>...
+	 Link 17: 26.562 GB/s
+
+[root@rhel_ai ~]# 
+```
 
 
 
@@ -1295,7 +1454,10 @@ rhc connect --organization <org_id> --activation-key <your_activation_key>
 
 실행 명령어
 ```bash
-
+mkdir -pv /etc/ilab
+touch /etc/ilab/insights-opt-out
+ls -lh /etc/ilab/insights-opt-out 
+ilab --help
 ```
 
 실행 결과
@@ -1315,7 +1477,6 @@ Usage: ilab [OPTIONS] COMMAND [ARGS]...
 
 [root@rhel_ai ~]# 
 ```
-
 <br>
 <br>
 
