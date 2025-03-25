@@ -24,9 +24,14 @@ AI 시대에서 다양한 워크로도를 위한 GPU의 여러 기능들이 소�
 <br>
 <br>
 
-## 2. 세대별 NVLink
+## 2. NVLink와 NVSwitch
+
+### 2.1 세대별 NVLink
 
 <img src="images/nvlink_generation.png" title="100px" alt="세대별 NVLink"/>
+<br>
+
+### 2.2 NVIDIA GPU 네트워크 아키텍처
 
 * 2016년: P100-NVLink1
   + Tesla P100 / Pascal 아키텍처
@@ -68,8 +73,28 @@ AI 시대에서 다양한 워크로도를 위한 GPU의 여러 기능들이 소�
     - 32 노드 * 8 GPU = 256 GPU
 <br>
 
-**DGX 세대별 아키텍처**
+### 2.3 DGX 세대별 아키텍처
+
 <img src="images/dgx_generation.png" title="100px" alt="세대별 DGX내 NVLink 연결"/>
+<br>
+
+### 2.4 NVLink와 NVSwitch
+
+다음은 소스 GPU 내 SM이 MMU를 액세스하면, NVLink 네트워크 스위치를 통해 타겟 GPU 내 TLB를 통해 실제 물리 메모리인 HBM에 액세스하는 것을 보여 줍니다.
+
+**NVLink 스위치 시스템을 통한 연결**
+<img src="images/nvlink_and_nvswitch.png" title="100px" alt="NVLink와 NVSwitch"/>
+
+* GPU의 SM(Streaming Multiprocessor)
+  + NVIDIA GPU에서 연산 단위
+  + H100은 144개의 SM으로 구성
+  + SM 각각은 고유 메모리, 캐시, 컴퓨팅 코어를 가짐
+  + 병렬적으로 처리할 수 있는 작업을 할당 받아 수행
+* GPU의 MMU(Memory Manament Unit)
+* TLB(Translation Lookaside Buffer)
+  + 프로세서 내부의 MMU 안에 존재
+  + 가상 메모리 주소를 물리적 주소로 변환하는 속도를 높이기 위해 사용하는 캐시
+* HBM (High Bandwidth Memory)
 <br>
 <br>
 
