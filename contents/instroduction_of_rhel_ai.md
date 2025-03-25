@@ -151,7 +151,7 @@ RHEL AI 상에서 Granite 모델을 가지고 추론 서비스를 위한 최소 
 #### 4.2.1 베어메탈
 
 |$\color{lime}{\texttt{하드웨어 벤더}}$|$\color{lime}{\texttt{지원되는 디바이스}}$|$\color{lime}{\texttt{디바이스 메모리}}$|$\color{lime}{\texttt{추가 디스크 용량}}$|
-|:---:|:---:|:---:|
+|:---:|:---:|:---:|:---:|
 |NVIDIA|A100|80 GiB|1 TiB|
 |NVIDIA|H100|80 GiB|1 TiB|
 |NVIDIA|L40S|48 GiB|1 TiB|
