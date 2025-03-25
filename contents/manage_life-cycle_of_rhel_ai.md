@@ -801,7 +801,7 @@ rpm-ostree install gdb python3.12-pip strace tree
 
 실행 결과
 ```
-[root@bastion ~]# rpm-ostree install gdb python3.12-pip strace tree
+[root@bastion ~]# rpm-ostree install gdb python3-pip strace tree
 Checking out tree 7bd6c3b... done
 Enabled rpm-md repositories: rhel-9-for-x86_64-baseos-rpms rhel-9-for-x86_64-baseos-eus-rpms rhel-9-for-x86_64-appstream-rpms rhel-9-for-x86_64-appstream-eus-rpms codeready-builder-for-rhel-9-x86_64-rpms codeready-builder-for-rhel-9-x86_64-eus-rpms
 Importing rpm-md... done
@@ -849,7 +849,7 @@ Changes queued for next boot. Run "systemctl reboot" to start a reboot
 > [!NOTE]
 > 주요 패키지 리스트는 다음과 같습니다.<br>
 > * gdb
-> * python3.12-pip
+> * python3-pip (혹은 python3.12-pip)
 > * strace
 > * tree
 
@@ -874,7 +874,7 @@ systemctl reboot
 ```bash
 which pip-3.12
 mkdir -pv .local/bin
-ln -s /usr/bin/pip-3.11 .local/bin/pip
+ln -s /usr/bin/pip-3.12 .local/bin/pip
 ls -lh .local/bin/pip
 ```
 
@@ -1147,6 +1147,174 @@ lspci -Dnn | egrep -i "nvidia|vga"
 [root@rhel_ai ~]# 
 ```
 * 각각의 nVidia의 GPU (**domain.devices.hostdev[].source*)가 매핑된 주소(*domain.devices.hostdev[].address*)로 가상머신에서 보임
+
+#### 3.1.8 nVidia NVSwitch를 Stub로 등록
+
+호스트의 드라이버가 해당 NVSwitch를 사용하지 않도록 *pci-stub* 드라이버 구성
+
+실행 명령어
+```bash
+grubby --args="pci-stub.ids=10de:22a3" --update-kernel DEFAULT
+systemctl reboot
+```
+
+실행 결과
+```
+[root@rhel94 ~]# grubby --args="pci-stub.ids=10de:22a3" --update-kernel DEFAULT
+
+[root@rhel94 ~]# systemctl reboot
+...
+```
+
+#### 3.1.9 nVidia NVSwitch를 가상머신에 PCI passthrough로 전달하는 XML 파일 생성
+
+실행 명령어
+```bash
+cat /redhat/assign-gpus/assign-nvswitch-to-rhel_ai.xml 
+```
+
+실행 결과
+```xml
+<hostdev mode='subsystem' type='pci' managed='yes'>
+ <driver name='vfio'/>
+ <source>
+  <address domain='0x0000' bus='0x07' slot='0x00' function='0x0'/>
+ </source>
+</hostdev>
+```
+* 각각의 디바이스 별로, 위의 형식으로 구성
+
+
+
+
+
+#### 3.1.10 가상머신에 해당 디바이스를 추가
+
+실행 명령어
+```bash
+virsh attach-device RHEL_AI --file /redhat/assign-gpus/assign-nvswitch-to-rhel_ai.xml  --persistent
+```
+
+실행 결과
+```
+[root@rhel94 ~]# virsh attach-device RHEL_AI --file /redhat/assign-gpus/assign-nvswitch-to-rhel_ai.xml  --persistent
+Device attached successfully.
+
+[root@rhel94 ~]#
+```
+
+#### 3.1.11 가상머신 RHEL_AI의 구성파일 확인
+
+실행 명령어
+```bash
+virsh dumpxml RHEL_AI > RHEL_AI.xml
+xq '.domain.devices.hostdev|length' RHEL_AI.xml
+xq -x '.domain.devices.hostdev[]|.source' RHEL_AI.xml
+xq -x '.domain.devices.hostdev[]|.address' RHEL_AI.xml
+```
+
+실행 결과
+```xml
+[root@rhel94 ~]# virsh dumpxml RHEL_AI > RHEL_AI.xml
+
+[root@rhel94 ~]# xq '.domain.devices.hostdev|length' RHEL_AI.xml
+6
+
+[root@rhel94 ~]# xq -x '.domain.devices.hostdev[]|.source' RHEL_AI.xml
+...<snip>...
+<address domain="0x0000" bus="0x07" slot="0x00" function="0x0"></address>
+<address domain="0x0000" bus="0x08" slot="0x00" function="0x0"></address>
+
+[root@rhel94 ~]# xq -x '.domain.devices.hostdev[]|.address' RHEL_AI.xml 
+...<snip>...
+<@type>pci</@type><@domain>0x0000</@domain><@bus>0x0d</@bus><@slot>0x00</@slot><@function>0x0</@function>
+<@type>pci</@type><@domain>0x0000</@domain><@bus>0x0e</@bus><@slot>0x00</@slot><@function>0x0</@function>
+
+[root@rhel94 ~]#
+```
+
+#### 3.1.12 가상머신 RHEL_AI에서 NVSwitch 확인
+
+실행 명령어
+```bash
+lspci -Dnn | egrep -i "nvidia|vga|nvswitch"
+```
+
+실행 결과
+```
+[root@rhel_ai ~]# lspci -Dnn | egrep -i "nvidia|vga"
+0000:00:01.0 VGA compatible controller [0300]: Red Hat, Inc. Virtio 1.0 GPU [1af4:1050] (rev 01)
+0000:09:00.0 3D controller [0302]: NVIDIA Corporation GH100 [H100 SXM5 80GB] [10de:2330] (rev a1)
+0000:0a:00.0 3D controller [0302]: NVIDIA Corporation GH100 [H100 SXM5 80GB] [10de:2330] (rev a1)
+0000:0b:00.0 3D controller [0302]: NVIDIA Corporation GH100 [H100 SXM5 80GB] [10de:2330] (rev a1)
+0000:0c:00.0 3D controller [0302]: NVIDIA Corporation GH100 [H100 SXM5 80GB] [10de:2330] (rev a1)
+0000:0d:00.0 Bridge [0680]: NVIDIA Corporation GH100 [H100 NVSwitch] [10de:22a3] (rev a1)
+0000:0e:00.0 Bridge [0680]: NVIDIA Corporation GH100 [H100 NVSwitch] [10de:22a3] (rev a1)
+
+[root@rhel_ai ~]# 
+```
+* 각각의 nVidia의 NVSwitch (**domain.devices.hostdev[].source*)가 매핑된 주소(*domain.devices.hostdev[].address*)로 가상머신에서 보임
+
+
+
+
+
+
+
+
+<br>
+
+### 3.2 RHEL AI 작업 시, Red Hat Insights 관련 메시지 발생
+
+#### 3.2.1 Red Hat Insights 연결 구성 메시지 발생
+
+```
+[root@rhel_ai ~]# ilab --help
+This host is not connected to Red Hat Insights.
+
+To connect this host to Red Hat Insights run the following command:
+sudo rhc connect --organization <org_id> --activation-key <your_activation_key>
+
+To generate an Activation Key:
+https://console.redhat.com/insights/connector/activation-keys (this page will also display your Organization ID).
+
+For more information on Red Hat Insights, please visit:
+https://docs.redhat.com/en/documentation/subscription_central/1-latest/html/getting_started_with_activation_keys_on_the_hybrid_cloud_console/assembly-creating-managing-activation-keys
+
+[root@rhel_ai ~]#
+```
+
+#### 3.2.2 레드햇 인사이트 연결
+
+*console.redhat.com*에서 조직의 ID랑 관련된 *activation_key*를 확인 후 명령어 실행
+```bash
+rhc connect --organization <org_id> --activation-key <your_activation_key>
+```
+
+#### 3.2.3 외부 연결이 안되는 환경 등일 때
+
+실행 명령어
+```bash
+
+```
+
+실행 결과
+```
+[root@rhel_ai ~]# mkdir -pv /etc/ilab
+mkdir: created directory '/etc/ilab'
+
+[root@rhel_ai ~]# touch /etc/ilab/insights-opt-out
+
+[root@rhel_ai ~]# ls -lh /etc/ilab/insights-opt-out 
+-rw-r--r--. 1 root root 0 Mar 25 00:12 /etc/ilab/insights-opt-out
+
+[root@rhel_ai ~]# ilab --help
+Usage: ilab [OPTIONS] COMMAND [ARGS]...
+
+...<snip>...
+
+[root@rhel_ai ~]# 
+```
 
 <br>
 <br>
