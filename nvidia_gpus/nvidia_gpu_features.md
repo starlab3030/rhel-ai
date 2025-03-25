@@ -1,9 +1,9 @@
 # NVidia GPU 세대
 
 **목차**
-1. []()<br>
-2. []()<br>
-3. []()<br>
+1. [AI 시대의 GPU 요구 사항](nvidia_gpu_features.md#1-ai-시대의-gpu-요구-사항)<br>
+2. [세대별 NVLink](nvidia_gpu_features.md#2-세대별-nvlink)<br>
+3. [NVidia GPU 활성화](nvidia_gpu_features.md#3-nvidia-gpu-활성화)<br>
 <br>
 <br>
 
@@ -30,15 +30,25 @@ AI 시대에서 다양한 워크로도를 위한 GPU의 여러 기능들이 소�
 
 * 2016년: P100-NVLink1
   + Tesla P100 / Pascal 아키텍처
+    <img src="images/tesla_p100_with_pascal_architecture.png" title="100px" alt="P100 Pascal 아키텍처"/>
   + 대역폭: 20GB x 4 x 2 = 160 GB/s
   + NVSwitch 칩이 없어서 GPU는 메시-토폴로지로 상호 연결
 
 * 2017년: V100-NVLink2
   + V100 / Volta 아키텍처
+    <img src="images/v100_with_volta_architecture.png" title="100px" alt="DGX-A100 Volta 아키텍처"/>
   + 대역폭: 25GB x 6 x 2 = 300 GB/s
+
+* 2018년: V100 DGX-2
+  + NVSwitch 기반 최초 시스템
+    <img src="images/v100_dgx2_architecture.png" title="100px" alt="V100 DGX-2 아키텍처"/>
+  + NVSwitch는 18개의 NVLink 포트
+    - 8개는 GPU에 연결
+    - 8개는 다른 NVSwitch에 연결
 
 * 2020년: A100-NVLink3
   + A100 / Ampere 아키텍처
+    <img src="images/a100_with_ampere_architecture.png" title="100px" alt="DGX-A100 Ampere 아키텍처"/>
   + 대역폭: 25GB x 12 x 2 = 600 GB/s
   + NVSwitch 2.0 x 6개
   + DGX-A100 (NVLink 3.0 / NVSwitch 2.0)
@@ -46,14 +56,19 @@ AI 시대에서 다양한 워크로도를 위한 GPU의 여러 기능들이 소�
     - 각각의 A100이 6개의 NVSwitch에 2개의 링크식 총 12개의 NVLink로 연결
 
 * 2022년: H100-NVLink4
-  <img src="images/dgx_h100.png" title="100px" alt="DGX-H100 아키텍처"/>
   + H100 / Hopper 아키텍처
+    <img src="images/h100_with_hopper_architecture.png" title="100px" alt="DGX-H100 Hopper 아키텍처"/>
   + 대역폭: 25GB x 18 x 2 = 900 GB/s
   + NVSwitch 3.0 x 4 
   + DGX-H100 (NVLink 4.0 / NVSwitch 3.0)
     - H100 x 8개
     - 외장형 NVLink Switch까지 추가하면, 다수의 노드에서 NVLink 속도로 멀티-GPU 통신까지 가능
+  + NVSwitch의 OSFP 인터페이스
+    - DGX-H100 256 SuperPod 솔루션과 같은 대규모 GPU 네트워크에 사용
+    - 32 노드 * 8 GPU = 256 GPU
+<br>
 
+**DGX 세대별 아키텍처**
 <img src="images/dgx_generation.png" title="100px" alt="세대별 DGX내 NVLink 연결"/>
 <br>
 <br>
