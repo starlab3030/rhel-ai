@@ -1337,6 +1337,8 @@ Mar 25 02:14:46 rhelai-02.redhat.lab systemd[1]: Started NVIDIA NVSwitch Devices
 실행 명령어
 ```bash
 nvidia-smi --list-gpus
+nvidia-smi topo --matrix
+nvidia-smi nvlink --status
 ```
 
 실행 결과
@@ -1416,16 +1418,104 @@ GPU 7: NVIDIA H100 80GB HBM3 (UUID: GPU-5534d557-2a95-300a-81e6-7b626d87378a)
 
 [root@rhel_ai ~]# 
 ```
-
-
-
-
-
 <br>
 
-### 3.2 RHEL AI 작업 시, Red Hat Insights 관련 메시지 발생
+### 3.2 nVidia 패키지 설치
 
-#### 3.2.1 Red Hat Insights 연결 구성 메시지 발생
+#### 3.2.1 nVidia의 CUDA 도구 다운로드
+
+실행 명령어 - [참조 URL](https://developer.nvidia.com/cuda-downloads?target_os=Linux&target_arch=x86_64&Distribution=RHEL&target_version=9&target_type=rpm_local)
+```bash
+
+```
+
+#### 3.2.2 nVidia의 CUDA 도구 네트워크 기반 설치
+
+실행 명령어 - [참조 URL](https://developer.nvidia.com/cuda-downloads?target_os=Linux&target_arch=x86_64&Distribution=RHEL&target_version=9&target_type=rpm_network)
+```bash
+wget https://developer.download.nvidia.com/compute/cuda/12.8.1/local_installers/cuda-repo-rhel9-12-8-local-12.8.1_570.124.06-1.x86_64.rpm
+sudo rpm -i cuda-repo-rhel9-12-8-local-12.8.1_570.124.06-1.x86_64.rpm
+sudo dnf clean all
+sudo dnf -y install cuda-toolkit-12-8
+```
+
+실행 결과
+```
+[root@rhel_ai ~]# dnf config-manager --add-repo https://developer.download.nvidia.com/compute/cuda/repos/rhel9/x86_64/cuda-rhel9.repo
+
+[root@rhel_ai ~]# dnf search cuda-toolkit*
+Updating Subscription Management repositories.
+Last metadata expiration check: 3:05:10 ago on Tue 25 Mar 2025 11:19:41 AM KST.
+======================================= Name Matched: cuda-toolkit* ========================================
+cuda-toolkit.x86_64 : CUDA Toolkit meta-package
+cuda-toolkit-11-7.x86_64 : CUDA Toolkit 11.7 meta-package
+cuda-toolkit-11-7-config-common.noarch : Common config package for CUDA Toolkit 11.7.
+cuda-toolkit-11-8.x86_64 : CUDA Toolkit 11.8 meta-package
+cuda-toolkit-11-8-config-common.noarch : Common config package for CUDA Toolkit 11.8.
+cuda-toolkit-11-config-common.noarch : Common config package for CUDA Toolkit 11.
+cuda-toolkit-12.x86_64 : CUDA Toolkit 12 meta-package
+cuda-toolkit-12-0.x86_64 : CUDA Toolkit 12.0 meta-package
+cuda-toolkit-12-0-config-common.noarch : Common config package for CUDA Toolkit 12.0.
+cuda-toolkit-12-1.x86_64 : CUDA Toolkit 12.1 meta-package
+cuda-toolkit-12-1-config-common.noarch : Common config package for CUDA Toolkit 12.1.
+cuda-toolkit-12-2.x86_64 : CUDA Toolkit 12.2 meta-package
+cuda-toolkit-12-2-config-common.noarch : Common config package for CUDA Toolkit 12.2.
+cuda-toolkit-12-3.x86_64 : CUDA Toolkit 12.3 meta-package
+cuda-toolkit-12-3-config-common.noarch : Common config package for CUDA Toolkit 12.3.
+cuda-toolkit-12-4.x86_64 : CUDA Toolkit 12.4 meta-package
+cuda-toolkit-12-4-config-common.noarch : Common config package for CUDA Toolkit 12.4.
+cuda-toolkit-12-5.x86_64 : CUDA Toolkit 12.5 meta-package
+cuda-toolkit-12-5-config-common.noarch : Common config package for CUDA Toolkit 12.5.
+cuda-toolkit-12-6.x86_64 : CUDA Toolkit 12.6 meta-package
+cuda-toolkit-12-6-config-common.noarch : Common config package for CUDA Toolkit 12.6.
+cuda-toolkit-12-8.x86_64 : CUDA Toolkit 12.8 meta-package
+cuda-toolkit-12-8-config-common.noarch : Common config package for CUDA Toolkit 12.8.
+cuda-toolkit-12-config-common.noarch : Common config package for CUDA Toolkit 12.
+cuda-toolkit-config-common.noarch : Common config package for CUDA Toolkit.
+
+[root@rhel_ai ~]# sudo dnf clean all
+
+[root@rhel_ai ~]# sudo dnf -y install cuda-toolkit-12-4
+...<snip>...
+
+[root@rhel_ai ~]# 
+```
+* GPU 별 지원 버전이 정해져 있음
+
+#### 3.2.3 nvidia-smiy를 포함한 RPM
+
+실행 명령어
+```bash
+dnf whatprovides nvidia-smi
+```
+
+실행 결과
+```
+[root@dgxh10 ~]# dnf whatprovides nvidia-smi
+Updating Subscription Management repositories.
+Last metadata expiration check: 3:06:55 ago on Tue 25 Mar 2025 11:19:41 AM KST.
+nvidia-driver-cuda-3:570.86.10-1.el9.x86_64 : CUDA integration for nvidia-driver
+Repo        : cuda-rhel9-x86_64
+Matched from:
+Filename    : /usr/bin/nvidia-smi
+
+nvidia-driver-cuda-3:570.86.15-1.el9.x86_64 : CUDA integration for nvidia-driver
+Repo        : cuda-rhel9-x86_64
+Matched from:
+Filename    : /usr/bin/nvidia-smi
+
+nvidia-driver-cuda-3:570.124.06-1.el9.x86_64 : CUDA integration for nvidia-driver
+Repo        : cuda-rhel9-x86_64
+Matched from:
+Filename    : /usr/bin/nvidia-smi
+
+[root@dgxh10 ~]# 
+```
+<br>
+
+### 3.3 RHEL AI 작업 시, Red Hat Insights 관련 메시지 발생
+
+#### 3.3.1 Red Hat Insights 연결 구성 메시지 발생
 
 ```
 [root@rhel_ai ~]# ilab --help
@@ -1443,7 +1533,7 @@ https://docs.redhat.com/en/documentation/subscription_central/1-latest/html/gett
 [root@rhel_ai ~]#
 ```
 
-#### 3.2.2 레드햇 인사이트 연결
+#### 3.3.2 레드햇 인사이트 연결
 
 *console.redhat.com*에서 조직의 ID랑 관련된 *activation_key*를 확인 후 명령어 실행
 ```bash
