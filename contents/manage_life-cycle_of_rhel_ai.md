@@ -1251,7 +1251,7 @@ lspci -Dnn | egrep -i "nvidia|vga|nvswitch"
 ```
 * 각각의 nVidia의 NVSwitch (**domain.devices.hostdev[].source*)가 매핑된 주소(*domain.devices.hostdev[].address*)로 가상머신에서 보임
 
-> [!INFOMRTANT]
+> [!INFORMTANT]
 > nVidia GPU는 종류/버전 등에 따라 토폴로지 구성이 다를 수 있습니다. 각각의 환경 및 조건에 맞게 가상머신 환경으로 구성이 필요합니다.
 
 #### 3.1.13 nVidia의 H100, NVLink 및 NVSwitch를 가상머신에 할당
