@@ -802,7 +802,7 @@ mkdir: created directory 'science/astronomy/constellation/phoenix'
 * 도메인 기반 디렉터리 생성
 * *qna.yaml* 파일 생성
 
-#### 90.1.2 지식을 위한 *qna.yaml* 파일 확인
+#### 90.1.2 지식을 위한 [*qna.yaml*](https://github.com/starlab3030/taxonomy_for_instructlab/blob/main/knowledge/science/astronomy/constellation/phoenix/qna.yaml) 파일 확인
 
 실행 명령어
 ```bash
