@@ -16,7 +16,8 @@
 &nbsp; 4. [커스텀 LLM 구성](./contents/generate_custom_llm.md)<br>
 
 
-
+**NVIDIA GPU**
+* [소개 및 특징](./nvidia_gpus/nvidia_gpu_features.md)
 
 
 
