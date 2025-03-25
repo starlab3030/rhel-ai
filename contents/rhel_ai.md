@@ -94,6 +94,9 @@ tree -F -L 2 .local/share/instructlab/
 
 [instruct@bastion ~]$
 ```
+* ~/.local/share/instructlab/logs/
+  + ilab 실행 관련 로그 생성
+  + 예를 들어, *ilab generate* 실행 시, *logs/generation/generation-<UUID>.log* 파일이 생성됨
 * ~/.local/share/instructlab/datasets/
   + 분류 저장소(taxonomy)의 수정을 기반으로 구축된 SDG 단계의 데이터 출력을 포함
 * ~/.local/share/instructlab/taxonomy/

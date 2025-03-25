@@ -1444,9 +1444,9 @@ dnf -y install cuda-toolkit-12-4
 
 실행 결과
 ```
-[root@rhel_ai ~]# dnf config-manager --add-repo https://developer.download.nvidia.com/compute/cuda/repos/rhel9/x86_64/cuda-rhel9.repo
+[root@rhel94 ~]# dnf config-manager --add-repo https://developer.download.nvidia.com/compute/cuda/repos/rhel9/x86_64/cuda-rhel9.repo
 
-[root@rhel_ai ~]# dnf search cuda-toolkit*
+[root@rhel94 ~]# dnf search cuda-toolkit*
 Updating Subscription Management repositories.
 Last metadata expiration check: 3:05:10 ago on Tue 25 Mar 2025 11:19:41 AM KST.
 ======================================= Name Matched: cuda-toolkit* ========================================
@@ -1476,12 +1476,12 @@ cuda-toolkit-12-8-config-common.noarch : Common config package for CUDA Toolkit 
 cuda-toolkit-12-config-common.noarch : Common config package for CUDA Toolkit 12.
 cuda-toolkit-config-common.noarch : Common config package for CUDA Toolkit.
 
-[root@rhel_ai ~]# dnf clean all
+[root@rhel94 ~]# dnf clean all
 
-[root@rhel_ai ~]# dnf -y install cuda-toolkit-12-4
+[root@rhel94 ~]# dnf -y install cuda-toolkit-12-4
 ...<snip>...
 
-[root@rhel_ai ~]# 
+[root@rhel94 ~]# 
 ```
 * GPU 별 지원 버전이 정해져 있음
 
@@ -1494,7 +1494,7 @@ dnf whatprovides nvidia-smi
 
 실행 결과
 ```
-[root@dgxh10 ~]# dnf whatprovides nvidia-smi
+[root@rhel94 ~]# dnf whatprovides nvidia-smi
 Updating Subscription Management repositories.
 Last metadata expiration check: 3:06:55 ago on Tue 25 Mar 2025 11:19:41 AM KST.
 nvidia-driver-cuda-3:570.86.10-1.el9.x86_64 : CUDA integration for nvidia-driver
@@ -1512,7 +1512,7 @@ Repo        : cuda-rhel9-x86_64
 Matched from:
 Filename    : /usr/bin/nvidia-smi
 
-[root@dgxh10 ~]# 
+[root@rhel94 ~]# 
 ```
 <br>
 
