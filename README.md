@@ -10,6 +10,7 @@
 &nbsp; 3. [AI를 앱에 통합](./rhsc-demo/integrate-ai-into-app.md)<br>
 
 **RHEL AI**<br>
+&nbsp; 0. [RHEL AI 소개](./contents/instroduction_of_rhel_ai.md)<br>
 &nbsp; 1. [RHEL AI 설치 & 관리](./contents/manage_life-cycle_of_rhel_ai.md)<br>
 &nbsp; 2. [RHEL AI 기본 설정](./contents/rhel_ai.md)<br>
 &nbsp; 3. [기술 및 지식](./contents/skills_and_knowledges.md)<br>
