@@ -2,7 +2,7 @@
 
 **목차**
 1. [AI 시대의 GPU 요구 사항](nvidia_gpu_features.md#1-ai-시대의-gpu-요구-사항)<br>
-2. [세대별 NVLink](nvidia_gpu_features.md#2-세대별-nvlink)<br>
+2. [NVLink와 NVSwitch](nvidia_gpu_features.md#2-nvlink와-nvswitch)<br>
 3. [NVidia GPU 활성화](nvidia_gpu_features.md#3-nvidia-gpu-활성화)<br>
 <br>
 <br>
