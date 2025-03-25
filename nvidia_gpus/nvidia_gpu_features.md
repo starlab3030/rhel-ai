@@ -46,6 +46,7 @@ AI 시대에서 다양한 워크로도를 위한 GPU의 여러 기능들이 소�
     - 각각의 A100이 6개의 NVSwitch에 2개의 링크식 총 12개의 NVLink로 연결
 
 * 2022년: H100-NVLink4
+  <img src="images/dgx_h100.png" title="100px" alt="DGX-H100 아키텍처"/>
   + H100 / Hopper 아키텍처
   + 대역폭: 25GB x 18 x 2 = 900 GB/s
   + NVSwitch 3.0 x 4 
