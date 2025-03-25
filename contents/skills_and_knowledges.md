@@ -967,9 +967,18 @@ Taxonomy in /var/home/instruct/.local/share/instructlab/taxonomy is valid :)
 
 ## 99. 참조
 
-참조 URL
+### 99.1 참조 사이트
+
+**참조 URL**
 * [InstructLab](https://github.com/instructlab)
   + [taxonomy](https://github.com/instructlab/taxonomy)
+<br>
+
+### 99.2 샘플 GitHub
+
+**STARLab GitHub**
+* [샘플 택소노미 트리](https://github.com/starlab3030/taxonomy_for_instructlab/tree/main)
+* [샘플 마크다운 문서](https://github.com/starlab3030/knowledges_for_instructlab/tree/main)
 <br>
 <br>
 
