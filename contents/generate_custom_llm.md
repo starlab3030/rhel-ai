@@ -4,7 +4,7 @@
 2. [모델 학습](generate_custom_llm.md#2-모델-학습)<br>
 3. [모델 평가](generate_custom_llm.md#3-모델-평가)<br>
 4. [새 모델 제공 및 채팅](generate_custom_llm.md#4-새-모델-제공-및-채팅)<br>
-5. [](generate_custom_llm.md#5-샘플-예제)<br>
+5. [샘플 예제](generate_custom_llm.md#5-샘플-예제)<br>
 <br>
 
 ## 1. SDG로 새 데이터 세트 생성
