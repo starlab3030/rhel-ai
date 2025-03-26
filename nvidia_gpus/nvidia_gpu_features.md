@@ -4,6 +4,7 @@
 1. [AI 시대의 GPU 요구 사항](nvidia_gpu_features.md#1-ai-시대의-gpu-요구-사항)<br>
 2. [NVLink와 NVSwitch](nvidia_gpu_features.md#2-nvlink와-nvswitch)<br>
 3. [NVidia GPU 활성화](nvidia_gpu_features.md#3-nvidia-gpu-활성화)<br>
+99. [참조](nvidia_gpu_features.md#99-참조)<br>
 <br>
 <br>
 
