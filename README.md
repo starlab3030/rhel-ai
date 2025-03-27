@@ -16,6 +16,7 @@
 
 **샘플 테스트**<br>
 &nbsp; 1. [커스텀 LLM 생성](./sample_tests/custom_llm_with_dgx-h100.md)<br>
+&nbsp; 2. [다양한 모델 훈련 변수](./sample_tests/train_llm_with_various_vars.md)<br>
 
 <br>
 <br>
