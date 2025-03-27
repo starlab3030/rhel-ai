@@ -3878,6 +3878,7 @@ jq '.' hf_format/samples_1173515/model.safetensors.index.json
 }
 ```
 * 모델의 레이어는 0 ~ 39 (총 40)
+<br>
 
 ### 5.5 모델 평가
 
