@@ -4125,6 +4125,7 @@ ilab model serve --model-path ~/phased/phase2/checkpoints/hf_format/samples_1173
 실행 결과
 ```
 [root@rhel_ai ~]# ilab model serve --model-path ~/phased/phase2/checkpoints/hf_format/samples_1173515/
+...<snip>...
 
 [root@rhel_ai ~]#
 ```
@@ -4355,7 +4356,7 @@ positional arguments:
 
 실행 명령어
 ```bash
-
+python3.11 llama.cpp/convert_hf_to_gguf.py ~/phased/phase2/checkpoints/hf_format/samples_1173515/ --outfile ./rhk_sa_3.1_8b_20251505.gguf
 ```
 
 실행 결과
