@@ -10,7 +10,7 @@
 &nbsp;&nbsp;5.3 [Phase1 훈련](generate_custom_llm.md#53-phase1-훈련)<br>
 &nbsp;&nbsp;5.4 [Phase2 훈련](generate_custom_llm.md#54-phase2-훈련)<br>
 &nbsp;&nbsp;5.5 [모델 평가](generate_custom_llm.md#55-모델-평가)<br>
-&nbsp;&nbsp;5.6 [모델 평가](generate_custom_llm.md#56-모델-훈련-결과-확인)<br>
+&nbsp;&nbsp;5.6 [모델 훈련 결과 확인](generate_custom_llm.md#56-모델-훈련-결과-확인)<br>
 &nbsp;&nbsp;5.7 [새 모델 제공 및 채팅](generate_custom_llm.md#57-새-모델-제공-및-채팅)<br>
 &nbsp;&nbsp;5.8 [모델 업로드](generate_custom_llm.md#58-모델-업로드)<br>
 <br>
@@ -822,6 +822,27 @@ $ ilab model chat
 │ Welcome to InstructLab Chat w/ CHECKPOINT_1945 (type /h for help)                                                                                                                                                                    │
 ╰────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
 >>>                                                                                                                                                                                                                        [S][default]
+```
+<br>
+
+### 4.3 훈련된 모델 업로드 
+
+실행 명령어
+```bash
+ilab model upload --model <name-of-model> --destination <registry-location> --dest-type <registry-type>
+```
+* \<name-of-model\>
+  + 업로드 할 체크포인트 이름
+  + 체크포인트 경로 지정 가능
+* \<registry-location\>
+  + 모델 업로드 위치
+* \<registry-type\>
+  + 모델 형식 지정
+  + 현재 `s3` 지원
+
+예 - s3 버킷에 업로드
+```
+ilab model upload --model samples_0801 --destination example-s3-bucket --dest-type s3
 ```
 <br>
 <br>
@@ -4100,7 +4121,9 @@ ilab model serve --model-path ~/phased/phase2/checkpoints/hf_format/samples_1173
 
 실행 결과
 ```
+[root@rhel_ai ~]# ilab model serve --model-path ~/phased/phase2/checkpoints/hf_format/samples_1173515/
 
+[root@rhel_ai ~]#
 ```
 
 #### 5.7.2 모델과 채팅
@@ -4112,30 +4135,24 @@ ilab model chat --model-path ~/phased/phase2/checkpoints/hf_format/samples_11735
 
 실행 결과
 ```
+[root@rhel_ai ~]# ilab model chat --model-path ~/phased/phase2/checkpoints/hf_format/samples_1173515/
 
+[root@rhel_ai ~]#
 ```
 <br>
 
-### 5.8 모델 업로드
-
-#### 5.8.1 훈련된 모델을 업로드 
+### 5.8 모델 업로드 
 
 실행 명령어
 ```bash
-ilab model upload --model <name-of-model> --destination <registry-location> --dest-type <registry-type>
+ilab model upload --model samples_1173515 --destination rhk-s3-bucket --dest-type s3
 ```
-* \<name-of-model\>
-  + 업로드 할 체크포인트 이름
-  + 체크포인트 경로 지정 가능
-* \<registry-location\>
-  + 모델 업로드 위치
-* \<registry-type\>
-  + 모델 형식 지정
-  + 현재 `s3` 지원
 
-예 - s3 버킷에 업로드
+실행 결과
 ```
-ilab model upload --model samples_0801 --destination example-s3-bucket --dest-type s3
+[root@rhel_ai ~]# ilab model upload --model samples_1173515 --destination rhk-s3-bucket --dest-type s3
+
+[root@rhel_ai ~]#
 ```
 <br>
 <br>
