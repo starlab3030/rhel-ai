@@ -1122,8 +1122,10 @@ INFO 2025-03-25 07:41:17,413 instructlab.model.backends.vllm:494: Waiting for GP
 cd ~/datasets/2025-03-25_055144/
 ls -lht
 tree -F -L 3
-
 ```
+* ~/datasets/checkpoints 디렉터리는 합성 데이터 생성 시에 체크포인트를 위한 저장소로 사용
+  + 지식 및 기술 관련하여 파일 경로 이름으로 디렉터리를 생성
+  + 이 디렉터리 안에는 *data_checkpoint_<UUID>.jsonl* 형태로 데이터 체크 포인트 파일을 생성함
 
 실행 결과
 ```log
