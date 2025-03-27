@@ -4128,7 +4128,7 @@ ilab model serve --model-path ~/phased/phase2/checkpoints/hf_format/samples_1173
 
 #### 5.7.2 모델과 채팅
 
-실행 명령어
+실행 명령어 - 신규 모델로 테스트
 ```bash
 ilab model chat --model-path ~/phased/phase2/checkpoints/hf_format/samples_1173515/
 ```
@@ -4173,6 +4173,68 @@ INFO 2025-03-27 04:13:50,500 instructlab.model.chat:775: Requested model /root/.
 >>> exit
 
 [root@rhel_ai ~]#
+```
+
+실행 결과 - 기존 모델로 테스트
+```
+[root@rhelai-02 ~]# ilab model chat
+INFO 2025-03-27 04:20:52,004 instructlab.model.chat:775: Requested model /root/.cache/instructlab/models/granite-3.1-8b-lab-v1 is not served by the server. Proceeding to chat with served model: /root/.cache/instructlab/models/granite-3.1-8b-starter-v1
+╭─────────────────────────────────────────────── system ───────────────────────────────────────────────╮
+│ Welcome to InstructLab Chat w/ GRANITE-3.1-8B-STARTER-V1 (type /h for help)                          │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────────╯
+>>> 불사조 자리를 아니?                                                                     [S][default]
+╭───────────────────────────────────── granite-3.1-8b-starter-v1 ──────────────────────────────────────╮
+│ 烀                                                                                                   │
+│                                                                                                      │
+│ ## **Annex 4: Examples of acceptable photo identification documents**                                │
+│                                                                                                      │
+│ The following list provides examples of acceptable government-issued photo                           │
+│                                                                                                      │
+│ identification documents from federal, provincial or territorial authorities. This is not an         │
+│ exhaustive list.                                                                                     │
+│                                                                                                      │
+│ |-|-|                                                                                                │
+│ | Type of card or document | Issuing province or state and country |                                 │
+│ | Canadian passport | Canada |                                                                       │
+│ | Permanent resident card | Canada |                                                                 │
+│ | Citizenship card (issued prior to 2012) | Canada |                                                 │
+│ | Secure Certificate of Indian Status | Canada |                                                     │
+│ | Driver's licences | Driver's licences |                                                            │
+│ | British Columbia Driver's Licence | British Columbia, Canada |                                     │
+│ | Alberta Driver's Licence | Alberta, Canada |                                                       │
+│ | Saskatchewan Driver's Licence | Saskatchewan, Canada |                                             │
+│ | Manitoba Driver's Licence | Manitoba, Canada |                                                     │
+│ | Ontario Driver's Licence | Ontario, Canada |                                                       │
+│ | Québec Driver's Licence | Québec, Canada |                                                         │
+│ | New Brunswick Driver's Licence | New Brunswick, Canada |                                           │
+│ | Nova Scotia Driver's Licence | Nova Scotia, Canada |                                               │
+│ | Prince Edward Island Driver's Licence | Prince Edward Island, Canada |                             │
+│ | Newfoundland and Labrador Driver's Licence | Newfoundland and Labrador, Canada |                   │
+│ | Yukon Driver's Licence | Yukon, Canada |                                                           │
+│ | Northwest Territories Driver's Licence | Northwest Territories, Canada |                           │
+│ | Nunavut Driver's Licence | Nunavut, Canada |                                                       │
+│ | DND 404 Driver's Licence | Department of National Defence, Canada |                                │
+│ | Provincial services cards | Provincial services cards |                                            │
+│                                                                                                      │
+│ Why are driver's licenses from all Canadian provinces and territories, as well as the DND 404        │
+│ Driver's Licence, considered valid forms of government-issued photo identification for verifying     │
+│ identity in Canada?                                                                                  │
+│                                                                                                      │
+│ Driver's licenses from all Canadian provinces and territories, as well as the DND 404 Driver's       │
+│ Licence, are considered valid forms of government-issued photo identification because they display   │
+│ the holder's photo, name, and address, allowing for effective identity verification in Canada.       │
+╰────────────────────────────────────────────────────────────────────────────── elapsed 2.504 seconds ─╯
+>>> 불사조 별자리는 무엇입니까?                                                             [S][default]
+╭───────────────────────────────────── granite-3.1-8b-starter-v1 ──────────────────────────────────────╮
+│ 불사조 별자리는 아니                                                                                 │
+╰────────────────────────────────────────────────────────────────────────────── elapsed 0.054 seconds ─╯
+>>> 불사조 자리는 누가 발견했나요?                                                          [S][default]
+╭───────────────────────────────────── granite-3.1-8b-starter-v1 ──────────────────────────────────────╮
+│ 불사조 자리가 2019년 8월 22일 발�lpVtbllage                                                          │
+╰────────────────────────────────────────────────────────────────────────────── elapsed 0.115 seconds ─╯
+>>> exit                                                                                    [S][default]
+
+[root@rhel_ai ~]# 
 ```
 <br>
 
