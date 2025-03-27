@@ -4259,6 +4259,7 @@ ilab model upload --model samples_1173515 --destination rhk-s3-bucket --dest-typ
 실행 결과
 ```
 [root@rhel_ai ~]# ilab model upload --model samples_1173515 --destination rhk-s3-bucket --dest-type s3
+...<snip>...
 
 [root@rhel_ai ~]#
 ```
@@ -4363,7 +4364,7 @@ python3.11 llama.cpp/convert_hf_to_gguf.py ~/phased/phase2/checkpoints/hf_format
   - `q8_0`을 설정하는 8비트
   - `f32`는 32비트(float32)
   - `f16`은 16비트(float16)
-  
+
 실행 결과
 ```
 [root@rhel_ai models]# python3.11 llama.cpp/convert_hf_to_gguf.py ~/phased/phase2/checkpoints/hf_format/samples_1173515/ --outfile ./rhk_sa_3.1_8b_20251505.gguf
