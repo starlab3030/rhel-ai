@@ -13,6 +13,8 @@
 &nbsp;&nbsp;5.6 [모델 훈련 결과 확인](generate_custom_llm.md#56-모델-훈련-결과-확인)<br>
 &nbsp;&nbsp;5.7 [새 모델 제공 및 채팅](generate_custom_llm.md#57-새-모델-제공-및-채팅)<br>
 &nbsp;&nbsp;5.8 [모델 업로드](generate_custom_llm.md#58-모델-업로드)<br>
+&nbsp;&nbsp;5.9 [모델 양자화](generate_custom_llm.md#59-모델-양자화)<br>
+<br>
 <br>
 
 ## 1. SDG로 새 데이터 세트 생성
@@ -4258,6 +4260,181 @@ ilab model upload --model samples_1173515 --destination rhk-s3-bucket --dest-typ
 [root@rhel_ai ~]# ilab model upload --model samples_1173515 --destination rhk-s3-bucket --dest-type s3
 
 [root@rhel_ai ~]#
+```
+<br>
+
+### 5.9 모델 양자화
+
+#### 5.9.1 파인썬 체크
+
+실행 명령어
+```bash
+python --version
+pip --version
+```
+
+실행 결과
+```
+[root@rhel_ai ~]# python --version
+Python 3.9.18
+
+[root@rhelai-02 ~]# pip3 --version
+pip 25.0.1 from /root/.local/lib/python3.9/site-packages/pip (python 3.9)
+
+[root@rhel_ai ~]#
+```
+
+파이썬 업그레이드
+```bash
+rpm-ostree install python3.11 pip3-11
+```
+* 최소한 3.11 이상으로 업그레이드
+
+#### 5.9.2 ***llama.cpp*** 복제
+
+실행 명령어
+```bash
+cd ~/.cache/instructlab/models/
+git clone https://github.com/ggerganov/llama.cpp.git
+```
+
+실행 결과
+```
+[root@rhel_ai ~]# cd ~/.cache/instructlab/models/
+
+[root@rhel_ai models]# git clone https://github.com/ggerganov/llama.cpp.git
+...<snip>...
+
+[root@rhel_ai models]#
+```
+
+#### 5.9.3 필요한 패키지 설치
+
+실행 명령어
+```bash
+pip3.11 install -r llama.cpp/requirements.txt 
+```
+
+실행 결과
+```
+[root@rhel_ai models]# pip3.11 install -r llama.cpp/requirements.txt 
+...<snip>...
+
+[root@rhel_ai models]#
+```
+
+#### 5.9.4 전환 명령어 확인
+
+실행 명령어
+```bash
+python3.11 llama.cpp/convert_hf_to_gguf.py --help
+```
+
+실행 결과
+```
+[root@rhel_ai models]# python3.11 llama.cpp/convert_hf_to_gguf.py --help
+usage: convert_hf_to_gguf.py [-h] [--vocab-only] [--outfile OUTFILE]
+                             [--outtype {f32,f16,bf16,q8_0,tq1_0,tq2_0,auto}] [--bigendian]
+                             [--use-temp-file] [--no-lazy] [--model-name MODEL_NAME] [--verbose]
+                             [--split-max-tensors SPLIT_MAX_TENSORS] [--split-max-size SPLIT_MAX_SIZE]
+                             [--dry-run] [--no-tensor-first-split] [--metadata METADATA]
+                             [--print-supported-models]
+                             [model]
+
+Convert a huggingface model to a GGML compatible file
+
+positional arguments:
+  model                 directory containing model file
+
+...<snip>...
+
+[root@rhel_ai models]#
+```
+
+#### 5.9.5 모델 양자화
+
+실행 명령어
+```bash
+
+```
+
+실행 결과
+```
+[root@rhel_ai models]# python3.11 llama.cpp/convert_hf_to_gguf.py ~/phased/phase2/checkpoints/hf_format/samples_1173515/ --outfile ./rhk_sa_3.1_8b_20251505.gguf
+INFO:hf-to-gguf:Loading model: samples_1173515
+INFO:gguf.gguf_writer:gguf: This GGUF file is for Little Endian only
+INFO:hf-to-gguf:Exporting model...
+INFO:hf-to-gguf:gguf: loading model weight map from 'model.safetensors.index.json'
+INFO:hf-to-gguf:gguf: loading model part 'model-00001-of-00004.safetensors'
+INFO:hf-to-gguf:token_embd.weight,         torch.bfloat16 --> F16, shape = {4096, 49160}
+INFO:hf-to-gguf:blk.0.attn_norm.weight,    torch.bfloat16 --> F32, shape = {4096}
+INFO:hf-to-gguf:blk.0.ffn_down.weight,     torch.bfloat16 --> F16, shape = {12800, 4096}
+INFO:hf-to-gguf:blk.0.ffn_gate.weight,     torch.bfloat16 --> F16, shape = {4096, 12800}
+INFO:hf-to-gguf:blk.0.ffn_up.weight,       torch.bfloat16 --> F16, shape = {4096, 12800}
+INFO:hf-to-gguf:blk.0.ffn_norm.weight,     torch.bfloat16 --> F32, shape = {4096}
+INFO:hf-to-gguf:blk.0.attn_k.weight,       torch.bfloat16 --> F16, shape = {4096, 1024}
+INFO:hf-to-gguf:blk.0.attn_output.weight,  torch.bfloat16 --> F16, shape = {4096, 4096}
+INFO:hf-to-gguf:blk.0.attn_q.weight,       torch.bfloat16 --> F16, shape = {4096, 4096}
+INFO:hf-to-gguf:blk.0.attn_v.weight,       torch.bfloat16 --> F16, shape = {4096, 1024}
+INFO:hf-to-gguf:blk.1.attn_norm.weight,    torch.bfloat16 --> F32, shape = {4096}
+INFO:hf-to-gguf:blk.1.ffn_down.weight,     torch.bfloat16 --> F16, shape = {12800, 4096}
+INFO:hf-to-gguf:blk.1.ffn_gate.weight,     torch.bfloat16 --> F16, shape = {4096, 12800}
+INFO:hf-to-gguf:blk.1.ffn_up.weight,       torch.bfloat16 --> F16, shape = {4096, 12800}
+INFO:hf-to-gguf:blk.1.ffn_norm.weight,     torch.bfloat16 --> F32, shape = {4096}
+INFO:hf-to-gguf:blk.1.attn_k.weight,       torch.bfloat16 --> F16, shape = {4096, 1024}
+INFO:hf-to-gguf:blk.1.attn_output.weight,  torch.bfloat16 --> F16, shape = {4096, 4096}
+INFO:hf-to-gguf:blk.1.attn_q.weight,       torch.bfloat16 --> F16, shape = {4096, 4096}
+INFO:hf-to-gguf:blk.1.attn_v.weight,       torch.bfloat16 --> F16, shape = {4096, 1024}
+
+...<snip>...
+
+INFO:hf-to-gguf:blk.39.attn_norm.weight,   torch.bfloat16 --> F32, shape = {4096}
+INFO:hf-to-gguf:blk.39.ffn_down.weight,    torch.bfloat16 --> F16, shape = {12800, 4096}
+INFO:hf-to-gguf:blk.39.ffn_gate.weight,    torch.bfloat16 --> F16, shape = {4096, 12800}
+INFO:hf-to-gguf:blk.39.ffn_up.weight,      torch.bfloat16 --> F16, shape = {4096, 12800}
+INFO:hf-to-gguf:blk.39.ffn_norm.weight,    torch.bfloat16 --> F32, shape = {4096}
+INFO:hf-to-gguf:blk.39.attn_k.weight,      torch.bfloat16 --> F16, shape = {4096, 1024}
+INFO:hf-to-gguf:blk.39.attn_output.weight, torch.bfloat16 --> F16, shape = {4096, 4096}
+INFO:hf-to-gguf:blk.39.attn_q.weight,      torch.bfloat16 --> F16, shape = {4096, 4096}
+INFO:hf-to-gguf:blk.39.attn_v.weight,      torch.bfloat16 --> F16, shape = {4096, 1024}
+INFO:hf-to-gguf:Set meta model
+INFO:hf-to-gguf:Set model parameters
+INFO:hf-to-gguf:gguf: context length = 131072
+INFO:hf-to-gguf:gguf: embedding length = 4096
+INFO:hf-to-gguf:gguf: feed forward length = 12800
+INFO:hf-to-gguf:gguf: head count = 32
+INFO:hf-to-gguf:gguf: key-value head count = 8
+INFO:hf-to-gguf:gguf: rope theta = 10000000.0
+INFO:hf-to-gguf:gguf: rms norm epsilon = 1e-05
+INFO:hf-to-gguf:gguf: file type = 1
+INFO:hf-to-gguf:gguf: (granite) attention_scale = 0.0078125
+INFO:hf-to-gguf:gguf: (granite) embedding_scale = 12.0
+INFO:hf-to-gguf:gguf: (granite) residual_scale = 0.22
+INFO:hf-to-gguf:gguf: (granite) logits_scale = 16.0
+INFO:hf-to-gguf:Set model tokenizer
+INFO:gguf.vocab:Adding 48891 merge(s).
+INFO:gguf.vocab:Setting special token type bos to 49152
+INFO:gguf.vocab:Setting special token type eos to 0
+INFO:gguf.vocab:Setting special token type unk to 0
+INFO:gguf.vocab:Setting special token type pad to 49153
+INFO:gguf.vocab:Setting chat_template to {% for message in messages %}{% if message['role'] == 'pretraining' %}{{'<|pretrain|>' + message['content'] + '<|endoftext|>' + '<|/pretrain|>' }}{% elif message['role'] == 'system' %}{{'<|system|>'+ '
+' + message['content'] + '
+'}}{% elif message['role'] == 'user' %}{{'<|user|>' + '
+' + message['content'] + '
+'}}{% elif message['role'] == 'assistant' %}{{'<|assistant|>' + '
+' + message['content'] + '<|endoftext|>' + ('' if loop.last else '
+')}}{% endif %}{% if loop.last and add_generation_prompt %}{{ '<|assistant|>' + '
+' }}{% endif %}{% endfor %}
+INFO:hf-to-gguf:Set model quantization version
+INFO:gguf.gguf_writer:Writing the following files:
+INFO:gguf.gguf_writer:rhk_sa_3.1_8b_20251505.gguf: n_tensors = 362, total_size = 16.3G
+Writing: 100%|███████████████████████████████████████████████████| 16.3G/16.3G [00:34<00:00, 479Mbyte/s]
+INFO:hf-to-gguf:Model successfully exported to rhk_sa_3.1_8b_20251505.gguf
+
+[root@rhel_ai models]# ls -lh *.gguf
+-rw-r--r--. 1 root root 16G Mar 27 06:06 rhk_sa_3.1_8b_20251505.gguf
+
+[root@rhel_ai models]#
 ```
 <br>
 <br>
