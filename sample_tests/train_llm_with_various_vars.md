@@ -242,8 +242,7 @@ INFO 03-27 20:01:31 multiproc_worker_utils.py:133] Terminating local vLLM worker
 INFO:     Shutting down
 INFO:     Waiting for application shutdown.
 INFO:     Application shutdown complete.
-/usr/lib64/python3.11/multiprocessing/resource_tracker.py:254: UserWarning: resource_tracker: There appear to be 1 leaked shared_memory objects to clean up at shutdown
-  warnings.warn('resource_tracker: There appear to be %d '
+
 INFO 2025-03-27 20:01:43,242 instructlab.model.backends.vllm:494: Waiting for GPU VRAM reclamation...
 
 [root@rhel_ai ~]#
