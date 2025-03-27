@@ -1215,7 +1215,7 @@ preprocessed_2025-03-25T05_53_31/documents/docling-artifacts/
 실행 명령어
 ```bash
 cd ~/datasets/2025-03-25_055144/
-ls -lht
+ls -lh
 ```
 
 실행 결과
@@ -1252,6 +1252,8 @@ total 228K
 
 [root@rhel_ai 2025-03-25_055144]#
 ```
+* 택소트리의 지식 관련 ***qna.yaml***이 있는 경우에 *knownldge_<file_path>.jsonl* 생성
+* 택소트리의 복합 기술이 해당하는 *compositional_skills_<file_path>.jsonl* 생성
 * 지식 관련에 ***qna.yaml***에 마크다운 문서 관련된 데이터가 *documents* 디렉터리에 생성됨
   + knowledge_\*로 시작하는 디렉터리는 ***qna.yaml***에서 지정한 마크다운의 깃허브 리포지토리를 복제한 디렉터리
   + docling-artifacts 디렉터리에는 ***qna.yaml***에서 지정한 마크다운 문서 원본과 JSON으로 변환한 파일이 있음
@@ -1334,8 +1336,6 @@ total 228K
         "page-headers": []
       }
       ```
-* 택소트리의 지식 관련 ***qna.yaml***이 있는 경우에 *knownldge_<file_path>.jsonl* 생성
-* 택소트리의 복합 기술이 해당하는 *compositional_skills_<file_path>.jsonl* 생성
 
 #### 5.2.5 지식 관련 훈련을 위한 합성 데이터 레시피 
 
