@@ -4358,7 +4358,12 @@ positional arguments:
 ```bash
 python3.11 llama.cpp/convert_hf_to_gguf.py ~/phased/phase2/checkpoints/hf_format/samples_1173515/ --outfile ./rhk_sa_3.1_8b_20251505.gguf
 ```
-
+* *--outtype*
+  - 지정하지 않으면, `auto`인 16비트로 설정됨
+  - `q8_0`을 설정하는 8비트
+  - `f32`는 32비트(float32)
+  - `f16`은 16비트(float16)
+  
 실행 결과
 ```
 [root@rhel_ai models]# python3.11 llama.cpp/convert_hf_to_gguf.py ~/phased/phase2/checkpoints/hf_format/samples_1173515/ --outfile ./rhk_sa_3.1_8b_20251505.gguf
