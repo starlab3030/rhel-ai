@@ -4175,7 +4175,14 @@ INFO 2025-03-27 04:13:50,500 instructlab.model.chat:775: Requested model /root/.
 [root@rhel_ai ~]#
 ```
 
-실행 결과 - 기존 모델로 테스트
+#### 5.7.3 기존 모델고 비교 테스트
+
+실행 명령어
+```bash
+ilab model chat
+```
+
+실행 결과
 ```
 [root@rhelai-02 ~]# ilab model chat
 INFO 2025-03-27 04:20:52,004 instructlab.model.chat:775: Requested model /root/.cache/instructlab/models/granite-3.1-8b-lab-v1 is not served by the server. Proceeding to chat with served model: /root/.cache/instructlab/models/granite-3.1-8b-starter-v1
