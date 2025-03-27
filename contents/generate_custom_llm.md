@@ -5,6 +5,13 @@
 3. [모델 평가](generate_custom_llm.md#3-모델-평가)<br>
 4. [새 모델 제공 및 채팅](generate_custom_llm.md#4-새-모델-제공-및-채팅)<br>
 5. [샘플 예제](generate_custom_llm.md#5-샘플-예제)<br>
+&nbsp;&nbsp;5.1 [택소노미 트리](generate_custom_llm.md#51-택소노미-트리)<br>
+&nbsp;&nbsp;5.2 [합성 데이터 생성](generate_custom_llm.md#52-샘플-예제-합성-데이터-생성)<br>
+&nbsp;&nbsp;5.3 [Phase1 훈련](generate_custom_llm.md#53-phase1-훈련)<br>
+&nbsp;&nbsp;5.4 [Phase2 훈련](generate_custom_llm.md#54-phase2-훈련)<br>
+&nbsp;&nbsp;5.5 [모델 평가](generate_custom_llm.md#55-모델-평가)<br>
+&nbsp;&nbsp;5.6 [새 모델 제공 및 채팅](generate_custom_llm.md#56-새-모델-제공-및-채팅)<br>
+&nbsp;&nbsp;5.7 [모델 업로드](generate_custom_llm.md#57-모델-업로드)<br>
 <br>
 
 ## 1. SDG로 새 데이터 세트 생성
@@ -4017,6 +4024,29 @@ ilab model chat --model-path ~/phased/phase2/checkpoints/hf_format/samples_11735
 실행 결과
 ```
 
+```
+<br>
+
+### 5.7 모델 업로드
+
+#### 5.7.1 훈련된 모델을 업로드 
+
+실행 명령어
+```bash
+ilab model upload --model <name-of-model> --destination <registry-location> --dest-type <registry-type>
+```
+* \<name-of-model\>
+  + 업로드 할 체크포인트 이름
+  + 체크포인트 경로 지정 가능
+* \<registry-location\>
+  + 모델 업로드 위치
+* \<registry-type\>
+  + 모델 형식 지정
+  + 현재 `s3` 지원
+
+예 - s3 버킷에 업로드
+```
+ilab model upload --model samples_0801 --destination example-s3-bucket --dest-type s3
 ```
 <br>
 <br>
