@@ -15,7 +15,7 @@
 <br>
 
 **샘플 테스트**<br>
-&nbsp;  [커스텀 LLM 생성](./sample_tests/custom_llm_with_dgx-h100.md)<br>
+&nbsp; 1. [커스텀 LLM 생성](./sample_tests/custom_llm_with_dgx-h100.md)<br>
 
 <br>
 <br>
