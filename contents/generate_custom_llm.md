@@ -1257,6 +1257,7 @@ total 228K
 * 지식 관련에 ***qna.yaml***에 마크다운 문서 관련된 데이터가 *documents* 디렉터리에 생성됨
   + knowledge_\*로 시작하는 디렉터리는 ***qna.yaml***에서 지정한 마크다운의 깃허브 리포지토리를 복제한 디렉터리
   + docling-artifacts 디렉터리에는 ***qna.yaml***에서 지정한 마크다운 문서 원본과 JSON으로 변환한 파일이 있음
+    - git에 있는 PDF를 읽고 처리하여, 마크다운 문서로 만들고, 이를 기반으로 JSON으로 변환
     - phoenix_constellation.json 파일
       ```json
       {
