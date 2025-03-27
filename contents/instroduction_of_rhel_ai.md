@@ -165,6 +165,9 @@ RHEL AI 상에서 Granite 모델을 가지고 추론 서비스를 위한 최소 
 |NVIDIA|L40S|48 GiB|1 TiB|
 |NVIDIA|L4|24 GiB|1 TiB|
 |INTEL|8xGaudi3|128 GiB|1 TiB|
+
+> [!IMPORTANT]
+> 모델 서브를 위한 최소 사양이며, end-point 서비스를 위해, 모델을 양자화하여 필요한 사양을 줄일 수 있습니다.
 <br>
 <br>
 
