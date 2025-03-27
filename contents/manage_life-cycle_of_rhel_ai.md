@@ -796,7 +796,7 @@ python3-pip : A tool for installing and managing Python3 packages
 
 실행 명령어
 ```bash
-rpm-ostree install gdb python3.12-pip strace tree
+rpm-ostree install gdb python3.12-pip strace tmux tree
 ```
 
 실행 결과

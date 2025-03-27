@@ -820,12 +820,23 @@ $ ilab model chat
 
 ## 5. 샘플 예제
 
+홈 디렉터리 구성
+```bash
+export ILAB_HOME=~/.local/share/instructlab
+ln -s $ILAB_HOME ./instructlab
+ln -s $ILAB_HOME/taxonomy ./taxonomy
+ln -s $ILAB_HOME/datasets ./datasets
+ln -s $ILAB_HOME/logs ./logs
+ln -s $ILAB_HOME/phased ./phased
+```
+
 ### 5.1 택소노미 트리
 
 #### 5.1.1 지식 파일 확인
 
 실행 명령어
 ```bash
+cd ~/taxonomy
 find knowledge/ -name qna.yaml
 ```
 
@@ -864,7 +875,6 @@ knowledge/science/astronomy/constellations/phoenix_eng/qna.yaml
 
 #### 5.1.3 기술 파일 확인
 
-
 실행 명령어
 ```bash
 find foundational_skills/ -name qna.yaml
@@ -901,12 +911,12 @@ compositional_skills/linguistics/synonyms/qna.yaml
 
 실행 명령어
 ```bash
-ls -lht .local/share/instructlab/logs/generation/
+ls -lht ~/logs/generation/
 ```
 
 실행 결과
 ```log
-[root@rhel_ai ~]# ls -lh .local/share/instructlab/logs/generation/
+[root@rhel_ai ~]# ls -lh ~/logs/generation/
 total 14M
 -rw-r--r--. 1 root root 5.9M Mar 25 07:41 generation-3b987c54-093d-11f0-b522-5254007e4ee5.log <<<<<
 -rw-r--r--. 1 root root  30K Mar 25 05:43 generation-8154407c-093b-11f0-b39a-5254007e4ee5.log
@@ -919,12 +929,12 @@ total 14M
 
 실행 명령어
 ```bash
-less .local/share/instructlab/logs/generation/generation-3b987c54-093d-11f0-b522-5254007e4ee5.log
+less ~/logs/generation/generation-3b987c54-093d-11f0-b522-5254007e4ee5.log
 ```
 
 실행 결과
 ```log
-[root@rhel_ai ~]# less .local/share/instructlab/logs/generation/generation-3b987c54-093d-11f0-b522-5254007e4ee5.log
+[root@rhel_ai ~]# less ~/logs/generation/generation-3b987c54-093d-11f0-b522-5254007e4ee5.log
 INFO 2025-03-25 05:51:45,286 instructlab.model.backends.vllm:115: Trying to connect to model server at http://127.0.0.1:8000/v1
 INFO 2025-03-25 05:51:46,565 instructlab.model.backends.vllm:332: vLLM starting up on pid 77 at http://127.0.0.1:41749/v1
 INFO 2025-03-25 05:51:46,565 instructlab.model.backends.vllm:123: Starting a temporary vLLM server at http://127.0.0.1:41749/v1
@@ -1078,13 +1088,15 @@ INFO 2025-03-25 07:41:17,413 instructlab.model.backends.vllm:494: Waiting for GP
 
 실행 명령어
 ```bash
-cd .local/share/instructlab/datasets/2025-03-25_055144/
+cd ~/datasets/2025-03-25_055144/
 ls -lht
+tree -F -L 3
+
 ```
 
 실행 결과
 ```log
-[root@rhel_ai ~]# cd .local/share/instructlab/datasets/2025-03-25_055144/
+[root@rhel_ai ~]# cd ~/datasets/2025-03-25_055144/
 
 [root@rhel_ai 2025-03-25_055144]# ls -lht
 total 2.1G
@@ -1099,6 +1111,73 @@ drwxr-xr-x. 2 root root 4.0K Mar 25 07:38 generated_2025-03-25T05_53_31
 -rw-r--r--. 1 root root 2.6M Mar 25 05:53 test_2025-03-25T05_53_31.jsonl
 drwxr-xr-x. 3 root root 4.0K Mar 25 05:53 preprocessed_2025-03-25T05_53_31
 
+[root@rhel_ai 2025-03-25_055144]#  tree -F -L 3
+.
+├── generated_2025-03-25T05_53_31/
+│   ├── compositional_skills_grounded_linguistics_inclusion.jsonl
+│   ├── compositional_skills_grounded_linguistics_writing_rewriting.jsonl
+│   ├── compositional_skills_linguistics_synonyms.jsonl
+│   ├── knowledge_arts_music_fandom_swifties.jsonl
+│   ├── knowledge_science_animals_birds_black_capped_chickadee.jsonl
+│   ├── knowledge_science_astronomy_constellations_phoenix.jsonl
+│   └── knowledge_science_astronomy_constellations_phoenix_eng.jsonl
+├── knowledge_recipe_2025-03-25T05_53_31.yaml
+├── knowledge_train_msgs_2025-03-25T05_53_31.jsonl
+├── messages_2025-03-25T05_53_31.jsonl
+├── node_datasets_2025-03-25T05_53_31/
+│   ├── compositional_skills_grounded_linguistics_inclusion.jsonl
+│   ├── compositional_skills_grounded_linguistics_writing_rewriting.jsonl
+│   ├── compositional_skills_linguistics_synonyms.jsonl
+│   ├── knowledge_arts_music_fandom_swifties_p07.jsonl
+│   ├── knowledge_arts_music_fandom_swifties_p10.jsonl
+│   ├── knowledge_arts_music_fandom_swifties_task.yaml
+│   ├── knowledge_science_animals_birds_black_capped_chickadee_p07.jsonl
+│   ├── knowledge_science_animals_birds_black_capped_chickadee_p10.jsonl
+│   ├── knowledge_science_animals_birds_black_capped_chickadee_task.yaml
+│   ├── knowledge_science_astronomy_constellations_phoenix_eng_p07.jsonl
+│   ├── knowledge_science_astronomy_constellations_phoenix_eng_p10.jsonl
+│   ├── knowledge_science_astronomy_constellations_phoenix_eng_task.yaml
+│   ├── knowledge_science_astronomy_constellations_phoenix_p07.jsonl
+│   ├── knowledge_science_astronomy_constellations_phoenix_p10.jsonl
+│   ├── knowledge_science_astronomy_constellations_phoenix_task.yaml
+│   ├── mmlubench_knowledge_arts_music_fandom_swifties.jsonl
+│   ├── mmlubench_knowledge_science_animals_birds_black_capped_chickadee.jsonl
+│   ├── mmlubench_knowledge_science_astronomy_constellations_phoenix.jsonl
+│   └── mmlubench_knowledge_science_astronomy_constellations_phoenix_eng.jsonl
+├── preprocessed_2025-03-25T05_53_31/
+│   ├── compositional_skills_grounded_linguistics_inclusion.jsonl
+│   ├── compositional_skills_grounded_linguistics_writing_rewriting.jsonl
+│   ├── compositional_skills_linguistics_synonyms.jsonl
+│   ├── documents/
+│   │   ├── docling-artifacts/
+│   │   ├── knowledge_arts_music_fandom_swifties_ej6u86bu/
+│   │   ├── knowledge_science_animals_birds_black_capped_chickadee_40xwivz6/
+│   │   ├── knowledge_science_astronomy_constellations_phoenix__n63d5jo/
+│   │   └── knowledge_science_astronomy_constellations_phoenix_eng_ix6mqmov/
+│   ├── knowledge_arts_music_fandom_swifties.jsonl
+│   ├── knowledge_science_animals_birds_black_capped_chickadee.jsonl
+│   ├── knowledge_science_astronomy_constellations_phoenix.jsonl
+│   └── knowledge_science_astronomy_constellations_phoenix_eng.jsonl
+├── skills_recipe_2025-03-25T05_53_31.yaml
+├── skills_train_msgs_2025-03-25T05_53_31.jsonl
+├── test_2025-03-25T05_53_31.jsonl
+└── train_2025-03-25T05_53_31.jsonl
+
+9 directories, 40 files
+
+[root@rhel_ai 2025-03-25_055144]# tree -F -sh preprocessed_2025-03-25T05_53_31/documents/docling-artifacts/
+preprocessed_2025-03-25T05_53_31/documents/docling-artifacts/
+├── [  52K]  chickadee.json
+├── [  24K]  chickadee.md
+├── [  30K]  phoenix.json
+├── [  12K]  phoenix.md
+├── [ 9.3K]  phoenix_constellation.json
+├── [ 4.5K]  phoenix_constellation.md
+├── [  52K]  swifties.json
+└── [  25K]  swifties.md
+
+0 directories, 8 files
+
 [root@rhel_ai 2025-03-25_055144]# 
 ```
 
@@ -1106,7 +1185,7 @@ drwxr-xr-x. 3 root root 4.0K Mar 25 05:53 preprocessed_2025-03-25T05_53_31
 
 실행 명령어
 ```bash
-cd .local/share/instructlab/datasets/2025-03-25_055144/
+cd ~/datasets/2025-03-25_055144/
 ls -lht
 ```
 
@@ -1399,11 +1478,206 @@ total 403M
 
 ### 5.3 Phase1 훈련
 
-#### 5.3.1 훈련 패러미티 및 스텝 확인
+#### 5.3.1 Phase1 디렉터리 확인
 
 실행 명령어
 ```bash
-cd .local/share/instructlab/phased/phase1/checkpoints/
+cd ~/phased
+tree -F -sh phase1
+```
+
+실행 결과
+```
+[root@rhel_ai ~]# cd ~/phased
+
+[root@rhel_ai phased]# tree -F -sh phase1
+phase1
+├── [  139]  checkpoints/
+│   ├── [ 2.3M]  full_logs_global0.log
+│   ├── [  143]  full_state/
+│   │   ├── [ 4.0K]  epoch_0/
+│   │   │   ├── [  30G]  optimizer.bin
+│   │   │   ├── [  15G]  pytorch_model_fsdp.bin
+│   │   │   ├── [  16K]  random_states_0.pkl
+│   │   │   ├── [  16K]  random_states_1.pkl
+│   │   │   ├── [  16K]  random_states_2.pkl
+│   │   │   ├── [  16K]  random_states_3.pkl
+│   │   │   ├── [  16K]  random_states_4.pkl
+│   │   │   ├── [  16K]  random_states_5.pkl
+│   │   │   ├── [  16K]  random_states_6.pkl
+│   │   │   ├── [  16K]  random_states_7.pkl
+│   │   │   ├── [ 1000]  scheduler.bin
+│   │   │   └── [  968]  training_metadata.json
+│   │   ├── [ 4.0K]  epoch_1/
+│   │   │   ├── [  30G]  optimizer.bin
+│   │   │   ├── [  15G]  pytorch_model_fsdp.bin
+│   │   │   ├── [  16K]  random_states_0.pkl
+│   │   │   ├── [  16K]  random_states_1.pkl
+│   │   │   ├── [  16K]  random_states_2.pkl
+│   │   │   ├── [  16K]  random_states_3.pkl
+│   │   │   ├── [  16K]  random_states_4.pkl
+│   │   │   ├── [  16K]  random_states_5.pkl
+│   │   │   ├── [  16K]  random_states_6.pkl
+│   │   │   ├── [  16K]  random_states_7.pkl
+│   │   │   ├── [ 1000]  scheduler.bin
+│   │   │   └── [  968]  training_metadata.json
+│   │   ├── [ 4.0K]  epoch_2/
+│   │   │   ├── [  30G]  optimizer.bin
+│   │   │   ├── [  15G]  pytorch_model_fsdp.bin
+│   │   │   ├── [  16K]  random_states_0.pkl
+│   │   │   ├── [  16K]  random_states_1.pkl
+│   │   │   ├── [  16K]  random_states_2.pkl
+│   │   │   ├── [  16K]  random_states_3.pkl
+│   │   │   ├── [  16K]  random_states_4.pkl
+│   │   │   ├── [  16K]  random_states_5.pkl
+│   │   │   ├── [  16K]  random_states_6.pkl
+│   │   │   ├── [  16K]  random_states_7.pkl
+│   │   │   ├── [ 1000]  scheduler.bin
+│   │   │   └── [  968]  training_metadata.json
+│   │   ├── [ 4.0K]  epoch_3/
+│   │   │   ├── [  30G]  optimizer.bin
+│   │   │   ├── [  15G]  pytorch_model_fsdp.bin
+│   │   │   ├── [  16K]  random_states_0.pkl
+│   │   │   ├── [  16K]  random_states_1.pkl
+│   │   │   ├── [  16K]  random_states_2.pkl
+│   │   │   ├── [  16K]  random_states_3.pkl
+│   │   │   ├── [  16K]  random_states_4.pkl
+│   │   │   ├── [  16K]  random_states_5.pkl
+│   │   │   ├── [  16K]  random_states_6.pkl
+│   │   │   ├── [  16K]  random_states_7.pkl
+│   │   │   ├── [ 1000]  scheduler.bin
+│   │   │   └── [  968]  training_metadata.json
+│   │   ├── [ 4.0K]  epoch_4/
+│   │   │   ├── [  30G]  optimizer.bin
+│   │   │   ├── [  15G]  pytorch_model_fsdp.bin
+│   │   │   ├── [  16K]  random_states_0.pkl
+│   │   │   ├── [  16K]  random_states_1.pkl
+│   │   │   ├── [  16K]  random_states_2.pkl
+│   │   │   ├── [  16K]  random_states_3.pkl
+│   │   │   ├── [  16K]  random_states_4.pkl
+│   │   │   ├── [  16K]  random_states_5.pkl
+│   │   │   ├── [  16K]  random_states_6.pkl
+│   │   │   ├── [  16K]  random_states_7.pkl
+│   │   │   ├── [ 1000]  scheduler.bin
+│   │   │   └── [  968]  training_metadata.json
+│   │   ├── [ 4.0K]  epoch_5/
+│   │   │   ├── [  30G]  optimizer.bin
+│   │   │   ├── [  15G]  pytorch_model_fsdp.bin
+│   │   │   ├── [  16K]  random_states_0.pkl
+│   │   │   ├── [  16K]  random_states_1.pkl
+│   │   │   ├── [  16K]  random_states_2.pkl
+│   │   │   ├── [  16K]  random_states_3.pkl
+│   │   │   ├── [  16K]  random_states_4.pkl
+│   │   │   ├── [  16K]  random_states_5.pkl
+│   │   │   ├── [  16K]  random_states_6.pkl
+│   │   │   ├── [  16K]  random_states_7.pkl
+│   │   │   ├── [ 1000]  scheduler.bin
+│   │   │   └── [  968]  training_metadata.json
+│   │   └── [ 4.0K]  epoch_6/
+│   │       ├── [  30G]  optimizer.bin
+│   │       ├── [  15G]  pytorch_model_fsdp.bin
+│   │       ├── [  16K]  random_states_0.pkl
+│   │       ├── [  16K]  random_states_1.pkl
+│   │       ├── [  16K]  random_states_2.pkl
+│   │       ├── [  16K]  random_states_3.pkl
+│   │       ├── [  16K]  random_states_4.pkl
+│   │       ├── [  16K]  random_states_5.pkl
+│   │       ├── [  16K]  random_states_6.pkl
+│   │       ├── [  16K]  random_states_7.pkl
+│   │       ├── [ 1000]  scheduler.bin
+│   │       └── [  968]  training_metadata.json
+│   ├── [  188]  hf_format/
+│   │   ├── [ 4.0K]  samples_100077/
+│   │   │   ├── [  769]  config.json
+│   │   │   ├── [  140]  generation_config.json
+│   │   │   ├── [ 4.7G]  model-00001-of-00004.safetensors
+│   │   │   ├── [ 4.6G]  model-00002-of-00004.safetensors
+│   │   │   ├── [ 4.6G]  model-00003-of-00004.safetensors
+│   │   │   ├── [ 1.3G]  model-00004-of-00004.safetensors
+│   │   │   ├── [  29K]  model.safetensors.index.json
+│   │   │   ├── [  742]  special_tokens_map.json
+│   │   │   ├── [ 3.3M]  tokenizer.json
+│   │   │   └── [ 5.2K]  tokenizer_config.json
+│   │   ├── [ 4.0K]  samples_120101/
+│   │   │   ├── [  769]  config.json
+│   │   │   ├── [  140]  generation_config.json
+│   │   │   ├── [ 4.7G]  model-00001-of-00004.safetensors
+│   │   │   ├── [ 4.6G]  model-00002-of-00004.safetensors
+│   │   │   ├── [ 4.6G]  model-00003-of-00004.safetensors
+│   │   │   ├── [ 1.3G]  model-00004-of-00004.safetensors
+│   │   │   ├── [  29K]  model.safetensors.index.json
+│   │   │   ├── [  742]  special_tokens_map.json
+│   │   │   ├── [ 3.3M]  tokenizer.json
+│   │   │   └── [ 5.2K]  tokenizer_config.json
+│   │   ├── [ 4.0K]  samples_140119/
+│   │   │   ├── [  769]  config.json
+│   │   │   ├── [  140]  generation_config.json
+│   │   │   ├── [ 4.7G]  model-00001-of-00004.safetensors
+│   │   │   ├── [ 4.6G]  model-00002-of-00004.safetensors
+│   │   │   ├── [ 4.6G]  model-00003-of-00004.safetensors
+│   │   │   ├── [ 1.3G]  model-00004-of-00004.safetensors
+│   │   │   ├── [  29K]  model.safetensors.index.json
+│   │   │   ├── [  742]  special_tokens_map.json
+│   │   │   ├── [ 3.3M]  tokenizer.json
+│   │   │   └── [ 5.2K]  tokenizer_config.json
+│   │   ├── [ 4.0K]  samples_20016/
+│   │   │   ├── [  769]  config.json
+│   │   │   ├── [  140]  generation_config.json
+│   │   │   ├── [ 4.7G]  model-00001-of-00004.safetensors
+│   │   │   ├── [ 4.6G]  model-00002-of-00004.safetensors
+│   │   │   ├── [ 4.6G]  model-00003-of-00004.safetensors
+│   │   │   ├── [ 1.3G]  model-00004-of-00004.safetensors
+│   │   │   ├── [  29K]  model.safetensors.index.json
+│   │   │   ├── [  742]  special_tokens_map.json
+│   │   │   ├── [ 3.3M]  tokenizer.json
+│   │   │   └── [ 5.2K]  tokenizer_config.json
+│   │   ├── [ 4.0K]  samples_40034/
+│   │   │   ├── [  769]  config.json
+│   │   │   ├── [  140]  generation_config.json
+│   │   │   ├── [ 4.7G]  model-00001-of-00004.safetensors
+│   │   │   ├── [ 4.6G]  model-00002-of-00004.safetensors
+│   │   │   ├── [ 4.6G]  model-00003-of-00004.safetensors
+│   │   │   ├── [ 1.3G]  model-00004-of-00004.safetensors
+│   │   │   ├── [  29K]  model.safetensors.index.json
+│   │   │   ├── [  742]  special_tokens_map.json
+│   │   │   ├── [ 3.3M]  tokenizer.json
+│   │   │   └── [ 5.2K]  tokenizer_config.json
+│   │   ├── [ 4.0K]  samples_60048/
+│   │   │   ├── [  769]  config.json
+│   │   │   ├── [  140]  generation_config.json
+│   │   │   ├── [ 4.7G]  model-00001-of-00004.safetensors
+│   │   │   ├── [ 4.6G]  model-00002-of-00004.safetensors
+│   │   │   ├── [ 4.6G]  model-00003-of-00004.safetensors
+│   │   │   ├── [ 1.3G]  model-00004-of-00004.safetensors
+│   │   │   ├── [  29K]  model.safetensors.index.json
+│   │   │   ├── [  742]  special_tokens_map.json
+│   │   │   ├── [ 3.3M]  tokenizer.json
+│   │   │   └── [ 5.2K]  tokenizer_config.json
+│   │   └── [ 4.0K]  samples_80070/
+│   │       ├── [  769]  config.json
+│   │       ├── [  140]  generation_config.json
+│   │       ├── [ 4.7G]  model-00001-of-00004.safetensors
+│   │       ├── [ 4.6G]  model-00002-of-00004.safetensors
+│   │       ├── [ 4.6G]  model-00003-of-00004.safetensors
+│   │       ├── [ 1.3G]  model-00004-of-00004.safetensors
+│   │       ├── [  29K]  model.safetensors.index.json
+│   │       ├── [  742]  special_tokens_map.json
+│   │       ├── [ 3.3M]  tokenizer.json
+│   │       └── [ 5.2K]  tokenizer_config.json
+│   └── [ 408K]  training_params_and_metrics_global0.jsonl
+└── [   10]  eval_cache/
+
+18 directories, 156 files
+
+[root@rhel_ai phased]# 
+```
+* *eval_cache* 디렉터리가 비어 있음
+
+#### 5.3.2 훈련 패러미티 및 스텝 확인
+
+실행 명령어
+```bash
+cd ~/phase/phase1/checkpoints/
 cat training_params_and_metrics_global0.jsonl | jq '.'
 ```
 
@@ -1556,7 +1830,7 @@ cat training_params_and_metrics_global0.jsonl | jq '.'
 ```
 * epoch 0 ~ 6
 
-#### 5.3.2 로그 파일 확인
+#### 5.3.3 로그 파일 확인
 
 실행 명령어
 ```bash
@@ -1899,7 +2173,7 @@ Epoch: 0, Step: 158, Rank: 6, loss = 0.07275390625
   + 데이터 로더를 위한 샘플러 상태는 scheduler.bin
   + 랜덤 상태는 random_states_#.pkl
 
-#### 5.3.3 전체 모델로 저장된 디렉터리
+#### 5.3.4 전체 모델로 저장된 디렉터리
 
 ```bash
 ls -lh full_state/epoch_6/
@@ -1925,7 +2199,7 @@ total 46G
 [root@rhel_ai checkpoints]#
 ```
 
-#### 5.3.4 허깅 페이스 형식으로 저장된 모델 디렉터리
+#### 5.3.5 허깅 페이스 형식으로 저장된 모델 디렉터리
 
 ```bash
 ls -lh hf_format/samples_140119/
@@ -1949,7 +2223,7 @@ total 16G
 [root@rhel_ai checkpoints]# 
 ```
 
-#### 5.3.5 모델의 레이어 구성 확인
+#### 5.3.6 모델의 레이어 구성 확인
 
 ```bash
 jq '.' hf_format/samples_140119/model.safetensors.index.json 
@@ -2332,22 +2606,1411 @@ jq '.' hf_format/samples_140119/model.safetensors.index.json
 
 ### 5.4 Phase2 훈련
 
-#### 5.4.1 훈련 패러미티 및 스텝 확인
-
-
-#### 5.4.2 로그 파일 확인
-
-
-#### 5.4.3 전체 모델로 저장된 디렉터리
-
-
-#### 5.4.4 허깅 페이스 형식으로 저장된 모델 디렉터리
-
-
-#### 5.4.5 모델의 레이어 구성 확인
+#### 5.4.1 Phase2 디렉터리 확인
 
 ```bash
+cd ~/phased
+tree -F -sh phase2
+```
 
+실행 결과
+```
+[root@rhel_ai phased]# tree -F -sh phase2
+phase2
+├── [  139]  checkpoints/
+│   ├── [  21M]  full_logs_global0.log
+│   ├── [ 4.0K]  full_state/
+│   │   ├── [ 4.0K]  epoch_0/
+│   │   │   ├── [  30G]  optimizer.bin
+│   │   │   ├── [  15G]  pytorch_model_fsdp.bin
+│   │   │   ├── [  16K]  random_states_0.pkl
+│   │   │   ├── [  16K]  random_states_1.pkl
+│   │   │   ├── [  16K]  random_states_2.pkl
+│   │   │   ├── [  16K]  random_states_3.pkl
+│   │   │   ├── [  16K]  random_states_4.pkl
+│   │   │   ├── [  16K]  random_states_5.pkl
+│   │   │   ├── [  16K]  random_states_6.pkl
+│   │   │   ├── [  16K]  random_states_7.pkl
+│   │   │   ├── [ 1000]  scheduler.bin
+│   │   │   └── [  968]  training_metadata.json
+│   │   ├── [ 4.0K]  epoch_1/
+│   │   │   ├── [  30G]  optimizer.bin
+│   │   │   ├── [  15G]  pytorch_model_fsdp.bin
+│   │   │   ├── [  16K]  random_states_0.pkl
+│   │   │   ├── [  16K]  random_states_1.pkl
+│   │   │   ├── [  16K]  random_states_2.pkl
+│   │   │   ├── [  16K]  random_states_3.pkl
+│   │   │   ├── [  16K]  random_states_4.pkl
+│   │   │   ├── [  16K]  random_states_5.pkl
+│   │   │   ├── [  16K]  random_states_6.pkl
+│   │   │   ├── [  16K]  random_states_7.pkl
+│   │   │   ├── [ 1000]  scheduler.bin
+│   │   │   └── [  968]  training_metadata.json
+│   │   ├── [ 4.0K]  epoch_2/
+│   │   │   ├── [  30G]  optimizer.bin
+│   │   │   ├── [  15G]  pytorch_model_fsdp.bin
+│   │   │   ├── [  16K]  random_states_0.pkl
+│   │   │   ├── [  16K]  random_states_1.pkl
+│   │   │   ├── [  16K]  random_states_2.pkl
+│   │   │   ├── [  16K]  random_states_3.pkl
+│   │   │   ├── [  16K]  random_states_4.pkl
+│   │   │   ├── [  16K]  random_states_5.pkl
+│   │   │   ├── [  16K]  random_states_6.pkl
+│   │   │   ├── [  16K]  random_states_7.pkl
+│   │   │   ├── [ 1000]  scheduler.bin
+│   │   │   └── [  968]  training_metadata.json
+│   │   ├── [ 4.0K]  epoch_3/
+│   │   │   ├── [  30G]  optimizer.bin
+│   │   │   ├── [  15G]  pytorch_model_fsdp.bin
+│   │   │   ├── [  16K]  random_states_0.pkl
+│   │   │   ├── [  16K]  random_states_1.pkl
+│   │   │   ├── [  16K]  random_states_2.pkl
+│   │   │   ├── [  16K]  random_states_3.pkl
+│   │   │   ├── [  16K]  random_states_4.pkl
+│   │   │   ├── [  16K]  random_states_5.pkl
+│   │   │   ├── [  16K]  random_states_6.pkl
+│   │   │   ├── [  16K]  random_states_7.pkl
+│   │   │   ├── [ 1000]  scheduler.bin
+│   │   │   └── [  968]  training_metadata.json
+│   │   ├── [ 4.0K]  epoch_4/
+│   │   │   ├── [  30G]  optimizer.bin
+│   │   │   ├── [  15G]  pytorch_model_fsdp.bin
+│   │   │   ├── [  16K]  random_states_0.pkl
+│   │   │   ├── [  16K]  random_states_1.pkl
+│   │   │   ├── [  16K]  random_states_2.pkl
+│   │   │   ├── [  16K]  random_states_3.pkl
+│   │   │   ├── [  16K]  random_states_4.pkl
+│   │   │   ├── [  16K]  random_states_5.pkl
+│   │   │   ├── [  16K]  random_states_6.pkl
+│   │   │   ├── [  16K]  random_states_7.pkl
+│   │   │   ├── [ 1000]  scheduler.bin
+│   │   │   └── [  968]  training_metadata.json
+│   │   ├── [ 4.0K]  epoch_5/
+│   │   │   ├── [  30G]  optimizer.bin
+│   │   │   ├── [  15G]  pytorch_model_fsdp.bin
+│   │   │   ├── [  16K]  random_states_0.pkl
+│   │   │   ├── [  16K]  random_states_1.pkl
+│   │   │   ├── [  16K]  random_states_2.pkl
+│   │   │   ├── [  16K]  random_states_3.pkl
+│   │   │   ├── [  16K]  random_states_4.pkl
+│   │   │   ├── [  16K]  random_states_5.pkl
+│   │   │   ├── [  16K]  random_states_6.pkl
+│   │   │   ├── [  16K]  random_states_7.pkl
+│   │   │   ├── [ 1000]  scheduler.bin
+│   │   │   └── [  968]  training_metadata.json
+│   │   ├── [ 4.0K]  epoch_6/
+│   │   │   ├── [  30G]  optimizer.bin
+│   │   │   ├── [  15G]  pytorch_model_fsdp.bin
+│   │   │   ├── [  16K]  random_states_0.pkl
+│   │   │   ├── [  16K]  random_states_1.pkl
+│   │   │   ├── [  16K]  random_states_2.pkl
+│   │   │   ├── [  16K]  random_states_3.pkl
+│   │   │   ├── [  16K]  random_states_4.pkl
+│   │   │   ├── [  16K]  random_states_5.pkl
+│   │   │   ├── [  16K]  random_states_6.pkl
+│   │   │   ├── [  16K]  random_states_7.pkl
+│   │   │   ├── [ 1000]  scheduler.bin
+│   │   │   └── [  968]  training_metadata.json
+│   │   ├── [ 4.0K]  epoch_7/
+│   │   │   ├── [  30G]  optimizer.bin
+│   │   │   ├── [  15G]  pytorch_model_fsdp.bin
+│   │   │   ├── [  16K]  random_states_0.pkl
+│   │   │   ├── [  16K]  random_states_1.pkl
+│   │   │   ├── [  16K]  random_states_2.pkl
+│   │   │   ├── [  16K]  random_states_3.pkl
+│   │   │   ├── [  16K]  random_states_4.pkl
+│   │   │   ├── [  16K]  random_states_5.pkl
+│   │   │   ├── [  16K]  random_states_6.pkl
+│   │   │   ├── [  16K]  random_states_7.pkl
+│   │   │   ├── [ 1000]  scheduler.bin
+│   │   │   └── [  968]  training_metadata.json
+│   │   ├── [ 4.0K]  epoch_8/
+│   │   │   ├── [  30G]  optimizer.bin
+│   │   │   ├── [  15G]  pytorch_model_fsdp.bin
+│   │   │   ├── [  16K]  random_states_0.pkl
+│   │   │   ├── [  16K]  random_states_1.pkl
+│   │   │   ├── [  16K]  random_states_2.pkl
+│   │   │   ├── [  16K]  random_states_3.pkl
+│   │   │   ├── [  16K]  random_states_4.pkl
+│   │   │   ├── [  16K]  random_states_5.pkl
+│   │   │   ├── [  16K]  random_states_6.pkl
+│   │   │   ├── [  16K]  random_states_7.pkl
+│   │   │   ├── [ 1000]  scheduler.bin
+│   │   │   └── [  968]  training_metadata.json
+│   │   └── [ 4.0K]  epoch_9/
+│   │       ├── [  30G]  optimizer.bin
+│   │       ├── [  15G]  pytorch_model_fsdp.bin
+│   │       ├── [  16K]  random_states_0.pkl
+│   │       ├── [  16K]  random_states_1.pkl
+│   │       ├── [  16K]  random_states_2.pkl
+│   │       ├── [  16K]  random_states_3.pkl
+│   │       ├── [  16K]  random_states_4.pkl
+│   │       ├── [  16K]  random_states_5.pkl
+│   │       ├── [  16K]  random_states_6.pkl
+│   │       ├── [  16K]  random_states_7.pkl
+│   │       ├── [ 1000]  scheduler.bin
+│   │       └── [  968]  training_metadata.json
+│   ├── [ 4.0K]  hf_format/
+│   │   ├── [ 4.0K]  samples_1173515/
+│   │   │   ├── [  769]  config.json
+│   │   │   ├── [  140]  generation_config.json
+│   │   │   ├── [ 4.7G]  model-00001-of-00004.safetensors
+│   │   │   ├── [ 4.6G]  model-00002-of-00004.safetensors
+│   │   │   ├── [ 4.6G]  model-00003-of-00004.safetensors
+│   │   │   ├── [ 1.3G]  model-00004-of-00004.safetensors
+│   │   │   ├── [  29K]  model.safetensors.index.json
+│   │   │   ├── [  742]  special_tokens_map.json
+│   │   │   ├── [ 3.3M]  tokenizer.json
+│   │   │   └── [ 5.2K]  tokenizer_config.json
+│   │   ├── [ 4.0K]  samples_1564696/
+│   │   │   ├── [  769]  config.json
+│   │   │   ├── [  140]  generation_config.json
+│   │   │   ├── [ 4.7G]  model-00001-of-00004.safetensors
+│   │   │   ├── [ 4.6G]  model-00002-of-00004.safetensors
+│   │   │   ├── [ 4.6G]  model-00003-of-00004.safetensors
+│   │   │   ├── [ 1.3G]  model-00004-of-00004.safetensors
+│   │   │   ├── [  29K]  model.safetensors.index.json
+│   │   │   ├── [  742]  special_tokens_map.json
+│   │   │   ├── [ 3.3M]  tokenizer.json
+│   │   │   └── [ 5.2K]  tokenizer_config.json
+│   │   ├── [ 4.0K]  samples_1955887/
+│   │   │   ├── [  769]  config.json
+│   │   │   ├── [  140]  generation_config.json
+│   │   │   ├── [ 4.7G]  model-00001-of-00004.safetensors
+│   │   │   ├── [ 4.6G]  model-00002-of-00004.safetensors
+│   │   │   ├── [ 4.6G]  model-00003-of-00004.safetensors
+│   │   │   ├── [ 1.3G]  model-00004-of-00004.safetensors
+│   │   │   ├── [  29K]  model.safetensors.index.json
+│   │   │   ├── [  742]  special_tokens_map.json
+│   │   │   ├── [ 3.3M]  tokenizer.json
+│   │   │   └── [ 5.2K]  tokenizer_config.json
+│   │   ├── [ 4.0K]  samples_2347073/
+│   │   │   ├── [  769]  config.json
+│   │   │   ├── [  140]  generation_config.json
+│   │   │   ├── [ 4.7G]  model-00001-of-00004.safetensors
+│   │   │   ├── [ 4.6G]  model-00002-of-00004.safetensors
+│   │   │   ├── [ 4.6G]  model-00003-of-00004.safetensors
+│   │   │   ├── [ 1.3G]  model-00004-of-00004.safetensors
+│   │   │   ├── [  29K]  model.safetensors.index.json
+│   │   │   ├── [  742]  special_tokens_map.json
+│   │   │   ├── [ 3.3M]  tokenizer.json
+│   │   │   └── [ 5.2K]  tokenizer_config.json
+│   │   ├── [ 4.0K]  samples_2738215/
+│   │   │   ├── [  769]  config.json
+│   │   │   ├── [  140]  generation_config.json
+│   │   │   ├── [ 4.7G]  model-00001-of-00004.safetensors
+│   │   │   ├── [ 4.6G]  model-00002-of-00004.safetensors
+│   │   │   ├── [ 4.6G]  model-00003-of-00004.safetensors
+│   │   │   ├── [ 1.3G]  model-00004-of-00004.safetensors
+│   │   │   ├── [  29K]  model.safetensors.index.json
+│   │   │   ├── [  742]  special_tokens_map.json
+│   │   │   ├── [ 3.3M]  tokenizer.json
+│   │   │   └── [ 5.2K]  tokenizer_config.json
+│   │   ├── [ 4.0K]  samples_3129385/
+│   │   │   ├── [  769]  config.json
+│   │   │   ├── [  140]  generation_config.json
+│   │   │   ├── [ 4.7G]  model-00001-of-00004.safetensors
+│   │   │   ├── [ 4.6G]  model-00002-of-00004.safetensors
+│   │   │   ├── [ 4.6G]  model-00003-of-00004.safetensors
+│   │   │   ├── [ 1.3G]  model-00004-of-00004.safetensors
+│   │   │   ├── [  29K]  model.safetensors.index.json
+│   │   │   ├── [  742]  special_tokens_map.json
+│   │   │   ├── [ 3.3M]  tokenizer.json
+│   │   │   └── [ 5.2K]  tokenizer_config.json
+│   │   ├── [ 4.0K]  samples_3520587/
+│   │   │   ├── [  769]  config.json
+│   │   │   ├── [  140]  generation_config.json
+│   │   │   ├── [ 4.7G]  model-00001-of-00004.safetensors
+│   │   │   ├── [ 4.6G]  model-00002-of-00004.safetensors
+│   │   │   ├── [ 4.6G]  model-00003-of-00004.safetensors
+│   │   │   ├── [ 1.3G]  model-00004-of-00004.safetensors
+│   │   │   ├── [  29K]  model.safetensors.index.json
+│   │   │   ├── [  742]  special_tokens_map.json
+│   │   │   ├── [ 3.3M]  tokenizer.json
+│   │   │   └── [ 5.2K]  tokenizer_config.json
+│   │   ├── [ 4.0K]  samples_391127/
+│   │   │   ├── [  769]  config.json
+│   │   │   ├── [  140]  generation_config.json
+│   │   │   ├── [ 4.7G]  model-00001-of-00004.safetensors
+│   │   │   ├── [ 4.6G]  model-00002-of-00004.safetensors
+│   │   │   ├── [ 4.6G]  model-00003-of-00004.safetensors
+│   │   │   ├── [ 1.3G]  model-00004-of-00004.safetensors
+│   │   │   ├── [  29K]  model.safetensors.index.json
+│   │   │   ├── [  742]  special_tokens_map.json
+│   │   │   ├── [ 3.3M]  tokenizer.json
+│   │   │   └── [ 5.2K]  tokenizer_config.json
+│   │   ├── [ 4.0K]  samples_3911788/
+│   │   │   ├── [  769]  config.json
+│   │   │   ├── [  140]  generation_config.json
+│   │   │   ├── [ 4.7G]  model-00001-of-00004.safetensors
+│   │   │   ├── [ 4.6G]  model-00002-of-00004.safetensors
+│   │   │   ├── [ 4.6G]  model-00003-of-00004.safetensors
+│   │   │   ├── [ 1.3G]  model-00004-of-00004.safetensors
+│   │   │   ├── [  29K]  model.safetensors.index.json
+│   │   │   ├── [  742]  special_tokens_map.json
+│   │   │   ├── [ 3.3M]  tokenizer.json
+│   │   │   └── [ 5.2K]  tokenizer_config.json
+│   │   └── [ 4.0K]  samples_782290/
+│   │       ├── [  769]  config.json
+│   │       ├── [  140]  generation_config.json
+│   │       ├── [ 4.7G]  model-00001-of-00004.safetensors
+│   │       ├── [ 4.6G]  model-00002-of-00004.safetensors
+│   │       ├── [ 4.6G]  model-00003-of-00004.safetensors
+│   │       ├── [ 1.3G]  model-00004-of-00004.safetensors
+│   │       ├── [  29K]  model.safetensors.index.json
+│   │       ├── [  742]  special_tokens_map.json
+│   │       ├── [ 3.3M]  tokenizer.json
+│   │       └── [ 5.2K]  tokenizer_config.json
+│   └── [ 3.7M]  training_params_and_metrics_global0.jsonl
+└── [   30]  eval_cache/
+    └── [   60]  mt_bench/
+        ├── [ 4.0K]  model_answer/
+        │   ├── [ 217K]  samples_1173515.jsonl
+        │   ├── [ 210K]  samples_1564696.jsonl
+        │   ├── [ 220K]  samples_1955887.jsonl
+        │   ├── [ 206K]  samples_2347073.jsonl
+        │   ├── [ 201K]  samples_2738215.jsonl
+        │   ├── [ 208K]  samples_3129385.jsonl
+        │   ├── [ 211K]  samples_3520587.jsonl
+        │   ├── [ 207K]  samples_391127.jsonl
+        │   ├── [ 211K]  samples_3911788.jsonl
+        │   └── [ 216K]  samples_782290.jsonl
+        └── [   55]  model_judgment/
+            └── [ 684K]  prometheus-8x7b-v2-0_single.jsonl
+
+27 directories, 233 files
+
+[root@rhel_ai phased]# 
+```
+
+#### 5.4.2 훈련 패러미티 및 스텝 확인
+
+```bash
+cd phase2/checkpoints/
+cat training_params_and_metrics_global0.jsonl | jq '.'
+```
+
+실행 결과
+```json
+{
+  "script_params": {
+    "model_name_or_path": "/root/.local/share/instructlab/phased/phase1/checkpoints/hf_format/samples_140119",
+    "data_path": "/root/.local/share/instructlab/internal/data.jsonl",
+    "output_dir": "/root/.local/share/instructlab/phased/phase2/checkpoints",
+    "num_epochs": 10,
+    "current_epoch": 0,
+    "last_step": 0,
+    "effective_batch_size": 3840,
+    "learning_rate": 0.000006,
+    "lr_scheduler": "cosine",
+    "num_warmup_steps": 25,
+    "save_samples": 0,
+    "save_samples_ds": null,
+    "save_last": false,
+    "checkpoint_at_epoch": true,
+    "accelerate_full_state_at_epoch": true,
+    "log_level": "INFO",
+    "seed": 42,
+    "mock_data": false,
+    "mock_len": 2600,
+    "distributed_training_framework": "fsdp",
+    "fsdp_sharding_strategy": "SHARD_GRAD_OP",
+    "use_dolomite": true,
+    "lora_r": 0,
+    "lora_alpha": 32,
+    "lora_dropout": 0.1,
+    "lora_quant_bits": null,
+    "lora_target_modules": [
+      "q_proj",
+      "k_proj",
+      "v_proj",
+      "o_proj"
+    ],
+    "max_batch_len": 60000,
+    "cpu_offload_optimizer": false,
+    "cpu_offload_params_fsdp": false,
+    "cpu_offload_optimizer_pin_memory": false,
+    "cpu_offload_optimizer_ratio": 1.0,
+    "NEFTune_alpha": null,
+    "chat_tmpl_path": "/opt/app-root/lib64/python3.11/site-packages/instructlab/training/chat_templates/ibm_legacy_tmpl.py",
+    "disable_flash_attn": false,
+    "keep_last_checkpoint_only": false
+  },
+  "timestamp": "2025-03-25T09:38:53.176772"
+}
+{
+  "num_gpus": 8,
+  "avg_sample_len": 1155.4535006426127,
+  "effective_batch_size": 3840,
+  "max_batch_len_per_gpu": 60000,
+  "packing_max_batch_len": 55461,
+  "grad_accum": 10,
+  "num_batches": 1021,
+  "avg_samples_per_batch": 383.3212536728697,
+  "samples_per_gpu": 48,
+  "total_samples": 391371,
+  "timestamp": "2025-03-25T09:40:02.485388"
+}
+{
+  "epoch": 0,
+  "step": 1,
+  "rank": 0,
+  "overall_throughput": 32.91541084242962,
+  "lr": 0.0,
+  "cuda_mem_allocated": 9.073336601257324,
+  "cuda_malloc_retries": 0,
+  "num_loss_counted_tokens": 210365,
+  "batch_size": 369,
+  "total_loss": 0.9117866565255627,
+  "samples_seen": 369,
+  "gradnorm": null,
+  "total_samples": 391371,
+  "timestamp": "2025-03-25T09:40:38.702848"
+}
+{
+  "epoch": 0,
+  "step": 2,
+  "rank": 0,
+  "overall_throughput": 38.11014131803494,
+  "lr": 0.0,
+  "cuda_mem_allocated": 9.073464393615723,
+  "cuda_malloc_retries": 0,
+  "num_loss_counted_tokens": 232979,
+  "batch_size": 395,
+  "total_loss": 0.9488237137252714,
+  "samples_seen": 764,
+  "gradnorm": null,
+  "total_samples": 391371,
+  "timestamp": "2025-03-25T09:40:49.584257"
+}
+
+...<snip>...
+
+{
+  "epoch": 0,
+  "step": 1021,
+  "rank": 0,
+  "overall_throughput": 34.92594247309498,
+  "lr": 0.000005911952326238353,
+  "cuda_mem_allocated": 12.878506183624268,
+  "cuda_malloc_retries": 313,
+  "num_loss_counted_tokens": 207005,
+  "batch_size": 395,
+  "total_loss": 0.593299678751721,
+  "samples_seen": 391127,
+  "gradnorm": 4.59375,
+  "total_samples": 391371,
+  "timestamp": "2025-03-25T12:44:01.864138"
+}
+{
+  "epoch": 1,
+  "step": 1022,
+  "rank": 0,
+  "overall_throughput": 38.69958262880635,
+  "lr": 0.000005911952326238353,
+  "cuda_mem_allocated": 12.878322124481201,
+  "cuda_malloc_retries": 313,
+  "num_loss_counted_tokens": 208591,
+  "batch_size": 384,
+  "total_loss": 0.5814248936914824,
+  "samples_seen": 391511,
+  "gradnorm": 4.59375,
+  "total_samples": 391371,
+  "timestamp": "2025-03-25T12:46:39.256442"
+}
+
+...<snip>...
+
+{
+  "epoch": 9,
+  "step": 10210,
+  "rank": 0,
+  "overall_throughput": 39.02504585636813,
+  "lr": 0.0,
+  "cuda_mem_allocated": 10.956313133239746,
+  "cuda_malloc_retries": 3137,
+  "num_loss_counted_tokens": 196255,
+  "batch_size": 389,
+  "total_loss": 0.5550329927899926,
+  "samples_seen": 3911788,
+  "gradnorm": 5.40625,
+  "total_samples": 391371,
+  "timestamp": "2025-03-26T15:34:53.960374"
+}
+```
+
+#### 5.4.3 로그 파일 확인
+
+```bash
+less full_logs_global0.log
+```
+
+실행 결과
+```log
+[root@rhel_ai checkpoints]# less full_logs_global0.log
+W0325 09:38:41.087000 31326 torch/distributed/run.py:793]
+W0325 09:38:41.087000 31326 torch/distributed/run.py:793] *****************************************
+W0325 09:38:41.087000 31326 torch/distributed/run.py:793] Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed.
+W0325 09:38:41.087000 31326 torch/distributed/run.py:793] *****************************************
+[2025-03-25 09:38:47,464] [INFO] [real_accelerator.py:219:get_accelerator] Setting ds_accelerator to cuda (auto detect)
+[2025-03-25 09:38:47,608] [INFO] [real_accelerator.py:219:get_accelerator] Setting ds_accelerator to cuda (auto detect)
+[2025-03-25 09:38:47,788] [INFO] [real_accelerator.py:219:get_accelerator] Setting ds_accelerator to cuda (auto detect)
+[2025-03-25 09:38:47,868] [INFO] [real_accelerator.py:219:get_accelerator] Setting ds_accelerator to cuda (auto detect)
+[2025-03-25 09:38:48,079] [INFO] [real_accelerator.py:219:get_accelerator] Setting ds_accelerator to cuda (auto detect)
+[2025-03-25 09:38:48,191] [INFO] [real_accelerator.py:219:get_accelerator] Setting ds_accelerator to cuda (auto detect)
+[2025-03-25 09:38:48,230] [INFO] [real_accelerator.py:219:get_accelerator] Setting ds_accelerator to cuda (auto detect)
+[2025-03-25 09:38:48,301] [INFO] [real_accelerator.py:219:get_accelerator] Setting ds_accelerator to cuda (auto detect)
+^[[38;5;120mmodel_name_or_path: /root/.local/share/instructlab/phased/phase1/checkpoints/hf_format/samples_140119
+data_path: /root/.local/share/instructlab/internal/data.jsonl
+output_dir: /root/.local/share/instructlab/phased/phase2/checkpoints
+num_epochs: 10
+current_epoch: 0
+last_step: 0
+effective_batch_size: 3840
+learning_rate: 6.0e-06
+lr_scheduler: cosine
+num_warmup_steps: 25
+save_samples: 0
+save_samples_ds: null
+save_last: false
+checkpoint_at_epoch: true
+accelerate_full_state_at_epoch: true
+log_level: INFO
+seed: 42
+mock_data: false
+mock_len: 2600
+distributed_training_framework: fsdp
+fsdp_sharding_strategy: SHARD_GRAD_OP
+use_dolomite: true
+lora_r: 0
+lora_alpha: 32
+lora_dropout: 0.1
+lora_quant_bits: null
+lora_target_modules:
+- q_proj
+- k_proj
+- v_proj
+- o_proj
+
+max_batch_len: 60000
+cpu_offload_optimizer: false
+cpu_offload_params_fsdp: false
+cpu_offload_optimizer_pin_memory: false
+cpu_offload_optimizer_ratio: 1.0
+NEFTune_alpha: null
+chat_tmpl_path: /opt/app-root/lib64/python3.11/site-packages/instructlab/training/chat_templates/ibm_legacy_tmpl.py
+disable_flash_attn: false
+keep_last_checkpoint_only: false
+^[[0m
+^[[92m{
+    "script_params": {
+        "model_name_or_path": "/root/.local/share/instructlab/phased/phase1/checkpoints/hf_format/samples_140119",
+        "data_path": "/root/.local/share/instructlab/internal/data.jsonl",
+        "output_dir": "/root/.local/share/instructlab/phased/phase2/checkpoints",
+        "num_epochs": 10,
+        "current_epoch": 0,
+        "last_step": 0,
+        "effective_batch_size": 3840,
+        "learning_rate": 6e-06,
+        "lr_scheduler": "cosine",
+        "num_warmup_steps": 25,
+        "save_samples": 0,
+        "save_samples_ds": null,
+        "save_last": false,
+        "checkpoint_at_epoch": true,
+        "accelerate_full_state_at_epoch": true,
+        "log_level": "INFO",
+        "seed": 42,
+        "mock_data": false,
+        "mock_len": 2600,
+        "distributed_training_framework": "fsdp",
+        "fsdp_sharding_strategy": "SHARD_GRAD_OP",
+        "use_dolomite": true,
+        "lora_r": 0,
+        "lora_alpha": 32,
+        "lora_dropout": 0.1,
+        "lora_quant_bits": null,
+        "lora_target_modules": [
+            "q_proj",
+            "k_proj",
+            "v_proj",
+            "o_proj"
+        ],
+        "max_batch_len": 60000,
+        "cpu_offload_optimizer": false,
+        "cpu_offload_params_fsdp": false,
+        "cpu_offload_optimizer_pin_memory": false,
+        "cpu_offload_optimizer_ratio": 1.0,
+        "NEFTune_alpha": null,
+        "chat_tmpl_path": "/opt/app-root/lib64/python3.11/site-packages/instructlab/training/chat_templates/ibm_legacy_tmpl.py",
+        "disable_flash_attn": false,
+        "keep_last_checkpoint_only": false
+    },
+    "timestamp": "2025-03-25T09:38:53.176772"
+}^[[0m
+^MGenerating train split: 0 examples [00:00, ? examples/s]^MGenerating train split: 962 examples [00:00, 6672.68 examples/s]^MGenerating train split: 1929 examples [00:00, 6935.26 examples/s]^MGenerating train split: 2940 examples [00:00, 7259.60 examples/s]^MGenerating train split: 3921 examples [00:00, 7375.47 examples/s]^MGenerating train split: 4881 examples [00:00, 7334.51 examples/s]^MGenerating train split: 5860 examples [00:00, 7403.86 examples/s]^M
+
+...<snip>...
+
+^[[92m{
+    "num_gpus": 8,
+    "avg_sample_len": 1155.4535006426127,
+    "effective_batch_size": 3840,
+    "max_batch_len_per_gpu": 60000,
+    "packing_max_batch_len": 55461,
+    "grad_accum": 10,
+    "num_batches": 1021,
+    "avg_samples_per_batch": 383.3212536728697,
+    "samples_per_gpu": 48,
+    "total_samples": 391371,
+    "timestamp": "2025-03-25T09:40:02.485388"
+}^[[0m
+
+...<snip>...
+
+Epoch: 0, Step: 1, Rank: 2, loss = 1.0625Epoch: 0, Step: 1, Rank: 5, loss = 0.8828125Epoch: 0, Step: 1, Rank: 3, loss = 0.7265625Epoch: 0, Step: 1, Rank: 1, loss = 0.75
+
+Epoch: 0, Step: 1, Rank: 7, loss = 1.1015625
+
+Epoch: 0, Step: 1, Rank: 0, loss = 1.015625
+
+Epoch: 0, Step: 1, Rank: 4, loss = 0.54296875
+Epoch: 0, Step: 1, Rank: 6, loss = 1.2109375
+^MEpoch 0:   0%|          | 1/1021 [00:12<3:29:15, 12.31s/it]^[[92m{
+    "epoch": 0,
+    "step": 1,
+    "rank": 0,
+    "overall_throughput": 32.91541084242962,
+    "lr": 0.0,
+    "cuda_mem_allocated": 9.073336601257324,
+    "cuda_malloc_retries": 0,
+    "num_loss_counted_tokens": 210365,
+    "batch_size": 369,
+    "total_loss": 0.9117866565255627,
+    "samples_seen": 369,
+    "gradnorm": null,
+    "total_samples": 391371,
+    "timestamp": "2025-03-25T09:40:38.702848"
+}^[[0m
+
+...<snip>...
+
+Epoch: 0, Step: 1021, Rank: 3, loss = 0.46484375Epoch: 0, Step: 1021, Rank: 1, loss = 0.318359375Epoch: 0, Step: 1021, Rank: 0, loss = 0.68359375Epoch: 0, Step: 1021, Rank: 5, loss = 0.81640625
+Epoch: 0, Step: 1021, Rank: 4, loss = 0.322265625
+
+
+Epoch: 0, Step: 1021, Rank: 2, loss = 0.4609375
+Epoch: 0, Step: 1021, Rank: 7, loss = 0.74609375
+
+Epoch: 0, Step: 1021, Rank: 6, loss = 0.93359375
+^MEpoch 0: 100%|██████████| 1021/1021 [3:03:35<00:00, 10.88s/it]^[[92m{
+    "epoch": 0,
+    "step": 1021,
+    "rank": 0,
+    "overall_throughput": 34.92594247309498,
+    "lr": 5.911952326238353e-06,
+    "cuda_mem_allocated": 12.878506183624268,
+    "cuda_malloc_retries": 313,
+    "num_loss_counted_tokens": 207005,
+    "batch_size": 395,
+    "total_loss": 0.593299678751721,
+    "samples_seen": 391127,
+    "gradnorm": 4.59375,
+    "total_samples": 391371,
+    "timestamp": "2025-03-25T12:44:01.864138"
+}^[[0m
+
+...<snip>...
+
+  warnings.warn(
+[12:44:46] INFO     The model is bigger than the maximum size per checkpoint (5GB)    accelerator.py:2924
+                    and is going to be split in 4 checkpoint shards. You can find                        
+                    where each parameters has been saved in the index located at                         
+                    /tmp/tmp5kd3b0llw/model.safetensors.index.json.                                      
+^[[93mModel saved in /root/.local/share/instructlab/phased/phase2/checkpoints/hf_format/samples_391127^[[0m
+[12:45:06] INFO     saving took 64.23659133911133 seconds                                    utils.py:879
+^[[93mSaving full model state in /root/.local/share/instructlab/phased/phase2/checkpoints/full_state/epoch_0^[[0m
+           INFO     Saving current state to                                           accelerator.py:3030
+                    /root/.local/share/instructlab/phased/phase2/checkpoints/full_sta                    
+                    te/epoch_0                                                                           
+           INFO     Saving FSDP model                                                 accelerator.py:3040
+
+...<snip>...
+
+  warnings.warn(
+[12:45:25] INFO     Saving model to                                                      fsdp_utils.py:88
+                    /root/.local/share/instructlab/phased/phase2/checkpoints/full_state/                 
+                    epoch_0/pytorch_model_fsdp.bin                                                       
+[12:45:37] INFO     Model saved to                                                       fsdp_utils.py:90
+                    /root/.local/share/instructlab/phased/phase2/checkpoints/full_state/                 
+                    epoch_0/pytorch_model_fsdp.bin                                                       
+           INFO     FSDP Model saved to output dir                                    accelerator.py:3042
+                    /root/.local/share/instructlab/phased/phase2/checkpoints/full_sta                    
+                    te/epoch_0                                                                           
+           INFO     Saving FSDP Optimizer                                             accelerator.py:3059
+
+...<snip>...
+
+[12:46:01] INFO     Saving Optimizer state to                                           fsdp_utils.py:192
+                    /root/.local/share/instructlab/phased/phase2/checkpoints/full_state                  
+                    /epoch_0/optimizer.bin                                                               
+[12:46:26] INFO     Optimizer state saved in                                            fsdp_utils.py:194
+                    /root/.local/share/instructlab/phased/phase2/checkpoints/full_state                  
+                    /epoch_0/optimizer.bin                                                               
+[12:46:27] INFO     FSDP Optimizer saved to output dir                                accelerator.py:3061
+                    /root/.local/share/instructlab/phased/phase2/checkpoints/full_sta                    
+                    te/epoch_0                                                                           
+           INFO     Scheduler state saved in                                         checkpointing.py:118
+                    /root/.local/share/instructlab/phased/phase2/checkpoints/full_st                     
+                    ate/epoch_0/scheduler.bin                                                            
+           INFO     Sampler state for dataloader 0 saved in                          checkpointing.py:135
+                    /root/.local/share/instructlab/phased/phase2/checkpoints/full_st                     
+                    ate/epoch_0/sampler.bin                                                              
+           INFO     Random states saved in                                           checkpointing.py:160
+                    /root/.local/share/instructlab/phased/phase2/checkpoints/full_st                     
+                    ate/epoch_0/random_states_0.pkl                                                      
+ 
+^[[93mSaving training state: {'current_epoch': 0, 'samples_seen': 391127}^[[0m
+^[[93mModel state saved in: /root/.local/share/instructlab/phased/phase2/checkpoints/full_state/epoch_0^[[0m
+
+^MEpoch 1:   0%|          | 0/1021 [00:00<?, ?it/s]^[[A^MEpoch 0: 100%|██████████| 1021/1021 [3:06:01<00:00, 10.93s/it]
+
+...<snip>...
+
+Epoch: 1, Step: 1022, Rank: 1, loss = 0.267578125Epoch: 1, Step: 1022, Rank: 3, loss = 0.447265625Epoch: 1, Step: 1022, Rank: 4, loss = 0.392578125
+
+
+Epoch: 1, Step: 1022, Rank: 6, loss = 0.84765625
+Epoch: 1, Step: 1022, Rank: 5, loss = 0.7109375Epoch: 1, Step: 1022, Rank: 2, loss = 0.5390625
+
+Epoch: 1, Step: 1022, Rank: 0, loss = 0.7109375
+Epoch: 1, Step: 1022, Rank: 7, loss = 0.73046875
+
+^MEpoch 1:   0%|          | 1/1021 [00:11<3:14:52, 11.46s/it]^[[A^[[92m{
+    "epoch": 1,
+    "step": 1022,
+    "rank": 0,
+    "overall_throughput": 38.69958262880635,
+    "lr": 5.911952326238353e-06,
+    "cuda_mem_allocated": 12.878322124481201,
+    "cuda_malloc_retries": 313,
+    "num_loss_counted_tokens": 208591,
+    "batch_size": 384,
+    "total_loss": 0.5814248936914824,
+    "samples_seen": 391511,
+    "gradnorm": 4.59375,
+    "total_samples": 391371,
+    "timestamp": "2025-03-25T12:46:39.256442"
+}^[[0m
+
+...<snip>...
+
+Epoch: 2, Step: 3063, Rank: 2, loss = 0.3046875
+^MEpoch 2: 100%|██████████| 1021/1021 [3:04:36<00:00, 10.90s/it]^[[92m{
+    "epoch": 2,
+    "step": 3063,
+    "rank": 0,
+    "overall_throughput": 36.48562641696131,
+    "lr": 4.896772240253655e-06,
+    "cuda_mem_allocated": 12.876306056976318,
+    "cuda_malloc_retries": 949,
+    "num_loss_counted_tokens": 196845,
+    "batch_size": 377,
+    "total_loss": 0.561822753943458,
+    "samples_seen": 1173515,
+    "gradnorm": 21.0,
+    "total_samples": 391371,
+    "timestamp": "2025-03-25T18:57:09.430483"
+}^[[0m
+^[[93mSaving model in huggingface format at: samples_1173515^[[0m
+[18:57:52] INFO     The model is bigger than the maximum size per checkpoint (5GB)    accelerator.py:2924
+                    and is going to be split in 4 checkpoint shards. You can find                        
+                    where each parameters has been saved in the index located at                         
+                    /tmp/tmpee9aof25w/model.safetensors.index.json.                                      
+^[[93mModel saved in /root/.local/share/instructlab/phased/phase2/checkpoints/hf_format/samples_1173515^[[0m
+[18:58:15] INFO     saving took 65.1960723400116 seconds                                     utils.py:879
+^[[93mSaving full model state in /root/.local/share/instructlab/phased/phase2/checkpoints/full_state/epoch_2^[[0m
+           INFO     Saving current state to                                           accelerator.py:3030
+                    /root/.local/share/instructlab/phased/phase2/checkpoints/full_sta                    
+                    te/epoch_2                                                                                    
+           INFO     Saving FSDP model                             
+
+...<snip>...
+
+  warnings.warn(
+[18:58:36] INFO     Saving model to                                                      fsdp_utils.py:88
+                    /root/.local/share/instructlab/phased/phase2/checkpoints/full_state/                 
+                    epoch_2/pytorch_model_fsdp.bin                                                       
+[18:58:49] INFO     Model saved to                                                       fsdp_utils.py:90
+                    /root/.local/share/instructlab/phased/phase2/checkpoints/full_state/                 
+                    epoch_2/pytorch_model_fsdp.bin                                                       
+[18:58:50] INFO     FSDP Model saved to output dir                                    accelerator.py:3042
+                    /root/.local/share/instructlab/phased/phase2/checkpoints/full_sta                    
+                    te/epoch_2                                                                           
+           INFO     Saving FSDP Optimizer                                             accelerator.py:3059
+
+...<snip>...
+
+[18:59:14] INFO     Saving Optimizer state to                                           fsdp_utils.py:192
+                    /root/.local/share/instructlab/phased/phase2/checkpoints/full_state                  
+                    /epoch_2/optimizer.bin                                                               
+[18:59:39] INFO     Optimizer state saved in                                            fsdp_utils.py:194
+                    /root/.local/share/instructlab/phased/phase2/checkpoints/full_state                  
+                    /epoch_2/optimizer.bin                                                               
+[18:59:40] INFO     FSDP Optimizer saved to output dir                                accelerator.py:3061
+                    /root/.local/share/instructlab/phased/phase2/checkpoints/full_sta                    
+                    te/epoch_2                                                                           
+           INFO     Scheduler state saved in                                         checkpointing.py:118
+                    /root/.local/share/instructlab/phased/phase2/checkpoints/full_st                     
+                    ate/epoch_2/scheduler.bin                                                            
+           INFO     Sampler state for dataloader 0 saved in                          checkpointing.py:135
+                    /root/.local/share/instructlab/phased/phase2/checkpoints/full_st                     
+                    ate/epoch_2/sampler.bin                                                              
+           INFO     Random states saved in                                           checkpointing.py:160
+                    /root/.local/share/instructlab/phased/phase2/checkpoints/full_st                     
+                    ate/epoch_2/random_states_0.pkl                                                      
+^[[93mSaving training state: {'current_epoch': 2, 'samples_seen': 1173515}^[[0m
+^[[93mModel state saved in: /root/.local/share/instructlab/phased/phase2/checkpoints/full_state/epoch_2^[[0m
+
+...<snip>...
+
+^MEpoch 9: 100%|██████████| 1021/1021 [2:51:04<00:00, 10.07s/it]^[[A^[[92m{
+    "epoch": 9,
+    "step": 10210,
+    "rank": 0,
+    "overall_throughput": 39.02504585636813,
+    "lr": 0.0,
+    "cuda_mem_allocated": 10.956313133239746,
+    "cuda_malloc_retries": 3137,
+    "num_loss_counted_tokens": 196255,
+    "batch_size": 389,
+    "total_loss": 0.5550329927899926,
+    "samples_seen": 3911788,
+    "gradnorm": 5.40625,
+    "total_samples": 391371,
+    "timestamp": "2025-03-26T15:34:53.960374"
+}^[[0m
+^[[93mSaving model in huggingface format at: samples_3911788^[[0m
+[15:35:23] INFO     The model is bigger than the maximum size per checkpoint (5GB)    accelerator.py:2924
+                    and is going to be split in 4 checkpoint shards. You can find                        
+                    where each parameters has been saved in the index located at                         
+                    /tmp/tmpeuunbc_qw/model.safetensors.index.json.                                      
+^[[93mModel saved in /root/.local/share/instructlab/phased/phase2/checkpoints/hf_format/samples_3911788^[[0m
+[15:35:39] INFO     saving took 44.86404585838318 seconds                                    utils.py:879
+^[[93mSaving full model state in /root/.local/share/instructlab/phased/phase2/checkpoints/full_state/epoch_9^[[0m
+           INFO     Saving current state to                                           accelerator.py:3030
+                    /root/.local/share/instructlab/phased/phase2/checkpoints/full_sta                    
+                    te/epoch_9                                                                           
+           INFO     Saving FSDP model                                                 accelerator.py:3040
+
+...<snip>...
+
+  warnings.warn(
+[15:35:54] INFO     Saving model to                                                      fsdp_utils.py:88
+                    /root/.local/share/instructlab/phased/phase2/checkpoints/full_state/                 
+                    epoch_9/pytorch_model_fsdp.bin                                                       
+[15:36:05] INFO     Model saved to                                                       fsdp_utils.py:90
+                    /root/.local/share/instructlab/phased/phase2/checkpoints/full_state/                 
+                    epoch_9/pytorch_model_fsdp.bin                                                       
+           INFO     FSDP Model saved to output dir                                    accelerator.py:3042
+                    /root/.local/share/instructlab/phased/phase2/checkpoints/full_sta                    
+                    te/epoch_9                                                                           
+           INFO     Saving FSDP Optimizer                                             accelerator.py:3059
+[15:36:21] INFO     Saving Optimizer state to                                           fsdp_utils.py:192
+                    /root/.local/share/instructlab/phased/phase2/checkpoints/full_state                  
+                    /epoch_9/optimizer.bin                                                               
+[15:36:42] INFO     Optimizer state saved in                                            fsdp_utils.py:194
+                    /root/.local/share/instructlab/phased/phase2/checkpoints/full_state                  
+                    /epoch_9/optimizer.bin                                                               
+[15:36:43] INFO     FSDP Optimizer saved to output dir                                accelerator.py:3061
+                    /root/.local/share/instructlab/phased/phase2/checkpoints/full_sta                    
+                    te/epoch_9                                                                           
+           INFO     Scheduler state saved in                                         checkpointing.py:118
+                    /root/.local/share/instructlab/phased/phase2/checkpoints/full_st                     
+                    ate/epoch_9/scheduler.bin                                                         
+           INFO     Sampler state for dataloader 0 saved in                          checkpointing.py:135
+                    /root/.local/share/instructlab/phased/phase2/checkpoints/full_st                     
+                    ate/epoch_9/sampler.bin                                                              
+           INFO     Random states saved in                                           checkpointing.py:160
+                    /root/.local/share/instructlab/phased/phase2/checkpoints/full_st                     
+                    ate/epoch_9/random_states_0.pkl                                                      
+^[[93mSaving training state: {'current_epoch': 9, 'samples_seen': 3911788}^[[0m
+^[[93mModel state saved in: /root/.local/share/instructlab/phased/phase2/checkpoints/full_state/epoch_9^[[0m
+^MEpoch 9: 100%|██████████| 1021/1021 [2:52:54<00:00, 10.16s/it]
+
+[root@rhel_ai checkpoints]#
+```
+* 설정 값에 따라 10번의 Epoch을 실행
+* 허깅 페이스 형식의 모델 저장시의 크기가 체크포인트 별 최대 크기인 5GB보다 커서 hf_format/samples_*에 나누어서 저장됨
+* 전체 모델 상태는 full_state/epoch_#에 저장됨
+  + FSDP 모델은 pytorch_model_fsdp.bin
+  + FSDP 최적화 상태는 optimizer.bin
+  + 스케줄러 상태는 scheduler.bin
+  + 데이터 로더를 위한 샘플러 상태는 scheduler.bin
+  + 랜덤 상태는 random_states_#.pkl
+
+#### 5.4.4 전체 모델로 저장된 디렉터리
+
+```bash
+ls -lh full_state/epoch_2
+```
+
+실행 결과
+```
+[root@rhel_ai checkpoints]# ls -lh full_state/epoch_2/
+total 46G
+-rw-r--r--. 1 root root  31G Mar 25 18:59 optimizer.bin
+-rw-r--r--. 1 root root  16G Mar 25 18:58 pytorch_model_fsdp.bin
+-rw-r--r--. 1 root root  16K Mar 25 18:59 random_states_0.pkl
+-rw-r--r--. 1 root root  16K Mar 25 18:59 random_states_1.pkl
+-rw-r--r--. 1 root root  16K Mar 25 18:59 random_states_2.pkl
+-rw-r--r--. 1 root root  16K Mar 25 18:59 random_states_3.pkl
+-rw-r--r--. 1 root root  16K Mar 25 18:59 random_states_4.pkl
+-rw-r--r--. 1 root root  16K Mar 25 18:59 random_states_5.pkl
+-rw-r--r--. 1 root root  16K Mar 25 18:59 random_states_6.pkl
+-rw-r--r--. 1 root root  16K Mar 25 18:59 random_states_7.pkl
+-rw-r--r--. 1 root root 1000 Mar 25 18:59 scheduler.bin
+-rw-r--r--. 1 root root  968 Mar 25 18:59 training_metadata.json
+
+[root@rhel_ai checkpoints]#
+```
+
+#### 5.4.5 허깅 페이스 형식으로 저장된 모델 디렉터리
+
+```bash
+ls -lh hf_format/samples_1173515/
+```
+
+실행 결과
+```
+[root@rhel_ai checkpoints]# ls -lh hf_format/samples_1173515/
+total 16G
+-rw-r--r--. 1 root root  769 Mar 25 18:58 config.json
+-rw-r--r--. 1 root root  140 Mar 25 18:58 generation_config.json
+-rw-r--r--. 1 root root 4.7G Mar 25 18:58 model-00001-of-00004.safetensors
+-rw-r--r--. 1 root root 4.7G Mar 25 18:58 model-00002-of-00004.safetensors
+-rw-r--r--. 1 root root 4.7G Mar 25 18:58 model-00003-of-00004.safetensors
+-rw-r--r--. 1 root root 1.3G Mar 25 18:58 model-00004-of-00004.safetensors
+-rw-r--r--. 1 root root  30K Mar 25 18:58 model.safetensors.index.json
+-rw-r--r--. 1 root root  742 Mar 25 18:58 special_tokens_map.json
+-rw-r--r--. 1 root root 3.4M Mar 25 18:58 tokenizer.json
+-rw-r--r--. 1 root root 5.3K Mar 25 18:58 tokenizer_config.json
+
+[root@rhel_ai checkpoints]# 
+```
+
+#### 5.4.6 모델의 레이어 구성 확인
+
+```bash
+jq '.' hf_format/samples_1173515/model.safetensors.index.json
+```
+
+실행 결과
+```json
+{
+  "metadata": {
+    "total_size": 16341737472
+  },
+  "weight_map": {
+    "model.embed_tokens.weight": "model-00001-of-00004.safetensors",
+    "model.norm.weight": "model-00001-of-00004.safetensors",
+    "model.layers.0.input_layernorm.weight": "model-00001-of-00004.safetensors",
+    "model.layers.0.post_attention_layernorm.weight": "model-00001-of-00004.safetensors",
+    "model.layers.0.mlp.up_proj.weight": "model-00001-of-00004.safetensors",
+    "model.layers.0.mlp.down_proj.weight": "model-00001-of-00004.safetensors",
+    "model.layers.0.self_attn.q_proj.weight": "model-00001-of-00004.safetensors",
+    "model.layers.0.self_attn.k_proj.weight": "model-00001-of-00004.safetensors",
+    "model.layers.0.self_attn.v_proj.weight": "model-00001-of-00004.safetensors",
+    "model.layers.0.self_attn.o_proj.weight": "model-00001-of-00004.safetensors",
+    "model.layers.1.input_layernorm.weight": "model-00001-of-00004.safetensors",
+    "model.layers.1.post_attention_layernorm.weight": "model-00001-of-00004.safetensors",
+    "model.layers.1.mlp.up_proj.weight": "model-00001-of-00004.safetensors",
+    "model.layers.1.mlp.down_proj.weight": "model-00001-of-00004.safetensors",
+    "model.layers.1.self_attn.q_proj.weight": "model-00001-of-00004.safetensors",
+    "model.layers.1.self_attn.k_proj.weight": "model-00001-of-00004.safetensors",
+    "model.layers.1.self_attn.v_proj.weight": "model-00001-of-00004.safetensors",
+    "model.layers.1.self_attn.o_proj.weight": "model-00001-of-00004.safetensors",
+    "model.layers.2.input_layernorm.weight": "model-00001-of-00004.safetensors",
+    "model.layers.2.post_attention_layernorm.weight": "model-00001-of-00004.safetensors",
+    "model.layers.2.mlp.up_proj.weight": "model-00001-of-00004.safetensors",
+    "model.layers.2.mlp.down_proj.weight": "model-00001-of-00004.safetensors",
+    "model.layers.2.self_attn.q_proj.weight": "model-00001-of-00004.safetensors",
+    "model.layers.2.self_attn.k_proj.weight": "model-00001-of-00004.safetensors",
+    "model.layers.2.self_attn.v_proj.weight": "model-00001-of-00004.safetensors",
+    "model.layers.2.self_attn.o_proj.weight": "model-00001-of-00004.safetensors",
+    "model.layers.3.input_layernorm.weight": "model-00001-of-00004.safetensors",
+    "model.layers.3.post_attention_layernorm.weight": "model-00001-of-00004.safetensors",
+    "model.layers.3.mlp.up_proj.weight": "model-00001-of-00004.safetensors",
+    "model.layers.3.mlp.down_proj.weight": "model-00001-of-00004.safetensors",
+    "model.layers.3.self_attn.q_proj.weight": "model-00001-of-00004.safetensors",
+    "model.layers.3.self_attn.k_proj.weight": "model-00001-of-00004.safetensors",
+    "model.layers.3.self_attn.v_proj.weight": "model-00001-of-00004.safetensors",
+    "model.layers.3.self_attn.o_proj.weight": "model-00001-of-00004.safetensors",
+    "model.layers.4.input_layernorm.weight": "model-00001-of-00004.safetensors",
+    "model.layers.4.post_attention_layernorm.weight": "model-00001-of-00004.safetensors",
+    "model.layers.4.mlp.up_proj.weight": "model-00001-of-00004.safetensors",
+    "model.layers.4.mlp.down_proj.weight": "model-00001-of-00004.safetensors",
+    "model.layers.4.self_attn.q_proj.weight": "model-00001-of-00004.safetensors",
+    "model.layers.4.self_attn.k_proj.weight": "model-00001-of-00004.safetensors",
+    "model.layers.4.self_attn.v_proj.weight": "model-00001-of-00004.safetensors",
+    "model.layers.4.self_attn.o_proj.weight": "model-00001-of-00004.safetensors",
+    "model.layers.5.input_layernorm.weight": "model-00001-of-00004.safetensors",
+    "model.layers.5.post_attention_layernorm.weight": "model-00001-of-00004.safetensors",
+    "model.layers.5.mlp.up_proj.weight": "model-00001-of-00004.safetensors",
+    "model.layers.5.mlp.down_proj.weight": "model-00001-of-00004.safetensors",
+    "model.layers.5.self_attn.q_proj.weight": "model-00001-of-00004.safetensors",
+    "model.layers.5.self_attn.k_proj.weight": "model-00001-of-00004.safetensors",
+    "model.layers.5.self_attn.v_proj.weight": "model-00001-of-00004.safetensors",
+    "model.layers.5.self_attn.o_proj.weight": "model-00001-of-00004.safetensors",
+    "model.layers.6.input_layernorm.weight": "model-00001-of-00004.safetensors",
+    "model.layers.6.post_attention_layernorm.weight": "model-00001-of-00004.safetensors",
+    "model.layers.6.mlp.up_proj.weight": "model-00001-of-00004.safetensors",
+    "model.layers.6.mlp.down_proj.weight": "model-00001-of-00004.safetensors",
+    "model.layers.6.self_attn.q_proj.weight": "model-00001-of-00004.safetensors",
+    "model.layers.6.self_attn.k_proj.weight": "model-00001-of-00004.safetensors",
+    "model.layers.6.self_attn.v_proj.weight": "model-00001-of-00004.safetensors",
+    "model.layers.6.self_attn.o_proj.weight": "model-00001-of-00004.safetensors",
+    "model.layers.7.input_layernorm.weight": "model-00001-of-00004.safetensors",
+    "model.layers.7.post_attention_layernorm.weight": "model-00001-of-00004.safetensors",
+    "model.layers.7.mlp.up_proj.weight": "model-00001-of-00004.safetensors",
+    "model.layers.7.mlp.down_proj.weight": "model-00001-of-00004.safetensors",
+    "model.layers.7.self_attn.q_proj.weight": "model-00001-of-00004.safetensors",
+    "model.layers.7.self_attn.k_proj.weight": "model-00001-of-00004.safetensors",
+    "model.layers.7.self_attn.v_proj.weight": "model-00001-of-00004.safetensors",
+    "model.layers.7.self_attn.o_proj.weight": "model-00001-of-00004.safetensors",
+    "model.layers.8.input_layernorm.weight": "model-00001-of-00004.safetensors",
+    "model.layers.8.post_attention_layernorm.weight": "model-00001-of-00004.safetensors",
+    "model.layers.8.mlp.up_proj.weight": "model-00001-of-00004.safetensors",
+    "model.layers.8.mlp.down_proj.weight": "model-00001-of-00004.safetensors",
+    "model.layers.8.self_attn.q_proj.weight": "model-00001-of-00004.safetensors",
+    "model.layers.8.self_attn.k_proj.weight": "model-00001-of-00004.safetensors",
+    "model.layers.8.self_attn.v_proj.weight": "model-00001-of-00004.safetensors",
+    "model.layers.8.self_attn.o_proj.weight": "model-00001-of-00004.safetensors",
+    "model.layers.9.input_layernorm.weight": "model-00001-of-00004.safetensors",
+    "model.layers.9.post_attention_layernorm.weight": "model-00001-of-00004.safetensors",
+    "model.layers.9.mlp.up_proj.weight": "model-00001-of-00004.safetensors",
+    "model.layers.9.mlp.down_proj.weight": "model-00001-of-00004.safetensors",
+    "model.layers.9.self_attn.q_proj.weight": "model-00001-of-00004.safetensors",
+    "model.layers.9.self_attn.k_proj.weight": "model-00001-of-00004.safetensors",
+    "model.layers.9.self_attn.v_proj.weight": "model-00001-of-00004.safetensors",
+    "model.layers.9.self_attn.o_proj.weight": "model-00001-of-00004.safetensors",
+    "model.layers.10.input_layernorm.weight": "model-00001-of-00004.safetensors",
+    "model.layers.10.post_attention_layernorm.weight": "model-00001-of-00004.safetensors",
+    "model.layers.10.mlp.up_proj.weight": "model-00001-of-00004.safetensors",
+    "model.layers.10.mlp.down_proj.weight": "model-00001-of-00004.safetensors",
+    "model.layers.10.self_attn.q_proj.weight": "model-00001-of-00004.safetensors",
+    "model.layers.10.self_attn.k_proj.weight": "model-00001-of-00004.safetensors",
+    "model.layers.10.self_attn.v_proj.weight": "model-00001-of-00004.safetensors",
+    "model.layers.10.self_attn.o_proj.weight": "model-00001-of-00004.safetensors",
+    "model.layers.11.input_layernorm.weight": "model-00001-of-00004.safetensors",
+    "model.layers.11.post_attention_layernorm.weight": "model-00001-of-00004.safetensors",
+    "model.layers.11.mlp.up_proj.weight": "model-00001-of-00004.safetensors",
+    "model.layers.0.mlp.gate_proj.weight": "model-00001-of-00004.safetensors",
+    "model.layers.1.mlp.gate_proj.weight": "model-00001-of-00004.safetensors",
+    "model.layers.2.mlp.gate_proj.weight": "model-00001-of-00004.safetensors",
+    "model.layers.3.mlp.gate_proj.weight": "model-00001-of-00004.safetensors",
+    "model.layers.4.mlp.gate_proj.weight": "model-00001-of-00004.safetensors",
+    "model.layers.5.mlp.gate_proj.weight": "model-00001-of-00004.safetensors",
+    "model.layers.6.mlp.gate_proj.weight": "model-00001-of-00004.safetensors",
+    "model.layers.7.mlp.gate_proj.weight": "model-00001-of-00004.safetensors",
+    "model.layers.8.mlp.gate_proj.weight": "model-00001-of-00004.safetensors",
+    "model.layers.9.mlp.gate_proj.weight": "model-00001-of-00004.safetensors",
+    "model.layers.10.mlp.gate_proj.weight": "model-00001-of-00004.safetensors",
+    "model.layers.11.mlp.gate_proj.weight": "model-00001-of-00004.safetensors",
+    "model.layers.11.mlp.down_proj.weight": "model-00002-of-00004.safetensors",
+    "model.layers.11.self_attn.q_proj.weight": "model-00002-of-00004.safetensors",
+    "model.layers.11.self_attn.k_proj.weight": "model-00002-of-00004.safetensors",
+    "model.layers.11.self_attn.v_proj.weight": "model-00002-of-00004.safetensors",
+    "model.layers.11.self_attn.o_proj.weight": "model-00002-of-00004.safetensors",
+    "model.layers.12.input_layernorm.weight": "model-00002-of-00004.safetensors",
+    "model.layers.12.post_attention_layernorm.weight": "model-00002-of-00004.safetensors",
+    "model.layers.12.mlp.up_proj.weight": "model-00002-of-00004.safetensors",
+    "model.layers.12.mlp.down_proj.weight": "model-00002-of-00004.safetensors",
+    "model.layers.12.self_attn.q_proj.weight": "model-00002-of-00004.safetensors",
+    "model.layers.12.self_attn.k_proj.weight": "model-00002-of-00004.safetensors",
+    "model.layers.12.self_attn.v_proj.weight": "model-00002-of-00004.safetensors",
+    "model.layers.12.self_attn.o_proj.weight": "model-00002-of-00004.safetensors",
+    "model.layers.13.input_layernorm.weight": "model-00002-of-00004.safetensors",
+    "model.layers.13.post_attention_layernorm.weight": "model-00002-of-00004.safetensors",
+    "model.layers.13.mlp.up_proj.weight": "model-00002-of-00004.safetensors",
+    "model.layers.13.mlp.down_proj.weight": "model-00002-of-00004.safetensors",
+    "model.layers.13.self_attn.q_proj.weight": "model-00002-of-00004.safetensors",
+    "model.layers.13.self_attn.k_proj.weight": "model-00002-of-00004.safetensors",
+    "model.layers.13.self_attn.v_proj.weight": "model-00002-of-00004.safetensors",
+    "model.layers.13.self_attn.o_proj.weight": "model-00002-of-00004.safetensors",
+    "model.layers.14.input_layernorm.weight": "model-00002-of-00004.safetensors",
+    "model.layers.14.post_attention_layernorm.weight": "model-00002-of-00004.safetensors",
+    "model.layers.14.mlp.up_proj.weight": "model-00002-of-00004.safetensors",
+    "model.layers.14.mlp.down_proj.weight": "model-00002-of-00004.safetensors",
+    "model.layers.14.self_attn.q_proj.weight": "model-00002-of-00004.safetensors",
+    "model.layers.14.self_attn.k_proj.weight": "model-00002-of-00004.safetensors",
+    "model.layers.14.self_attn.v_proj.weight": "model-00002-of-00004.safetensors",
+    "model.layers.14.self_attn.o_proj.weight": "model-00002-of-00004.safetensors",
+    "model.layers.15.input_layernorm.weight": "model-00002-of-00004.safetensors",
+    "model.layers.15.post_attention_layernorm.weight": "model-00002-of-00004.safetensors",
+    "model.layers.15.mlp.up_proj.weight": "model-00002-of-00004.safetensors",
+    "model.layers.15.mlp.down_proj.weight": "model-00002-of-00004.safetensors",
+    "model.layers.15.self_attn.q_proj.weight": "model-00002-of-00004.safetensors",
+    "model.layers.15.self_attn.k_proj.weight": "model-00002-of-00004.safetensors",
+    "model.layers.15.self_attn.v_proj.weight": "model-00002-of-00004.safetensors",
+    "model.layers.15.self_attn.o_proj.weight": "model-00002-of-00004.safetensors",
+    "model.layers.16.input_layernorm.weight": "model-00002-of-00004.safetensors",
+    "model.layers.16.post_attention_layernorm.weight": "model-00002-of-00004.safetensors",
+    "model.layers.16.mlp.up_proj.weight": "model-00002-of-00004.safetensors",
+    "model.layers.16.mlp.down_proj.weight": "model-00002-of-00004.safetensors",
+    "model.layers.16.self_attn.q_proj.weight": "model-00002-of-00004.safetensors",
+    "model.layers.16.self_attn.k_proj.weight": "model-00002-of-00004.safetensors",
+    "model.layers.16.self_attn.v_proj.weight": "model-00002-of-00004.safetensors",
+    "model.layers.16.self_attn.o_proj.weight": "model-00002-of-00004.safetensors",
+    "model.layers.17.input_layernorm.weight": "model-00002-of-00004.safetensors",
+    "model.layers.17.post_attention_layernorm.weight": "model-00002-of-00004.safetensors",
+    "model.layers.17.mlp.up_proj.weight": "model-00002-of-00004.safetensors",
+    "model.layers.17.mlp.down_proj.weight": "model-00002-of-00004.safetensors",
+    "model.layers.17.self_attn.q_proj.weight": "model-00002-of-00004.safetensors",
+    "model.layers.17.self_attn.k_proj.weight": "model-00002-of-00004.safetensors",
+    "model.layers.17.self_attn.v_proj.weight": "model-00002-of-00004.safetensors",
+    "model.layers.17.self_attn.o_proj.weight": "model-00002-of-00004.safetensors",
+    "model.layers.18.input_layernorm.weight": "model-00002-of-00004.safetensors",
+    "model.layers.18.post_attention_layernorm.weight": "model-00002-of-00004.safetensors",
+    "model.layers.18.mlp.up_proj.weight": "model-00002-of-00004.safetensors",
+    "model.layers.18.mlp.down_proj.weight": "model-00002-of-00004.safetensors",
+    "model.layers.18.self_attn.q_proj.weight": "model-00002-of-00004.safetensors",
+    "model.layers.18.self_attn.k_proj.weight": "model-00002-of-00004.safetensors",
+    "model.layers.18.self_attn.v_proj.weight": "model-00002-of-00004.safetensors",
+    "model.layers.18.self_attn.o_proj.weight": "model-00002-of-00004.safetensors",
+    "model.layers.19.input_layernorm.weight": "model-00002-of-00004.safetensors",
+    "model.layers.19.post_attention_layernorm.weight": "model-00002-of-00004.safetensors",
+    "model.layers.19.mlp.up_proj.weight": "model-00002-of-00004.safetensors",
+    "model.layers.19.mlp.down_proj.weight": "model-00002-of-00004.safetensors",
+    "model.layers.19.self_attn.q_proj.weight": "model-00002-of-00004.safetensors",
+    "model.layers.19.self_attn.k_proj.weight": "model-00002-of-00004.safetensors",
+    "model.layers.19.self_attn.v_proj.weight": "model-00002-of-00004.safetensors",
+    "model.layers.19.self_attn.o_proj.weight": "model-00002-of-00004.safetensors",
+    "model.layers.20.input_layernorm.weight": "model-00002-of-00004.safetensors",
+    "model.layers.20.post_attention_layernorm.weight": "model-00002-of-00004.safetensors",
+    "model.layers.20.mlp.up_proj.weight": "model-00002-of-00004.safetensors",
+    "model.layers.20.mlp.down_proj.weight": "model-00002-of-00004.safetensors",
+    "model.layers.20.self_attn.q_proj.weight": "model-00002-of-00004.safetensors",
+    "model.layers.20.self_attn.k_proj.weight": "model-00002-of-00004.safetensors",
+    "model.layers.20.self_attn.v_proj.weight": "model-00002-of-00004.safetensors",
+    "model.layers.20.self_attn.o_proj.weight": "model-00002-of-00004.safetensors",
+    "model.layers.21.input_layernorm.weight": "model-00002-of-00004.safetensors",
+    "model.layers.21.post_attention_layernorm.weight": "model-00002-of-00004.safetensors",
+    "model.layers.21.mlp.up_proj.weight": "model-00002-of-00004.safetensors",
+    "model.layers.21.mlp.down_proj.weight": "model-00002-of-00004.safetensors",
+    "model.layers.21.self_attn.q_proj.weight": "model-00002-of-00004.safetensors",
+    "model.layers.21.self_attn.k_proj.weight": "model-00002-of-00004.safetensors",
+    "model.layers.21.self_attn.v_proj.weight": "model-00002-of-00004.safetensors",
+    "model.layers.21.self_attn.o_proj.weight": "model-00002-of-00004.safetensors",
+    "model.layers.22.input_layernorm.weight": "model-00002-of-00004.safetensors",
+    "model.layers.22.post_attention_layernorm.weight": "model-00002-of-00004.safetensors",
+    "model.layers.22.mlp.up_proj.weight": "model-00002-of-00004.safetensors",
+    "model.layers.22.mlp.down_proj.weight": "model-00002-of-00004.safetensors",
+    "model.layers.22.self_attn.q_proj.weight": "model-00002-of-00004.safetensors",
+    "model.layers.22.self_attn.k_proj.weight": "model-00002-of-00004.safetensors",
+    "model.layers.22.self_attn.v_proj.weight": "model-00002-of-00004.safetensors",
+    "model.layers.22.self_attn.o_proj.weight": "model-00002-of-00004.safetensors",
+    "model.layers.23.input_layernorm.weight": "model-00002-of-00004.safetensors",
+    "model.layers.23.post_attention_layernorm.weight": "model-00002-of-00004.safetensors",
+    "model.layers.23.mlp.up_proj.weight": "model-00002-of-00004.safetensors",
+    "model.layers.23.mlp.down_proj.weight": "model-00002-of-00004.safetensors",
+    "model.layers.23.self_attn.q_proj.weight": "model-00002-of-00004.safetensors",
+    "model.layers.23.self_attn.k_proj.weight": "model-00002-of-00004.safetensors",
+    "model.layers.23.self_attn.v_proj.weight": "model-00002-of-00004.safetensors",
+    "model.layers.23.self_attn.o_proj.weight": "model-00002-of-00004.safetensors",
+    "model.layers.24.input_layernorm.weight": "model-00002-of-00004.safetensors",
+    "model.layers.24.post_attention_layernorm.weight": "model-00002-of-00004.safetensors",
+    "model.layers.12.mlp.gate_proj.weight": "model-00002-of-00004.safetensors",
+    "model.layers.13.mlp.gate_proj.weight": "model-00002-of-00004.safetensors",
+    "model.layers.14.mlp.gate_proj.weight": "model-00002-of-00004.safetensors",
+    "model.layers.15.mlp.gate_proj.weight": "model-00002-of-00004.safetensors",
+    "model.layers.16.mlp.gate_proj.weight": "model-00002-of-00004.safetensors",
+    "model.layers.17.mlp.gate_proj.weight": "model-00002-of-00004.safetensors",
+    "model.layers.18.mlp.gate_proj.weight": "model-00002-of-00004.safetensors",
+    "model.layers.19.mlp.gate_proj.weight": "model-00002-of-00004.safetensors",
+    "model.layers.20.mlp.gate_proj.weight": "model-00002-of-00004.safetensors",
+    "model.layers.21.mlp.gate_proj.weight": "model-00002-of-00004.safetensors",
+    "model.layers.22.mlp.gate_proj.weight": "model-00002-of-00004.safetensors",
+    "model.layers.23.mlp.gate_proj.weight": "model-00002-of-00004.safetensors",
+    "model.layers.24.mlp.up_proj.weight": "model-00003-of-00004.safetensors",
+    "model.layers.24.mlp.down_proj.weight": "model-00003-of-00004.safetensors",
+    "model.layers.24.self_attn.q_proj.weight": "model-00003-of-00004.safetensors",
+    "model.layers.24.self_attn.k_proj.weight": "model-00003-of-00004.safetensors",
+    "model.layers.24.self_attn.v_proj.weight": "model-00003-of-00004.safetensors",
+    "model.layers.24.self_attn.o_proj.weight": "model-00003-of-00004.safetensors",
+    "model.layers.25.input_layernorm.weight": "model-00003-of-00004.safetensors",
+    "model.layers.25.post_attention_layernorm.weight": "model-00003-of-00004.safetensors",
+    "model.layers.25.mlp.up_proj.weight": "model-00003-of-00004.safetensors",
+    "model.layers.25.mlp.down_proj.weight": "model-00003-of-00004.safetensors",
+    "model.layers.25.self_attn.q_proj.weight": "model-00003-of-00004.safetensors",
+    "model.layers.25.self_attn.k_proj.weight": "model-00003-of-00004.safetensors",
+    "model.layers.25.self_attn.v_proj.weight": "model-00003-of-00004.safetensors",
+    "model.layers.25.self_attn.o_proj.weight": "model-00003-of-00004.safetensors",
+    "model.layers.26.input_layernorm.weight": "model-00003-of-00004.safetensors",
+    "model.layers.26.post_attention_layernorm.weight": "model-00003-of-00004.safetensors",
+    "model.layers.26.mlp.up_proj.weight": "model-00003-of-00004.safetensors",
+    "model.layers.26.mlp.down_proj.weight": "model-00003-of-00004.safetensors",
+    "model.layers.26.self_attn.q_proj.weight": "model-00003-of-00004.safetensors",
+    "model.layers.26.self_attn.k_proj.weight": "model-00003-of-00004.safetensors",
+    "model.layers.26.self_attn.v_proj.weight": "model-00003-of-00004.safetensors",
+    "model.layers.26.self_attn.o_proj.weight": "model-00003-of-00004.safetensors",
+    "model.layers.27.input_layernorm.weight": "model-00003-of-00004.safetensors",
+    "model.layers.27.post_attention_layernorm.weight": "model-00003-of-00004.safetensors",
+    "model.layers.27.mlp.up_proj.weight": "model-00003-of-00004.safetensors",
+    "model.layers.27.mlp.down_proj.weight": "model-00003-of-00004.safetensors",
+    "model.layers.27.self_attn.q_proj.weight": "model-00003-of-00004.safetensors",
+    "model.layers.27.self_attn.k_proj.weight": "model-00003-of-00004.safetensors",
+    "model.layers.27.self_attn.v_proj.weight": "model-00003-of-00004.safetensors",
+    "model.layers.27.self_attn.o_proj.weight": "model-00003-of-00004.safetensors",
+    "model.layers.28.input_layernorm.weight": "model-00003-of-00004.safetensors",
+    "model.layers.28.post_attention_layernorm.weight": "model-00003-of-00004.safetensors",
+    "model.layers.28.mlp.up_proj.weight": "model-00003-of-00004.safetensors",
+    "model.layers.28.mlp.down_proj.weight": "model-00003-of-00004.safetensors",
+    "model.layers.28.self_attn.q_proj.weight": "model-00003-of-00004.safetensors",
+    "model.layers.28.self_attn.k_proj.weight": "model-00003-of-00004.safetensors",
+    "model.layers.28.self_attn.v_proj.weight": "model-00003-of-00004.safetensors",
+    "model.layers.28.self_attn.o_proj.weight": "model-00003-of-00004.safetensors",
+    "model.layers.29.input_layernorm.weight": "model-00003-of-00004.safetensors",
+    "model.layers.29.post_attention_layernorm.weight": "model-00003-of-00004.safetensors",
+    "model.layers.29.mlp.up_proj.weight": "model-00003-of-00004.safetensors",
+    "model.layers.29.mlp.down_proj.weight": "model-00003-of-00004.safetensors",
+    "model.layers.29.self_attn.q_proj.weight": "model-00003-of-00004.safetensors",
+    "model.layers.29.self_attn.k_proj.weight": "model-00003-of-00004.safetensors",
+    "model.layers.29.self_attn.v_proj.weight": "model-00003-of-00004.safetensors",
+    "model.layers.29.self_attn.o_proj.weight": "model-00003-of-00004.safetensors",
+    "model.layers.30.input_layernorm.weight": "model-00003-of-00004.safetensors",
+    "model.layers.30.post_attention_layernorm.weight": "model-00003-of-00004.safetensors",
+    "model.layers.30.mlp.up_proj.weight": "model-00003-of-00004.safetensors",
+    "model.layers.30.mlp.down_proj.weight": "model-00003-of-00004.safetensors",
+    "model.layers.30.self_attn.q_proj.weight": "model-00003-of-00004.safetensors",
+    "model.layers.30.self_attn.k_proj.weight": "model-00003-of-00004.safetensors",
+    "model.layers.30.self_attn.v_proj.weight": "model-00003-of-00004.safetensors",
+    "model.layers.30.self_attn.o_proj.weight": "model-00003-of-00004.safetensors",
+    "model.layers.31.input_layernorm.weight": "model-00003-of-00004.safetensors",
+    "model.layers.31.post_attention_layernorm.weight": "model-00003-of-00004.safetensors",
+    "model.layers.31.mlp.up_proj.weight": "model-00003-of-00004.safetensors",
+    "model.layers.31.mlp.down_proj.weight": "model-00003-of-00004.safetensors",
+    "model.layers.31.self_attn.q_proj.weight": "model-00003-of-00004.safetensors",
+    "model.layers.31.self_attn.k_proj.weight": "model-00003-of-00004.safetensors",
+    "model.layers.31.self_attn.v_proj.weight": "model-00003-of-00004.safetensors",
+    "model.layers.31.self_attn.o_proj.weight": "model-00003-of-00004.safetensors",
+    "model.layers.32.input_layernorm.weight": "model-00003-of-00004.safetensors",
+    "model.layers.32.post_attention_layernorm.weight": "model-00003-of-00004.safetensors",
+    "model.layers.32.mlp.up_proj.weight": "model-00003-of-00004.safetensors",
+    "model.layers.32.mlp.down_proj.weight": "model-00003-of-00004.safetensors",
+    "model.layers.32.self_attn.q_proj.weight": "model-00003-of-00004.safetensors",
+    "model.layers.32.self_attn.k_proj.weight": "model-00003-of-00004.safetensors",
+    "model.layers.32.self_attn.v_proj.weight": "model-00003-of-00004.safetensors",
+    "model.layers.32.self_attn.o_proj.weight": "model-00003-of-00004.safetensors",
+    "model.layers.33.input_layernorm.weight": "model-00003-of-00004.safetensors",
+    "model.layers.33.post_attention_layernorm.weight": "model-00003-of-00004.safetensors",
+    "model.layers.33.mlp.up_proj.weight": "model-00003-of-00004.safetensors",
+    "model.layers.33.mlp.down_proj.weight": "model-00003-of-00004.safetensors",
+    "model.layers.33.self_attn.q_proj.weight": "model-00003-of-00004.safetensors",
+    "model.layers.33.self_attn.k_proj.weight": "model-00003-of-00004.safetensors",
+    "model.layers.33.self_attn.v_proj.weight": "model-00003-of-00004.safetensors",
+    "model.layers.33.self_attn.o_proj.weight": "model-00003-of-00004.safetensors",
+    "model.layers.34.input_layernorm.weight": "model-00003-of-00004.safetensors",
+    "model.layers.34.post_attention_layernorm.weight": "model-00003-of-00004.safetensors",
+    "model.layers.34.mlp.up_proj.weight": "model-00003-of-00004.safetensors",
+    "model.layers.34.mlp.down_proj.weight": "model-00003-of-00004.safetensors",
+    "model.layers.34.self_attn.q_proj.weight": "model-00003-of-00004.safetensors",
+    "model.layers.34.self_attn.k_proj.weight": "model-00003-of-00004.safetensors",
+    "model.layers.34.self_attn.v_proj.weight": "model-00003-of-00004.safetensors",
+    "model.layers.34.self_attn.o_proj.weight": "model-00003-of-00004.safetensors",
+    "model.layers.35.input_layernorm.weight": "model-00003-of-00004.safetensors",
+    "model.layers.35.post_attention_layernorm.weight": "model-00003-of-00004.safetensors",
+    "model.layers.35.mlp.up_proj.weight": "model-00003-of-00004.safetensors",
+    "model.layers.35.mlp.down_proj.weight": "model-00003-of-00004.safetensors",
+    "model.layers.35.self_attn.q_proj.weight": "model-00003-of-00004.safetensors",
+    "model.layers.35.self_attn.k_proj.weight": "model-00003-of-00004.safetensors",
+    "model.layers.35.self_attn.v_proj.weight": "model-00003-of-00004.safetensors",
+    "model.layers.35.self_attn.o_proj.weight": "model-00003-of-00004.safetensors",
+    "model.layers.36.input_layernorm.weight": "model-00003-of-00004.safetensors",
+    "model.layers.36.post_attention_layernorm.weight": "model-00003-of-00004.safetensors",
+    "model.layers.36.mlp.up_proj.weight": "model-00003-of-00004.safetensors",
+    "model.layers.24.mlp.gate_proj.weight": "model-00003-of-00004.safetensors",
+    "model.layers.25.mlp.gate_proj.weight": "model-00003-of-00004.safetensors",
+    "model.layers.26.mlp.gate_proj.weight": "model-00003-of-00004.safetensors",
+    "model.layers.27.mlp.gate_proj.weight": "model-00003-of-00004.safetensors",
+    "model.layers.28.mlp.gate_proj.weight": "model-00003-of-00004.safetensors",
+    "model.layers.29.mlp.gate_proj.weight": "model-00003-of-00004.safetensors",
+    "model.layers.30.mlp.gate_proj.weight": "model-00003-of-00004.safetensors",
+    "model.layers.31.mlp.gate_proj.weight": "model-00003-of-00004.safetensors",
+    "model.layers.32.mlp.gate_proj.weight": "model-00003-of-00004.safetensors",
+    "model.layers.33.mlp.gate_proj.weight": "model-00003-of-00004.safetensors",
+    "model.layers.34.mlp.gate_proj.weight": "model-00003-of-00004.safetensors",
+    "model.layers.35.mlp.gate_proj.weight": "model-00003-of-00004.safetensors",
+    "model.layers.36.mlp.gate_proj.weight": "model-00003-of-00004.safetensors",
+    "model.layers.36.mlp.down_proj.weight": "model-00004-of-00004.safetensors",
+    "model.layers.36.self_attn.q_proj.weight": "model-00004-of-00004.safetensors",
+    "model.layers.36.self_attn.k_proj.weight": "model-00004-of-00004.safetensors",
+    "model.layers.36.self_attn.v_proj.weight": "model-00004-of-00004.safetensors",
+    "model.layers.36.self_attn.o_proj.weight": "model-00004-of-00004.safetensors",
+    "model.layers.37.input_layernorm.weight": "model-00004-of-00004.safetensors",
+    "model.layers.37.post_attention_layernorm.weight": "model-00004-of-00004.safetensors",
+    "model.layers.37.mlp.up_proj.weight": "model-00004-of-00004.safetensors",
+    "model.layers.37.mlp.down_proj.weight": "model-00004-of-00004.safetensors",
+    "model.layers.37.self_attn.q_proj.weight": "model-00004-of-00004.safetensors",
+    "model.layers.37.self_attn.k_proj.weight": "model-00004-of-00004.safetensors",
+    "model.layers.37.self_attn.v_proj.weight": "model-00004-of-00004.safetensors",
+    "model.layers.37.self_attn.o_proj.weight": "model-00004-of-00004.safetensors",
+    "model.layers.38.input_layernorm.weight": "model-00004-of-00004.safetensors",
+    "model.layers.38.post_attention_layernorm.weight": "model-00004-of-00004.safetensors",
+    "model.layers.38.mlp.up_proj.weight": "model-00004-of-00004.safetensors",
+    "model.layers.38.mlp.down_proj.weight": "model-00004-of-00004.safetensors",
+    "model.layers.38.self_attn.q_proj.weight": "model-00004-of-00004.safetensors",
+    "model.layers.38.self_attn.k_proj.weight": "model-00004-of-00004.safetensors",
+    "model.layers.38.self_attn.v_proj.weight": "model-00004-of-00004.safetensors",
+    "model.layers.38.self_attn.o_proj.weight": "model-00004-of-00004.safetensors",
+    "model.layers.39.input_layernorm.weight": "model-00004-of-00004.safetensors",
+    "model.layers.39.post_attention_layernorm.weight": "model-00004-of-00004.safetensors",
+    "model.layers.39.mlp.up_proj.weight": "model-00004-of-00004.safetensors",
+    "model.layers.39.mlp.down_proj.weight": "model-00004-of-00004.safetensors",
+    "model.layers.39.self_attn.q_proj.weight": "model-00004-of-00004.safetensors",
+    "model.layers.39.self_attn.k_proj.weight": "model-00004-of-00004.safetensors",
+    "model.layers.39.self_attn.v_proj.weight": "model-00004-of-00004.safetensors",
+    "model.layers.39.self_attn.o_proj.weight": "model-00004-of-00004.safetensors",
+    "model.layers.37.mlp.gate_proj.weight": "model-00004-of-00004.safetensors",
+    "model.layers.38.mlp.gate_proj.weight": "model-00004-of-00004.safetensors",
+    "model.layers.39.mlp.gate_proj.weight": "model-00004-of-00004.safetensors"
+  }
+}
+```
+* 모델의 레이어는 0 ~ 39 (총 40)
+
+### 5.5 모델 평가
+
+#### 5.5.1 모델 평가 디렉터리 확인
+
+실행 명령어
+```bash
+tree -F -sh eval_cache/
+```
+
+실행 결과
+```
+[root@rhel_ai phase2]# tree -F -sh eval_cache/
+eval_cache/
+└── [   60]  mt_bench/
+    ├── [ 4.0K]  model_answer/
+    │   ├── [ 217K]  samples_1173515.jsonl
+    │   ├── [ 210K]  samples_1564696.jsonl
+    │   ├── [ 220K]  samples_1955887.jsonl
+    │   ├── [ 206K]  samples_2347073.jsonl
+    │   ├── [ 201K]  samples_2738215.jsonl
+    │   ├── [ 208K]  samples_3129385.jsonl
+    │   ├── [ 211K]  samples_3520587.jsonl
+    │   ├── [ 207K]  samples_391127.jsonl
+    │   ├── [ 211K]  samples_3911788.jsonl
+    │   └── [ 216K]  samples_782290.jsonl
+    └── [   55]  model_judgment/
+        └── [ 684K]  prometheus-8x7b-v2-0_single.jsonl
+
+3 directories, 11 files
+
+[root@rhel_ai phase2]# 
+```
+
+#### 5.5.2 모델 평가 데이터 확인
+
+평가 항목 확인
+```bash
+cat eval_cache/mt_bench/model_judgment/prometheus-8x7b-v2-0_single.jsonl | jq -cs '.|first' | jq '.'
+```
+
+```json
+{
+  "question_id": 107,
+  "model": "samples_3129385",
+  "judge": [
+    "prometheus-8x7b-v2-0",
+    "single-math-v1"
+  ],
+  "user_prompt": "[Instruction]\nPlease act as an impartial judge and evaluate the quality of the response provided by an AI assistant to the user question displayed below. Your evaluation should consider correctness and helpfulness. You will be given a reference answer and the assistant's answer. Begin your evaluation by comparing the assistant's answer with the reference answer. Identify and correct any mistakes. Be as objective as possible. After providing your explanation, you must rate the response on a scale of 1 to 10 by strictly following this format: \"[[rating]]\", for example: \"Rating: [[5]]\".\n\n[Question]\nA is the father of B. B is the father of C. What is the relationship between A and C?\n\n[The Start of Reference Answer]\nA is the grandfather of C.\n[The End of Reference Answer]\n\n[The Start of Assistant's Answer]\nA is the grandfather of C.\n[The End of Assistant's Answer]",
+  "judgment": " The assistant's answer is identical to the reference answer, and it correctly identifies the relationship between A and C as \"grandfather.\" The answer is accurate and helpful, providing the user with the information they need to understand the familial relationship in question. Therefore, the assistant's response is of high quality.\n\nRating: [[10]]",
+  "score": 10,
+  "turn": 1,
+  "tstamp": 1743005961.5141597
+}
+```
+
+평가를 위한 모델 확인
+```bash
+cat eval_cache/mt_bench/model_judgment/prometheus-8x7b-v2-0_single.jsonl | jq '.'
+```
+
+실행 결과
+```
+[root@rhel_ai phase2]# cat eval_cache/mt_bench/model_judgment/prometheus-8x7b-v2-0_single.jsonl | jq -r '.judge[]' | sort -u
+prometheus-8x7b-v2-0
+single-math-v1
+single-math-v1-multi-turn
+single-v1
+single-v1-multi-turn
+
+[root@rhel_ai phase2]#
+```
+
+#### 5.5.3 최고 점수를 받은 샘플의 평가 확인
+
+실행 명령어 - 평가 리스트 확인
+```bash
+cat eval_cache/mt_bench/model_answer/samples_1173515.jsonl | jq -cs '.|length'
+```
+
+실행 결과
+```
+[root@rhel_ai phase2]# cat eval_cache/mt_bench/model_answer/samples_1173515.jsonl | jq -cs '.|length'
+80
+
+[root@rhel_ai phase2]#
+```
+
+평가 항목 확인
+
+```bash
+cat eval_cache/mt_bench/model_answer/samples_1173515.jsonl | jq -cs '.|first'| jq '.'
+```
+
+```json
+{
+  "question_id": 81,
+  "answer_id": "ipBguoxd6A2xaoomDvLSYS",
+  "model_id": "samples_1173515",
+  "choices": [
+    {
+      "index": 0,
+      "turns": [
+        "Title: A Cultural Journey Through the Aloha State: My Recent Trip to Hawaii\n\nAs a travel enthusiast, I've had the privilege of exploring various corners of the globe, but there's something truly special about Hawaii. This tropical paradise offers more than just stunning beaches and crystal-clear waters; it's a melting pot of cultures that leaves a lasting impression on every visitor. Here's a glimpse into my recent trip to the Aloha State, focusing on cultural experiences and must-see attractions.\n\nMy journey began in Honolulu, the capital city of Hawaii. The historical significance of this place is evident from the moment you step off the plane. I was greeted by the warm smiles of local hula dancers, who welcomed me with a traditional song and dance. This vibrant cultural display set the tone for the entire trip.\n\nOne of the highlights of my visit was the Hawaiian National Museum of Natural History. This museum offers a comprehensive overview of Hawaii's rich history, from its geological formation to the arrival of Polynesian settlers. The museum's exhibits are engaging and informative, providing valuable insights into the unique biodiversity of the islands.\n\nAnother must-see attraction is the Pearl Harbor National Memorial. This historic site commemorates the events of December 7, 1941, and offers a poignant reminder of the sacrifices made by those who served in World War II. The museum's exhibits are well-curated, and the guided tour provides a deep understanding of the events that unfolded on that fateful day.\n\nNo trip to Hawaii would be complete without experiencing a traditional Hawaiian luau. I had the opportunity to attend a luau at the Polynesian Cultural Center, where I was treated to a feast of local dishes, including poi, kalua pork, and lomi lomi salmon. The show featured talented hula dancers and musicians, who performed traditional dances and songs that showcased the island's rich cultural heritage.\n\nI also had the chance to visit the Dole Plantation on Oahu. This historic site offers a fascinating glimpse into Hawaii's pineapple industry and provides a unique opportunity to learn about the island's agricultural history. The plantation's famous Pineapple Express train is a fun way to explore the grounds and learn about the history of Hawaii's pineapple industry.\n\nFinally, I made my way to the Big Island, where I visited the Mauna Kea Observatories. This world-renowned astronomical research facility offers stunning views of the night sky and provides a unique opportunity to learn about the universe from experts in the field. The observatories' tours are informative and engaging, and the view of the stars from the summit is truly breathtaking.\n\nIn conclusion, Hawaii is a destination that offers a rich cultural experience that goes beyond the beaches and the surf. From the historical sites and museums to the traditional luaus and astronomical research facilities, there's something for everyone in this tropical paradise. So, if you're looking for a unique and enriching travel experience, consider visiting Hawaii and immersing yourself in the rich cultural heritage of this beautiful island state.",
+        "Aloha, fellow travelers! I recently embarked on a journey to the Aloha State, Hawaii, and I can't wait to share my cultural experiences and must-see attractions with you. Here's a glimpse into my recent trip, starting with the letter A:\n\nAloha! My journey began in Honolulu, the capital city of Hawaii, where I was greeted by the warm smiles of local hula dancers. Their traditional song and dance set the tone for the entire trip, showcasing the island's rich cultural heritage.\n\nAloha! The Hawaiian National Museum of Natural History was a highlight of my visit. The museum offers a comprehensive overview of Hawaii's rich history, from its geological formation to the arrival of Polynesian settlers. The exhibits are engaging and informative, providing valuable insights into the unique biodiversity of the islands.\n\nAloha! The Pearl Harbor National Memorial was another must-see attraction. This historic site commemorates the events of December 7, 1941, and offers a poignant reminder of the sacrifices made by those who served in World War II. The museum's exhibits are well-curated, and the guided tour provides a deep understanding of the events that unfolded on that fateful day.\n\nAloha! I had the opportunity to attend a traditional Hawaiian luau at the Polynesian Cultural Center. The feast of local dishes, including poi, kalua pork, and lomi lomi salmon, was delicious. The show featured talented hula dancers and musicians, who performed traditional dances and songs that showcased the island's rich cultural heritage.\n\nAloha! I visited the Dole Plantation on Oahu, where I learned about Hawaii's pineapple industry and agricultural history. The plantation's famous Pineapple Express train is a fun way to explore the grounds and learn about the history of Hawaii's pineapple industry.\n\nAloha! Finally, I made my way to the Big Island, where I visited the Mauna Kea Observatories. This world-renowned astronomical research facility offers stunning views of the night sky and provides a unique opportunity to learn about the universe from experts in the field. The observatories' tours are informative and engaging, and the view of the stars from the summit is truly breathtaking.\n\nIn conclusion, Hawaii is a destination that offers a rich cultural experience that goes beyond the beaches and the surf. From the historical sites and museums to the traditional luaus and astronomical research facilities, there's something for everyone in this tropical paradise. So, if you're looking for a unique and enriching travel experience, consider visiting Hawaii and immersing yourself in the rich cultural heritage of this beautiful island state."
+      ]
+    }
+  ],
+  "tstamp": 1743004596.2893703
+}
+```
+<br>
+
+### 5.6 새 모델 제공 및 채팅
+
+#### 5.6.1 새 모델로 서비스
+
+실행 명령어
+```bash
+ilab model serve --model-path ~/phased/phase2/checkpoints/hf_format/samples_1173515/
+```
+
+실행 결과
+```
+
+```
+
+#### 5.6.2 모델과 채팅
+
+실행 명령어
+```bash
+ilab model chat --model-path ~/phased/phase2/checkpoints/hf_format/samples_1173515/
 ```
 
 실행 결과
