@@ -10,8 +10,9 @@
 &nbsp;&nbsp;5.3 [Phase1 훈련](generate_custom_llm.md#53-phase1-훈련)<br>
 &nbsp;&nbsp;5.4 [Phase2 훈련](generate_custom_llm.md#54-phase2-훈련)<br>
 &nbsp;&nbsp;5.5 [모델 평가](generate_custom_llm.md#55-모델-평가)<br>
-&nbsp;&nbsp;5.6 [새 모델 제공 및 채팅](generate_custom_llm.md#56-새-모델-제공-및-채팅)<br>
-&nbsp;&nbsp;5.7 [모델 업로드](generate_custom_llm.md#57-모델-업로드)<br>
+&nbsp;&nbsp;5.6 [모델 평가](generate_custom_llm.md#56-모델-훈련-결과-확인)<br>
+&nbsp;&nbsp;5.7 [새 모델 제공 및 채팅](generate_custom_llm.md#57-새-모델-제공-및-채팅)<br>
+&nbsp;&nbsp;5.8 [모델 업로드](generate_custom_llm.md#58-모델-업로드)<br>
 <br>
 
 ## 1. SDG로 새 데이터 세트 생성
@@ -3998,11 +3999,99 @@ cat eval_cache/mt_bench/model_answer/samples_1173515.jsonl | jq -cs '.|first'| j
   "tstamp": 1743004596.2893703
 }
 ```
+
+### 5.6 모델 훈련 결과 확인
+
+실행 명령어 
+```bash
+yq -y '.' ~/phased/journalfile.yaml
+```
+
+실행 결과
+```yaml
+current_phase: done
+ended_at_utc: '2025-03-26 16:19:58.143636+00:00'
+eval_1: null
+eval_2:
+  best_checkpoint:
+    checkpoint: /root/.local/share/instructlab/phased/phase2/checkpoints/hf_format/samples_1173515
+    ended_at_utc: '2025-03-26 15:59:09.897108+00:00'
+    score: 7.064102564102564
+  checkpoints:
+    - /root/.local/share/instructlab/phased/phase2/checkpoints/hf_format/samples_391127
+    - /root/.local/share/instructlab/phased/phase2/checkpoints/hf_format/samples_782290
+    - /root/.local/share/instructlab/phased/phase2/checkpoints/hf_format/samples_1173515
+    - /root/.local/share/instructlab/phased/phase2/checkpoints/hf_format/samples_1564696
+    - /root/.local/share/instructlab/phased/phase2/checkpoints/hf_format/samples_1955887
+    - /root/.local/share/instructlab/phased/phase2/checkpoints/hf_format/samples_2347073
+    - /root/.local/share/instructlab/phased/phase2/checkpoints/hf_format/samples_2738215
+    - /root/.local/share/instructlab/phased/phase2/checkpoints/hf_format/samples_3129385
+    - /root/.local/share/instructlab/phased/phase2/checkpoints/hf_format/samples_3520587
+    - /root/.local/share/instructlab/phased/phase2/checkpoints/hf_format/samples_3911788
+  ended_at_utc: '2025-03-26 16:19:58.143616+00:00'
+  finished_checkpoints:
+    - /root/.local/share/instructlab/phased/phase2/checkpoints/hf_format/samples_2738215
+    - /root/.local/share/instructlab/phased/phase2/checkpoints/hf_format/samples_3911788
+    - /root/.local/share/instructlab/phased/phase2/checkpoints/hf_format/samples_782290
+    - /root/.local/share/instructlab/phased/phase2/checkpoints/hf_format/samples_391127
+    - /root/.local/share/instructlab/phased/phase2/checkpoints/hf_format/samples_1173515
+    - /root/.local/share/instructlab/phased/phase2/checkpoints/hf_format/samples_3520587
+    - /root/.local/share/instructlab/phased/phase2/checkpoints/hf_format/samples_1955887
+    - /root/.local/share/instructlab/phased/phase2/checkpoints/hf_format/samples_1564696
+    - /root/.local/share/instructlab/phased/phase2/checkpoints/hf_format/samples_2347073
+    - /root/.local/share/instructlab/phased/phase2/checkpoints/hf_format/samples_3129385
+  results:
+    - checkpoint: /root/.local/share/instructlab/phased/phase2/checkpoints/hf_format/samples_2738215
+      ended_at_utc: '2025-03-26 15:42:06.772060+00:00'
+      score: 6.791139240506329
+    - checkpoint: /root/.local/share/instructlab/phased/phase2/checkpoints/hf_format/samples_3911788
+      ended_at_utc: '2025-03-26 15:46:22.504299+00:00'
+      score: 6.886075949367089
+    - checkpoint: /root/.local/share/instructlab/phased/phase2/checkpoints/hf_format/samples_782290
+      ended_at_utc: '2025-03-26 15:50:37.523268+00:00'
+      score: 7.0251572327044025
+    - checkpoint: /root/.local/share/instructlab/phased/phase2/checkpoints/hf_format/samples_391127
+      ended_at_utc: '2025-03-26 15:54:51.608370+00:00'
+      score: 6.841772151898734
+    - checkpoint: /root/.local/share/instructlab/phased/phase2/checkpoints/hf_format/samples_1173515
+      ended_at_utc: '2025-03-26 15:59:09.897108+00:00'
+      score: 7.064102564102564
+    - checkpoint: /root/.local/share/instructlab/phased/phase2/checkpoints/hf_format/samples_3520587
+      ended_at_utc: '2025-03-26 16:03:14.089601+00:00'
+      score: 6.8544303797468356
+    - checkpoint: /root/.local/share/instructlab/phased/phase2/checkpoints/hf_format/samples_1955887
+      ended_at_utc: '2025-03-26 16:07:27.620742+00:00'
+      score: 6.80379746835443
+    - checkpoint: /root/.local/share/instructlab/phased/phase2/checkpoints/hf_format/samples_1564696
+      ended_at_utc: '2025-03-26 16:11:36.988901+00:00'
+      score: 6.86624203821656
+    - checkpoint: /root/.local/share/instructlab/phased/phase2/checkpoints/hf_format/samples_2347073
+      ended_at_utc: '2025-03-26 16:15:45.291855+00:00'
+      score: 6.8354430379746836
+    - checkpoint: /root/.local/share/instructlab/phased/phase2/checkpoints/hf_format/samples_3129385
+      ended_at_utc: '2025-03-26 16:19:58.130182+00:00'
+      score: 6.962264150943396
+  started_at_utc: '2025-03-26 15:36:49.555424+00:00'
+final_output:
+  checkpoint: /root/.local/share/instructlab/phased/phase2/checkpoints/hf_format/samples_1173515
+  ended_at_utc: '2025-03-26 15:59:09.897108+00:00'
+  score: 7.064102564102564
+run_id: 50b85752-9689-42c6-8030-4b79f3b6e723
+started_at_utc: '2025-03-25 07:56:17.431994+00:00'
+train_1:
+  checkpoints: /root/.local/share/instructlab/phased/phase1/checkpoints
+  ended_at_utc: '2025-03-25 08:49:46.310730+00:00'
+  started_at_utc: '2025-03-25 07:56:17.448552+00:00'
+train_2:
+  checkpoints: /root/.local/share/instructlab/phased/phase2/checkpoints
+  ended_at_utc: '2025-03-26 15:36:49.510390+00:00'
+  started_at_utc: '2025-03-25 08:49:46.334131+00:00'
+```
 <br>
 
-### 5.6 새 모델 제공 및 채팅
+### 5.7 새 모델 제공 및 채팅
 
-#### 5.6.1 새 모델로 서비스
+#### 5.7.1 새 모델로 서비스
 
 실행 명령어
 ```bash
@@ -4014,7 +4103,7 @@ ilab model serve --model-path ~/phased/phase2/checkpoints/hf_format/samples_1173
 
 ```
 
-#### 5.6.2 모델과 채팅
+#### 5.7.2 모델과 채팅
 
 실행 명령어
 ```bash
@@ -4027,9 +4116,9 @@ ilab model chat --model-path ~/phased/phase2/checkpoints/hf_format/samples_11735
 ```
 <br>
 
-### 5.7 모델 업로드
+### 5.8 모델 업로드
 
-#### 5.7.1 훈련된 모델을 업로드 
+#### 5.8.1 훈련된 모델을 업로드 
 
 실행 명령어
 ```bash
