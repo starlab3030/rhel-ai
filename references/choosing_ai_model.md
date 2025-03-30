@@ -179,7 +179,7 @@ LLM 분류 - 다양한 유형의 사전 학습된 모델
 |LLaMA-Ko|LLaMa의 한국어 모델|
 |GPT-3.5|OpenAI의 모델|
 |[Claude2](https://claude.ai/)|Anthropic의 모델|
-|[Gemma-2-2b](https://huggingface.co/google/gemma-2-2b)||
+|[Gemma-2-2b](https://huggingface.co/google/gemma-2-2b)|구글의 AI 모델|
 
 <br>
 <br>
