@@ -1014,10 +1014,69 @@ systemctl reboot
 [root@rhel94 ~]# grubby --args="intel_iommu=on iommu_pt" --update-kernel DEFAULT
 
 [root@rhel94 ~]# systemctl reboot
-...
 ```
 
-#### 3.1.2 GPU 장비의 PCI 버스 주소 확인
+#### 3.1.2 호스트 운영체제에서 GPU 토폴로지 확인
+
+실행 명령어
+```bash
+nvidia-smi topo --matrix
+```
+
+실행 결과
+```
+[root@rhel94 ~]# nvidia-smi topo --matrix
+        GPU0    GPU1    GPU2    GPU3    GPU4    GPU5    GPU6    GPU7    NIC0    NIC1    NIC2    NIC3    NIC4    NIC5    NIC6    NIC7    NIC8    NIC9    NIC10   NIC11   CPU Affinity    NUMA Affinity   GPU NUMA ID
+GPU0     X      NODE    NODE    NODE    SYS     SYS     SYS     SYS     PXB     NODE    NODE    NODE    NODE    NODE    SYS     SYS     SYS     SYS     SYS     SYS     0-55,112-167    0               N/A
+GPU1    NODE     X      NODE    NODE    SYS     SYS     SYS     SYS     NODE    NODE    NODE    PXB     NODE    NODE    SYS     SYS     SYS     SYS     SYS     SYS     0-55,112-167    0               N/A
+GPU2    NODE    NODE     X      NODE    SYS     SYS     SYS     SYS     NODE    NODE    NODE    NODE    PXB     NODE    SYS     SYS     SYS     SYS     SYS     SYS     0-55,112-167    0               N/A
+GPU3    NODE    NODE    NODE     X      SYS     SYS     SYS     SYS     NODE    NODE    NODE    NODE    NODE    PXB     SYS     SYS     SYS     SYS     SYS     SYS     0-55,112-167    0               N/A
+GPU4    SYS     SYS     SYS     SYS      X      NODE    NODE    NODE    SYS     SYS     SYS     SYS     SYS     SYS     PXB     NODE    NODE    NODE    NODE    NODE    56-111,168-223  1               N/A
+GPU5    SYS     SYS     SYS     SYS     NODE     X      NODE    NODE    SYS     SYS     SYS     SYS     SYS     SYS     NODE    NODE    NODE    PXB     NODE    NODE    56-111,168-223  1               N/A
+GPU6    SYS     SYS     SYS     SYS     NODE    NODE     X      NODE    SYS     SYS     SYS     SYS     SYS     SYS     NODE    NODE    NODE    NODE    PXB     NODE    56-111,168-223  1               N/A
+GPU7    SYS     SYS     SYS     SYS     NODE    NODE    NODE     X      SYS     SYS     SYS     SYS     SYS     SYS     NODE    NODE    NODE    NODE    NODE    PXB     56-111,168-223  1               N/A
+NIC0    PXB     NODE    NODE    NODE    SYS     SYS     SYS     SYS      X      NODE    NODE    NODE    NODE    NODE    SYS     SYS     SYS     SYS     SYS     SYS
+NIC1    NODE    NODE    NODE    NODE    SYS     SYS     SYS     SYS     NODE     X      PIX     NODE    NODE    NODE    SYS     SYS     SYS     SYS     SYS     SYS
+NIC2    NODE    NODE    NODE    NODE    SYS     SYS     SYS     SYS     NODE    PIX      X      NODE    NODE    NODE    SYS     SYS     SYS     SYS     SYS     SYS
+NIC3    NODE    PXB     NODE    NODE    SYS     SYS     SYS     SYS     NODE    NODE    NODE     X      NODE    NODE    SYS     SYS     SYS     SYS     SYS     SYS
+NIC4    NODE    NODE    PXB     NODE    SYS     SYS     SYS     SYS     NODE    NODE    NODE    NODE     X      NODE    SYS     SYS     SYS     SYS     SYS     SYS
+NIC5    NODE    NODE    NODE    PXB     SYS     SYS     SYS     SYS     NODE    NODE    NODE    NODE    NODE     X      SYS     SYS     SYS     SYS     SYS     SYS
+NIC6    SYS     SYS     SYS     SYS     PXB     NODE    NODE    NODE    SYS     SYS     SYS     SYS     SYS     SYS      X      NODE    NODE    NODE    NODE    NODE
+NIC7    SYS     SYS     SYS     SYS     NODE    NODE    NODE    NODE    SYS     SYS     SYS     SYS     SYS     SYS     NODE     X      PIX     NODE    NODE    NODE
+NIC8    SYS     SYS     SYS     SYS     NODE    NODE    NODE    NODE    SYS     SYS     SYS     SYS     SYS     SYS     NODE    PIX      X      NODE    NODE    NODE
+NIC9    SYS     SYS     SYS     SYS     NODE    PXB     NODE    NODE    SYS     SYS     SYS     SYS     SYS     SYS     NODE    NODE    NODE     X      NODE    NODE
+NIC10   SYS     SYS     SYS     SYS     NODE    NODE    PXB     NODE    SYS     SYS     SYS     SYS     SYS     SYS     NODE    NODE    NODE    NODE     X      NODE
+NIC11   SYS     SYS     SYS     SYS     NODE    NODE    NODE    PXB     SYS     SYS     SYS     SYS     SYS     SYS     NODE    NODE    NODE    NODE    NODE     X 
+
+Legend:
+
+  X    = Self
+  SYS  = Connection traversing PCIe as well as the SMP interconnect between NUMA nodes (e.g., QPI/UPI)
+  NODE = Connection traversing PCIe as well as the interconnect between PCIe Host Bridges within a NUMA node
+  PHB  = Connection traversing PCIe as well as a PCIe Host Bridge (typically the CPU)
+  PXB  = Connection traversing multiple PCIe bridges (without traversing the PCIe Host Bridge)
+  PIX  = Connection traversing at most a single PCIe bridge
+  NV#  = Connection traversing a bonded set of # NVLinks
+
+NIC Legend:
+
+  NIC0: mlx5_0
+  NIC1: mlx5_1
+  NIC2: mlx5_2
+  NIC3: mlx5_3
+  NIC4: mlx5_4
+  NIC5: mlx5_5
+  NIC6: mlx5_6
+  NIC7: mlx5_7
+  NIC8: mlx5_8
+  NIC9: mlx5_9
+  NIC10: mlx5_10
+  NIC11: mlx5_11
+
+[root@rhel94 ~]# 
+```
+
+#### 3.1.3 GPU 장비의 PCI 버스 주소 확인
 
 실행 명령어
 ```bash
@@ -1045,7 +1104,7 @@ lspci -Dnn | egrep -i "nvidia|vga"
 ```
 * nVidia의 H100은 총 8개가 있으며, PCI 주소는 *`10de:2330`* 임
 
-#### 3.1.3 nVidia GPU를 Stub로 등록
+#### 3.1.4 nVidia GPU를 Stub로 등록
 
 호스트의 드라이버가 해당 GPU를 사용하지 않도록 *pci-stub* 드라이버 구성
 
@@ -1063,7 +1122,7 @@ systemctl reboot
 ...
 ```
 
-#### 3.1.4 nVidia GPU를 가상머신에 PCI passthrough로 전달하는 XML 파일 생성
+#### 3.1.5 nVidia GPU를 가상머신에 PCI passthrough로 전달하는 XML 파일 생성
 
 실행 명령어
 ```bash
@@ -1081,7 +1140,7 @@ cat /redhat/assign-gpus/assign-gpus-to-rhel_ai.xml
 ```
 * 각각의 디바이스 별로, 위의 형식으로 구성
 
-#### 3.1.5 가상머신에 해당 디바이스를 추가
+#### 3.1.6 가상머신에 해당 디바이스를 추가
 
 실행 명령어
 ```bash
@@ -1096,7 +1155,7 @@ Device attached successfully.
 [root@rhel94 ~]#
 ```
 
-#### 3.1.6 가상머신 RHEL_AI의 구성파일 확인
+#### 3.1.7 가상머신 RHEL_AI의 구성파일 확인
 
 실행 명령어
 ```bash
@@ -1128,7 +1187,7 @@ xq -x '.domain.devices.hostdev[]|.address' RHEL_AI.xml
 [root@rhel94 ~]#
 ```
 
-#### 3.1.7 가상머신 RHEL_AI에서 GPU 확인
+#### 3.1.8 가상머신 RHEL_AI에서 GPU 확인
 
 실행 명령어
 ```bash
@@ -1148,7 +1207,7 @@ lspci -Dnn | egrep -i "nvidia|vga"
 ```
 * 각각의 nVidia의 GPU (**domain.devices.hostdev[].source*)가 매핑된 주소(*domain.devices.hostdev[].address*)로 가상머신에서 보임
 
-#### 3.1.8 nVidia NVSwitch를 Stub로 등록
+#### 3.1.9 nVidia NVSwitch를 Stub로 등록
 
 호스트의 드라이버가 해당 NVSwitch를 사용하지 않도록 *pci-stub* 드라이버 구성
 
@@ -1166,7 +1225,7 @@ systemctl reboot
 ...
 ```
 
-#### 3.1.9 nVidia NVSwitch를 가상머신에 PCI passthrough로 전달하는 XML 파일 생성
+#### 3.1.10 nVidia NVSwitch를 가상머신에 PCI passthrough로 전달하는 XML 파일 생성
 
 실행 명령어
 ```bash
@@ -1184,7 +1243,7 @@ cat /redhat/assign-gpus/assign-nvswitch-to-rhel_ai.xml
 ```
 * 각각의 디바이스 별로, 위의 형식으로 구성
 
-#### 3.1.10 가상머신에 해당 디바이스를 추가
+#### 3.1.11 가상머신에 해당 디바이스를 추가
 
 실행 명령어
 ```bash
@@ -1199,7 +1258,7 @@ Device attached successfully.
 [root@rhel94 ~]#
 ```
 
-#### 3.1.11 가상머신 RHEL_AI의 구성파일 확인
+#### 3.1.12 가상머신 RHEL_AI의 구성파일 확인
 
 실행 명령어
 ```bash
@@ -1229,7 +1288,7 @@ xq -x '.domain.devices.hostdev[]|.address' RHEL_AI.xml
 [root@rhel94 ~]#
 ```
 
-#### 3.1.12 가상머신 RHEL_AI에서 NVSwitch 확인
+#### 3.1.13 가상머신 RHEL_AI에서 NVSwitch 확인
 
 실행 명령어
 ```bash
@@ -1254,7 +1313,7 @@ lspci -Dnn | egrep -i "nvidia|vga|nvswitch"
 > [!IMPORTANT]
 > nVidia GPU는 종류/버전 등에 따라 토폴로지 구성이 다를 수 있습니다. 각각의 환경 및 조건에 맞게 가상머신 환경으로 구성이 필요합니다.
 
-#### 3.1.13 nVidia의 H100, NVLink 및 NVSwitch를 가상머신에 할당
+#### 3.1.14 nVidia의 H100, NVLink 및 NVSwitch를 가상머신에 할당
 
 실행 명령어 - 가상머신 상에서 할당된 리소스 확인
 ```bash
@@ -1280,7 +1339,7 @@ lspci -Dnn | egrep -i "nvidia"
 [root@rhel_ai ~]# 
 ```
 
-#### 3.1.14 nVidia의 패브릭 확안
+#### 3.1.15 nVidia의 패브릭 확안
 
 실행 명령어
 ```bash
@@ -1311,7 +1370,7 @@ Mar 25 02:10:15 rhelai-02.redhat.lab systemd[1]: Started NVIDIA fabric manager s
 ```
 * 패브릭 구성에 이슈가 없으며, NVSwitch가 GPU의 NVLink로 라우트 되는 것을 확인
 
-#### 3.1.15 nVidia의 NVSwitch 확인
+#### 3.1.16 nVidia의 NVSwitch 확인
 
 실행 명령어
 ```bash
@@ -1332,7 +1391,7 @@ Mar 25 02:14:46 rhelai-02.redhat.lab systemd[1]: Started NVIDIA NVSwitch Devices
 [root@rhel_ai ~]# 
 ```
 
-#### 3.1.16 가상머신에서 nVidia 확인
+#### 3.1.17 가상머신에서 nVidia 확인
 
 실행 명령어
 ```bash
