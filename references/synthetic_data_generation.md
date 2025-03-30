@@ -97,7 +97,7 @@
   + [치명적인 망각](https://en.wikipedia.org/wiki/Catastrophic_interference)을 방지
 
 **InstructLab의 분류법(taxonomy)**
-<img src="images/generate_synthetic_data.png" title="100px" alt="합성 데이터 생성"/>
+<img src="images/generate_synthetic_data.png" width="80%" title="100px" alt="합성 데이터 생성"/>
 
 * 모델 사용자 정의를 위한 합성 데이터 생성에 사용할 초기 시드 데이터를 구성
 
