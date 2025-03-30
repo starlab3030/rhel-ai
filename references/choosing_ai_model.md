@@ -170,7 +170,16 @@ LLM 분류 - 다양한 유형의 사전 학습된 모델
 
 ### 5.2 한국어 지원 모델
 
-
+|모델|설명|
+|:---:|:---:|
+|[Polyglot-Ko](https://huggingface.co/EleutherAI/polyglot-ko-1.3b)|다국어 거대 언어 모델 프로젝트|
+|[KULLM](https://github.com/nlpai-lab/KULLM)|고려 대학교에서 개발한 LLM 모델|
+|[KoAlpaca](https://github.com/Beomi/KoAlpaca)|스탠포드의 Alpaca에 기반한 한국어 알파카 모델|
+|[KoGPT](https://huggingface.co/kakaobrain/kogpt)|Kakao Brain에서 공개한 6B 규모의 언어모델|
+|LLaMA-Ko|LLaMa의 한국어 모델|
+|GPT-3.5|OpenAI의 모델|
+|[Claude2](https://claude.ai/)|Anthropic의 모델|
+|[Gemma-2-2b](https://huggingface.co/google/gemma-2-2b)||
 
 <br>
 <br>
