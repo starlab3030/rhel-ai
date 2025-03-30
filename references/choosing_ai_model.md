@@ -145,9 +145,11 @@ LLM 분류 - 다양한 유형의 사전 학습된 모델
 
 ### 5.1 한국어 지원 모델 평가
 
+#### 5.1.1 항목별 평가
+
 <img src="images/evaluate_model_with_CLIcK.png" title="100px" alt="한국어 모델 평가"/>
 
-
+#### 5.1.2 전체 평가 결과
 
 | Models            | Average Accuracy (Korean Culture) | Average Accuracy (Korean Language) |
 |-------------------|-----------------------------------|------------------------------------|
