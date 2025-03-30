@@ -2,7 +2,7 @@
 
 
 
-## 1. 
+## 1. 합성 데이터 생성 및 모델 훈련
 
 대규모 언어 모델(LLM)의 품질은 학습 중에 사용되는 데이터의 품질에 크게 좌우된다는 것이 점점 더 분명해지고 있습니다. 반면에 비즈니스 사용 사례에 대한 특수 모델이 필요한 기업의 경우 실제 데이터를 얻고 모델 학습을 위해 주석을 달기가 어려울 수 있습니다. 
 
@@ -62,12 +62,14 @@
 * 이를 통해 지식을 더 전문화된 [소규모 언어 모델(SLM)](https://www.redhat.com/en/topics/ai/llm-vs-slm)로 이전하는 것이 용이
   + 응답 시간이 더 빠르고 배포 후 리소스 집약도가 낮음
   + 특히 Meta의 Llama 라이선스는 3.1 릴리스에서 증류를 명시적으로 허용하도록 변경
-  + 많은 독점 모델이 이러한 워크플로를 허용하지 않는다는 점에 **`유의`**하는 것이 중요
+  + 많은 독점 모델이 이러한 워크플로를 허용하지 않는다는 점에 `**유의**`하는 것이 중요
 
-&nbsp;<img src="images/knowledge-transfer.png.png" width="90%" title="100px" alt="지식 전달"/>
+**교사 & 학생 모델**
 
-* 기존 모델 증류를 사용
-* 교사 모델은 더 작은 학생 모델로 지식을 전달하면서 증류
+  <img src="images/knowledge-transfer.png.png" width="90%" title="100px" alt="지식 전달"/>
+
+  + 기존 모델 증류를 사용
+  + 교사 모델은 더 작은 학생 모델로 지식을 전달하면서 증류
 
 #### 1.2.2 반복적인 자기개선
 
@@ -98,9 +100,9 @@
 
 **InstructLab의 분류법(taxonomy)**
 
-&nbsp;<img src="images/generate_synthetic_data.png" width="90%" title="100px" alt="합성 데이터 생성"/>
+  <img src="images/generate_synthetic_data.png" width="90%" title="100px" alt="합성 데이터 생성"/>
 
-* 모델 사용자 정의를 위한 합성 데이터 생성에 사용할 초기 시드 데이터를 구성
+  + 모델 사용자 정의를 위한 합성 데이터 생성에 사용할 초기 시드 데이터를 구성
 
 #### 1.2.3 모델 훈련에서 데이터 정제 및 합성 증강
 
@@ -125,9 +127,9 @@
 
 **모델 학습에서의 데이터 정제 및 합성 증강**
 
-&nbsp;<img src="images/Data refinement and synthetic augmentation in model training.png.png" width="90%" title="100px" alt="합성 데이터 생성"/>
+  <img src="images/Data refinement and synthetic augmentation in model training.png.png" width="90%" title="100px" alt="합성 데이터 생성"/>
 
-* Cosmopedia에서는 초기 웹 추출물과 시드 예시가 다시 표현되어 더 많은 맥락과 더 깊은 배경 맥락을 제공
+  + Cosmopedia에서는 초기 웹 추출물과 시드 예시가 다시 표현되어 더 많은 맥락과 더 깊은 배경 맥락을 제공
 <br>
 
 ### 1.3 합성 데이터의 품질 및 편향 위험
