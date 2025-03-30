@@ -64,7 +64,7 @@
   + 특히 Meta의 Llama 라이선스는 3.1 릴리스에서 증류를 명시적으로 허용하도록 변경
   + 많은 독점 모델이 이러한 워크플로를 허용하지 않는다는 점에 **`유의`**하는 것이 중요
 
-<img src="images/knowledge-transfer.png.png" title="100px" alt="지식 전달"/>
+&nbsp;<img src="images/knowledge-transfer.png.png" width="90%" title="100px" alt="지식 전달"/>
 
 * 기존 모델 증류를 사용
 * 교사 모델은 더 작은 학생 모델로 지식을 전달하면서 증류
@@ -97,7 +97,8 @@
   + [치명적인 망각](https://en.wikipedia.org/wiki/Catastrophic_interference)을 방지
 
 **InstructLab의 분류법(taxonomy)**
-<img src="images/generate_synthetic_data.png" width="80%" title="100px" alt="합성 데이터 생성"/>
+
+&nbsp;<img src="images/generate_synthetic_data.png" width="90%" title="100px" alt="합성 데이터 생성"/>
 
 * 모델 사용자 정의를 위한 합성 데이터 생성에 사용할 초기 시드 데이터를 구성
 
@@ -123,7 +124,8 @@
 * 이렇게 생성된 합성 데이터는 원래 아이디어를 더욱 심층적이고 명확하게 확장하여 원래 데이터 샘플의 다양성과 품질을 높임
 
 **모델 학습에서의 데이터 정제 및 합성 증강**
-<img src="images/Data refinement and synthetic augmentation in model training.png.png" title="100px" alt="합성 데이터 생성"/>
+
+&nbsp;<img src="images/Data refinement and synthetic augmentation in model training.png.png" width="90%" title="100px" alt="합성 데이터 생성"/>
 
 * Cosmopedia에서는 초기 웹 추출물과 시드 예시가 다시 표현되어 더 많은 맥락과 더 깊은 배경 맥락을 제공
 <br>
