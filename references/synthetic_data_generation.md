@@ -66,10 +66,10 @@
 
 **교사 & 학생 모델**
 
-  <img src="images/knowledge-transfer.png.png" width="90%" title="100px" alt="지식 전달"/>
+<img src="images/knowledge-transfer.png.png" width="90%" title="100px" alt="지식 전달"/>
 
-  + 기존 모델 증류를 사용
-  + 교사 모델은 더 작은 학생 모델로 지식을 전달하면서 증류
+* 기존 모델 증류를 사용
+* 교사 모델은 더 작은 학생 모델로 지식을 전달하면서 증류
 
 #### 1.2.2 반복적인 자기개선
 
@@ -100,9 +100,9 @@
 
 **InstructLab의 분류법(taxonomy)**
 
-  <img src="images/generate_synthetic_data.png" width="90%" title="100px" alt="합성 데이터 생성"/>
+<img src="images/generate_synthetic_data.png" width="90%" title="100px" alt="합성 데이터 생성"/>
 
-  + 모델 사용자 정의를 위한 합성 데이터 생성에 사용할 초기 시드 데이터를 구성
+* 모델 사용자 정의를 위한 합성 데이터 생성에 사용할 초기 시드 데이터를 구성
 
 #### 1.2.3 모델 훈련에서 데이터 정제 및 합성 증강
 
@@ -113,12 +113,12 @@
   + 훈련 프로세스에 상당한 양의 합성 데이터를 통합하여 복잡한 추론에 뛰어남
   + 사전 훈련 중에 데이터 정제, 필터링 및 분류를 결합하여 더 높은 품질의 데이터 코퍼스를 생성
 
-**[HuggingFace Cosmopedia 데이터 세트](https://github.com/huggingface/cosmopedia)**
-* 250억 개가 넘는 토큰
-* 지금까지 가장 큰 규모의 오픈 합성 데이터 세트 중 하나
-
-**[RefinedWeb 데이터 세트](https://arxiv.org/abs/2306.01116)**
-* 초기 웹 샘플에는 빵 굽는 방법에 대한 간단한 설명과 함께 "베이킹 기술"에 대한 기사가 포함
+**데이터 세트 예**
+  * [HuggingFace Cosmopedia 데이터 세트](https://github.com/huggingface/cosmopedia)
+    + 250억 개가 넘는 토큰
+    + 지금까지 가장 큰 규모의 오픈 합성 데이터 세트 중 하나
+  * [RefinedWeb 데이터 세트](https://arxiv.org/abs/2306.01116)
+    + 초기 웹 샘플에는 빵 굽는 방법에 대한 간단한 설명과 함께 "베이킹 기술"에 대한 기사가 포함
 
 **[Mixtral-8x7B-Instruct 모델](https://mistral.ai/en/news/mixtral-of-experts)을 사용하여 데이터의 합성적 재표현**
 * 사용자 지정 프롬프트가 모델에 초보자를 위한 자세한 가이드를 만들도록 다음과 같은 지시 가능
@@ -127,9 +127,9 @@
 
 **모델 학습에서의 데이터 정제 및 합성 증강**
 
-  <img src="images/Data refinement and synthetic augmentation in model training.png.png" width="90%" title="100px" alt="합성 데이터 생성"/>
+<img src="images/Data refinement and synthetic augmentation in model training.png.png" width="90%" title="100px" alt="합성 데이터 생성"/>
 
-  + Cosmopedia에서는 초기 웹 추출물과 시드 예시가 다시 표현되어 더 많은 맥락과 더 깊은 배경 맥락을 제공
+* Cosmopedia에서는 초기 웹 추출물과 시드 예시가 다시 표현되어 더 많은 맥락과 더 깊은 배경 맥락을 제공
 <br>
 
 ### 1.3 합성 데이터의 품질 및 편향 위험
