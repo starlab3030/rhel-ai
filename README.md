@@ -30,6 +30,8 @@
 * [소개 및 특징](./nvidia_gpus/nvidia_gpu_features.md)
 
 **참조**
+* [AI 모델 선택](./references/choosing_ai_model.md)
+* [GGUF vs GGLM](./references/gguf_vs_gglm.md)
 * [합성 데이터 생성](./references/synthetic_data_generation.md)
 
 <br>
