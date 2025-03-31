@@ -106,13 +106,23 @@ AI와 머신 러닝에 익숙하지 않다면 현대 AI 기술이 해결할 수 
 
 ### 4.1 LLM 타입
 
-LLM 분류 - 다양한 유형의 사전 학습된 모델
+#### 4.1.1 LLM 분류 - 다양한 유형의 사전 학습된 모델
+
 |$\color{lime}{\texttt{LLM 타입}}$|$\color{lime}{\texttt{설명}}$|
 |:---|:---|
 |Base LLMs|<ul><li>방대한 양의 정보에 대해 학습된 모델</li><li>텍스트를 이해하고 생성하는 데 좋지만 특정 작업을 수행하려면 추가 학습이 필요</li></ul>|
 |Instruct LLMs|<ul><li>입력 프롬프트 또는 명령에 따라 텍스트를 생성하도록 미세 조정된 기본 모델</li></ul>|
 |Chat LLMs|<ul><li>대화 시나리오에 대해 학습된 모델</li><li>자연스러운 대화를 유지하고 채팅 기록을 컨텍스트로 유지</li></ul>|
 |Mixture of Experts (MoE)|<ul><li>요청을 가장 적합한 모델에 분배하는 라우터가 있는 여러 LLM으로 구성된 모델</li></ul>|
+
+#### 4.1.2 모델 별 사양
+
+|$\color{lime}{\texttt{모델 이름}}$|$\color{lime}{\texttt{패러미터}}$|$\color{lime}{\texttt{레이어}}$|$\color{lime}{\texttt{크기}}$|
+|:---|---:|---:|---:|
+|[granite-3.1-2b-base](https://huggingface.co/ibm-granite/granite-3.1-2b-base)|2.53B|BF16 / 40-레이터|약 5.x GiB|
+|[granite-3.1-2b-instruct](https://huggingface.co/ibm-granite/granite-3.2-2b-instruct)|2.53B|BF16 / 40-레이어|약 5.x GiB|
+|[granite-3.1-8b-base](https://huggingface.co/ibm-granite/granite-3.1-8b-base)|8.17B|BF16 / 40-레이어|약 16.x GiB|
+|[granite-3.1-8b-instruct](https://huggingface.co/ibm-granite/granite-3.1-8b-instruct)|8.17B|BF16 / 40-레이어|약 16.x GiB|
 <br>
 
 ### 4.2 모델 크기 및 양자화
@@ -151,7 +161,7 @@ LLM 분류 - 다양한 유형의 사전 학습된 모델
 
 #### 5.1.2 전체 평가 결과
 
-| 모델              | 평균 정확도 (한국어) | 평균 정확도 (한국어) |
+| 모델               | 평균 정확도 (한국어)                   | 평균 정확도 (한국어)                   |
 |-------------------|-----------------------------------|------------------------------------|
 | Polyglot-Ko 1.3B  | 32.71%                            | 22.88%                             |
 | Polyglot-Ko 3.8B  | 32.90%                            | 22.38%                             |
