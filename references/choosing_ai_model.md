@@ -118,8 +118,8 @@ AI와 머신 러닝에 익숙하지 않다면 현대 AI 기술이 해결할 수 
 #### 4.1.2 모델 별 사양
 
 |$\color{lime}{\texttt{모델 이름}}$|$\color{lime}{\texttt{패러미터}}$|$\color{lime}{\texttt{레이어}}$|$\color{lime}{\texttt{크기}}$|
-|:---|---:|---:|---:|
-|[granite-3.1-2b-base](https://huggingface.co/ibm-granite/granite-3.1-2b-base)|2.53B|BF16 / 40-레이터|약 5.x GiB|
+|:---|:---:|:---:|:---|
+|[granite-3.1-2b-base](https://huggingface.co/ibm-granite/granite-3.1-2b-base)|2.53B|BF16 / 40-레이어|약 5.x GiB|
 |[granite-3.1-2b-instruct](https://huggingface.co/ibm-granite/granite-3.2-2b-instruct)|2.53B|BF16 / 40-레이어|약 5.x GiB|
 |[granite-3.1-8b-base](https://huggingface.co/ibm-granite/granite-3.1-8b-base)|8.17B|BF16 / 40-레이어|약 16.x GiB|
 |[granite-3.1-8b-instruct](https://huggingface.co/ibm-granite/granite-3.1-8b-instruct)|8.17B|BF16 / 40-레이어|약 16.x GiB|
@@ -151,7 +151,7 @@ AI와 머신 러닝에 익숙하지 않다면 현대 AI 기술이 해결할 수 
 <br>
 <br>
 
-## 5. 모델
+
 
 ### 5.1 한국어 지원 모델 평가
 
@@ -190,7 +190,6 @@ AI와 머신 러닝에 익숙하지 않다면 현대 AI 기술이 해결할 수 
 |GPT-3.5|OpenAI의 모델|
 |[Claude2](https://claude.ai/)|Anthropic의 모델|
 |[Gemma-2-2b](https://huggingface.co/google/gemma-2-2b)|구글의 AI 모델|
-
 <br>
 <br>
 
