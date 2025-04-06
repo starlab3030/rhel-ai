@@ -1,6 +1,11 @@
 # Podman Desktop 
 
 **차례**
+1. 
+2. 
+3. 
+<br>
+<br>
 
 
 ## 1. RHEL에 Podman-Desktop 설치 및 구성
@@ -388,6 +393,7 @@ JSON 응답
 * 서비스 세부 정보 열기를 클릭하여 확인
 * 서비스 세부 정보 페이지는 컨테이너 ID, 엔드포인트, 서비스가 실행 중인 모델과 같은 기본 정보를 제공
 * 서비스에 요청을 하려면 선택한 언어로 예제 코드를 복사하여 실행
+* ***Inference Endpoint URL***: 추론 모델 서비스 엔드포인트 URL
 <br>
 
 ### 1.5 플레이그라운드
@@ -424,18 +430,263 @@ JSON 응답
 
 <img src="./images/podman-desktop-container-kube.png" title="100px" alt="컨테이너 K8S 앱"></img>
 <br>
-<br>
+
+### 1.7 모델 서비스에 질의 및 응답
+
+#### 1.7.1 **~/model-query** 폴더 및 파일 리스트
+
+[~/model-query](./src/model-query/) 폴더
+```
+[seulee@rhel94-pd ~]$ tree -F model-query/
+app/
+├── assistant.py
+├── config.py
+├── database.py
+├── main.py
+└── requirements.txt
+
+1 directory, 5 files
+
+[seulee@rhel94-pd ~]$
+```
+
+#### 1.7.2 **~/model-query/main.py** 주요 내용
+
+[~/model-query/main.py](./src/model-query/main.py)
+```py
+query = generate_query(user_input) #1
+click.secho(query, fg="cyan", italic=True)
+result = run_query(query)
+click.echo(result) #2
+```
+1. 사용자 요청을 읽고, SQL 문을 생성하는 *generate_query()*를 호출
+2. SQL 문 실행을 위해 *run_query()*를 호출
+
+#### 1.7.3 **~/model-query/assistant.py** 주요 내용
+
+[~/model-query/assistant.py](./src/model-query/assistant.py)
+```py
+llm = OpenAI(base_url=model_url, api_key="not-needed", temperature=0.1) #1
+prompt_template = PromptTemplate.from_template(template)
+
+def generate_query(user_input: str):
+    table_definitions = get_db_tables_schema()
+    # TODO: add parameters
+    prompt = prompt_template.invoke(
+        {"tables": table_definitions, "user_input": user_input} #2
+    )
+    return llm.invoke(prompt)
+```
+1. **OpenAI()**에서 *base_url* 인수로 모델의 URL 전달
+2. *tables*와 *user_input* 변수를 가지고 템플릿 제공
+
+#### 1.7.4 파이썬 가상화 환경
 
 실행 명령어
 ```bash
+python -m venv .venv && source .venv/bin/activate
+```
 
+```실행 결과
+[seulee@rhel94-pd ~]$ python -m venv .venv && source .venv/bin/activate
+
+(.venv) [seulee@rhel94-pd ~]$
+```
+
+#### 1.7.5 필요한 패키지 설치
+
+실행 명령어 - [~/model-query/requirements.txt](./src/model-query/requirements.txt)
+```bash
+pip install -r model-query/requirements.txt
 ```
 
 실행 결과
 ```
+(.venv) [seulee@rhel94-pd ~]$ pip install -r model-inquery/requirements.txt
+Defaulting to user installation because normal site-packages is not writeable
+Collecting aiohappyeyeballs==2.4.0
+  Downloading aiohappyeyeballs-2.4.0-py3-none-any.whl (12 kB)
+Collecting aiohttp==3.10.5
+  Downloading aiohttp-3.10.5-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (1.2 MB)
+     |████████████████████████████████| 1.2 MB 9.8 MB/s
+Collecting aiosignal==1.3.1
+  Downloading aiosignal-1.3.1-py3-none-any.whl (7.6 kB)
 
+...<snip>...
+
+  WARNING: Value for scheme.platlib does not match. Please report this to <https://github.com/pypa/pip/issues/10151>
+  distutils: /home/seulee/.local/lib/python3.9/site-packages
+  sysconfig: /home/seulee/.local/lib64/python3.9/site-packages
+  WARNING: Additional context:
+  user = True
+  home = None
+  root = None
+  prefix = None
+    Running setup.py install for dotenv-python ... done
+Successfully installed GitPython-3.1.43 PyYAML-6.0.2 Pygments-2.18.0 SQLAlchemy-2.0.32 aiohappyeyeballs-2.4.0 
+...<snip>...
+typing-extensions-4.12.2 typing-inspect-0.9.0 urllib3-2.2.2 uvicorn-0.23.2 wheel-0.44.0 yarl-1.9.6
+
+(.venv) [seulee@rhel94-pd ~]$
 ```
 
+#### 1.7.6 데이터베이스 확인
+
+실행 명령어
+```bash
+podman ps -a
+podman start movies_db
+podman ps -a
+```
+
+실행 결과
+```
+(.venv) [student@workstation app]$ podman ps -a
+CONTAINER ID  IMAGE                                     COMMAND         CREATED      STATUS                     PORTS                   NAMES
+3614639d4078  registry.redhat.io/rhel9/postgresql-13:1  run-postgresql  2 hours ago  Exited (0) 42 minutes ago  0.0.0.0:5432->5432/tcp  movies_db
+
+(.venv) [student@workstation app]$ podman start movies_db
+movies_db
+
+(.venv) [student@workstation app]$ podman ps -a
+CONTAINER ID  IMAGE                                     COMMAND         CREATED      STATUS        PORTS                   NAMES
+3614639d4078  registry.redhat.io/rhel9/postgresql-13:1  run-postgresql  2 hours ago  Up 4 seconds  0.0.0.0:5432->5432/tcp  movies_db
+
+(.venv) [student@workstation app]$ 
+```
+
+#### 1.7.7 데이터베이스 연결
+
+실행 명령어
+```bash
+podman exec -it movies_db /bin/bash --
+psql
+\c
+\list
+\q
+exit
+```
+
+실행 결과
+```
+(.venv) [student@workstation app]$ podman exec -it movies_db /bin/bash --
+bash-5.1$ psql
+
+postgres=# \c
+You are now connected to database "postgres" as user "postgres".
+
+postgres-# \list
+                                 List of databases
+   Name    |  Owner   | Encoding |  Collate   |   Ctype    |   Access privileges   
+-----------+----------+----------+------------+------------+-----------------------
+ movies    | student  | UTF8     | en_US.utf8 | en_US.utf8 | 
+ postgres  | postgres | UTF8     | en_US.utf8 | en_US.utf8 | 
+ template0 | postgres | UTF8     | en_US.utf8 | en_US.utf8 | =c/postgres          +
+           |          |          |            |            | postgres=CTc/postgres
+ template1 | postgres | UTF8     | en_US.utf8 | en_US.utf8 | =c/postgres          +
+           |          |          |            |            | postgres=CTc/postgres
+(4 rows)
+
+postgres-# \q
+
+bash-5.1$ exit
+exit
+
+(.venv) [student@workstation app]$ 
+```
+
+#### 1.7.8 데이터베이스 외부 연결
+
+실행 명령어
+```
+podman exec movies_db   psql -U student -d movies   -c "SELECT title FROM Movies"
+```
+
+실행 결과
+```
+(.venv) [student@workstation app]$ podman exec movies_db   psql -U student -d movies   -c "SELECT title FROM Movies"
+       title        
+--------------------
+ The Infinite Chase
+ Parallel Universes
+ Podman Forever
+ The Silent Forest
+ Quantum Paradox
+(5 rows)
+
+(.venv) [student@workstation app]$ 
+```
+
+#### 1.7.9 환경 변수 설정
+
+실행 명령어
+```bash
+export MODEL_URL="http://localhost:41035/v1"
+```
+
+실행 결과
+```
+(.venv) [student@workstation app]$ export MODEL_URL="http://localhost:41035/v1"
+
+(.venv) [student@workstation app]$ echo $MODEL_URL
+http://localhost:41035/v1
+
+(.venv) [student@workstation app]$ 
+```
+
+#### 1.7.10 데이터베이스에 질의 요청
+
+실행 명령어
+```bash
+python main.py
+Give me a list of movie titles
+```
+
+실행 결과
+```
+(.venv) [student@workstation app]$ python main.py
+Movie Database Assistant. Type 'exit' to quit.
+
+> Give me a list of movie titles
+
+SELECT title FROM Movies;
++--------------------+
+| title              |
++====================+
+| The Infinite Chase |
++--------------------+
+| Parallel Universes |
++--------------------+
+| Podman Forever     |
++--------------------+
+| The Silent Forest  |
++--------------------+
+| Quantum Paradox    |
++--------------------+
+
+> Give me a query to get the actors for the movie titled "Podman Forever".
+SELECT Actors.name 
+FROM Movies_Actors 
+JOIN Movies ON Movies_Actors.movie_id = Movies.id 
+JOIN Actors ON Movies_Actors.actor_id = Actors.id 
+WHERE Movies.title = 'Podman Forever';
++------------+
+| name       |
++============+
+| Zara Quill |
++------------+
+| Finn Lyric |
++------------+
+
+> exit
+Bye...
+
+(.venv) [student@workstation app]$ 
+```
+* 질의에 대한 응답은 모델이 시간이 걸림
+
+> [!NOTE]
+> 사용된 모델은 특정 사용 사례에 미세 조정되지 않은 사전 학습된 코딩 LLM을 사용합니다. 예를 들어 모델이 쿼리에 소개 텍스트를 제공하거나 복잡한 조인 쿼리를 시도하는 경우 응용 프로그램이 실패할 수 있습니다.
 <br>
 <br>
 
