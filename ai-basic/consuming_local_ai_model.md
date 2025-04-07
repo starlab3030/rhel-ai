@@ -54,6 +54,7 @@
 
 > [!NOTE]
 > LLM은 비결정적이므로 LLM이 프롬프트의 지시를 완벽하게 따르지 않거나 거짓 진술이나 환각을 생성할 가능성이 있습니다. LLM은 아키텍처, 훈련 데이터 및 훈련 프로세스가 다릅니다.<br>
+> <br>
 > 따라서 동일한 프롬프트 엔지니어링 기술이 다른 모델에서 다르게 수행될 수 있습니다. 프롬프트 엔지니어링이 잘 수행되지 않으면 벡터 데이터베이스와 검색 증강 생성(RAG) 아키텍처를 사용하거나 모델을 미세 조정하여 프롬프트의 컨텍스트 정보를 개선하는 것을 살펴볼 수 있습니다.
 <br>
 
@@ -206,6 +207,147 @@ Podman AI Lab의 플레이그라운드
 
 ## 4. LangChain을 통한 LLM 연결
 
+### 4.1 *LangChain*
+
+**LangChain**
+* LLM을 사용하는 애플리케이션을 만드는 데 사용할 수 있는 주요 프레임워크 중 하나
+* 지원 프로그래밍 언어
+  + 공식적으로 Python과 JavaScript를 지원
+  + Java용 langchain4j와 같은 다른 언어로의 포팅이 있음
+* 언어 처리 애플리케이션에서 일반적인 구성 요소 모음으로 설계됨
+<br>
+
+### 4.2 메시지(Messages)
+
+#### 4.2.1 모델 입력
+
+* 일부 LangChain 모델은 입력으로 문자열을 허용
+* 다른 모델은 통신을 위해 메시지 객체를 사용
+  + LangChain은 *SystemMessage*, *UserMessage* 또는 *AIMessage*와 같은 다양한 유형의 메시지를 제공
+
+#### 4.2.2 파이썬 코드 예
+
+```py
+from langchain_core.messages import HumanMessage, SystemMessage
+
+messages = [
+    SystemMessage(content="You are a helpful assistant."),
+    HumanMessage(content="What is your name?"),
+    AIMessage(content="My name is Tom")
+]
+```
+
+#### 4.2.3 튜플 목록으로 정의된 메시지
+
+LangChain 구성 요소는 다음과 같은 튜플 목록으로 정의된 메시지도 허용
+```py
+messages = [
+    ("system", "You are a helpful assistant."),
+    ("user", "What is your name?"),
+    ("assistant", "My name is Alice")
+]
+```
+<br>
+
+### 4.3 프롬프트 템플림 (Prompt Templates)
+
+#### 4.3.1 프롬프트 템플릿이란
+
+* 프롬프트 내부의 프롬프트 변수를 프로그래밍 방식으로 대체하기 위한 템플릿
+
+#### 4.3.2 프롬프트 변수를 정의
+
+* 프롬프트 텍스트에서 변수 이름을 중괄호로 묶음
+* 문자열이 있는 *PromptTemplate* 클래스를 사용하거나 메시지 목록이 있는 *ChatPromptTemplate*을 사용하여 프롬프트를 생성
+  + 이러한 클래스 중 하나에서 *invoke*를 호출
+  + LangChain 모델의 일반적인 입력 유형인 *PromptValue*가 생성
+* 템플릿 클래스의 *invoke* 메서드는 사전(딕셔너리)을 입력으로 사용
+  + 사전 키(key)는 대체할 변수
+  + 사전 값(values)은 최종 프롬프트 텍스트에 표시되는 것
+
+#### 4.3.3 문자열에서 프롬프트 템플릿을 사용하는 예제
+
+```py
+from langchain_core.prompts import PromptTemplate
+
+template_string = PromptTemplate.from_template(
+    "Translate \"Where is the airport?\" to {language}"
+)
+prompt_value = prompt_template.invoke({"language": "French"})
+```
+
+> [!NOTE]
+> *invoke* 메서드는 LangChain 구성 요소를 실행하는 주요 방법 중 하나입니다. 각 구성 요소에는 고유한 *invoke* 구현이 있습니다.<br>
+> <br>
+> LangChain은 구성 요소를 실행 가능한 구성 요소로 설계합니다. 이러한 모든 구성 요소는 *invoke* 또는 *batch*와 같은 메서드를 구현합니다. 공통 API를 공유하면 구성 요소 사용이 간소화되고 이 섹션의 끝에서 설명하는 구성 요소 체이닝과 같은 추가 이점이 제공됩니다.
+
+#### 4.3.4 메시지 목록에서 프롬프트 템플릿을 사용하는 예제
+
+```py
+from langchain_core.prompts import ChatPromptTemplate
+
+prompt_template = ChatPromptTemplate.from_messages([
+    ("system", "You are a {language} translator."),
+    ("user", "Where is the airport?")
+])
+prompt_value = prompt_template.invoke({"language": "French"})
+```
+<br>
+
+### 4.4 모델 (Models)
+
+LangChain 모델 클래스는 많은 모델 공급자와의 통합을 제공
+
+#### 4.4.1 OpenAI API와 간단한 통합을 만드는 OpenAI 클래스를 사용하는 예제
+
+```py
+from langchain_openai import OpenAI
+
+llm = OpenAI(base_url="https://...", api_key="...", temperature=0.5) #1 
+string_response = llm.invoke("Tell me a joke") #2
+```
+1. 모델 객체를 만듦
+   + 구성 매개변수와 하이퍼 매개변수를 전달
+2. 텍스트 문자열을 전달하여 모델을 실행
+   + 출력도 텍스트 문자열로 반환
+
+> [!NOTE]
+> Podman AI Lab에서 사용 가능한 많은 모델은 OpenAI API와 호환되는 *llama.cpp* HTTP 서버를 사용합니다. 즉, LangChain의 OpenAI 클래스를 사용하여 이러한 로컬 모델을 사용할 수 있습니다. 이렇게 하려면 다음과 같이 *base_url* 매개변수를 제공합니다.
+> ```
+> OpenAI(base_url="http://localhost:PORT", api_key="not-needed", ...)
+> ```
+
+#### 4.4.2 Chat Models
+
+LangChain은 모델 클래스 위에 Chat Models라는 추가 추상화를 제공
+* Chat 모델은 채팅 애플리케이션에 맞게 조정된 보다 정교한 API를 제공
+* 텍스트 문자열을 입력 및 출력으로 사용하는 대신, 채팅 모델은 메시지 객체를 사용
+  + 메시지 목록을 입력으로 받고 *AssistantMessage*를 출력으로 생성
+* 예를 들어, OpenAI로 간단한 채팅 애플리케이션을 만들려면 다음과 같이 *ChatOpenAI* 클래스를 사용 가능
+  ```py
+  from langchain_openai import ChatOpenAI
+  
+  llm = ChatOpenAI(base_url="http://localhost:PORT", ...) #1
+  messages = [
+      ("system", "You are a Java assistant that implements methods."), #2
+      ("human", "Create a method to sort a list of dates"),
+  ]
+  ai_msg = llm.invoke(messages) #3
+  ```
+  1. 채팅 모델 객체를 만듦
+  2. 메시지 목록을 정의
+     + 메시지 객체나 튜플로 정의
+  3. 모델 실행
+
+> [!NOTE]
+> LangChain은 채팅이 아닌 사용 사례에도 채팅 모델 클래스를 사용할 것을 권장합니다.
+<br>
+
+### 4.5 
+
+<br>
+
+### 4.6 
 
 <br>
 <br>
