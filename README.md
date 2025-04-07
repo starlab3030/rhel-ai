@@ -26,11 +26,16 @@
 2. [InstructLab 시작](./rhsc-demo/start-with-instructlab.md)<br>
 3. [AI를 앱에 통합](./rhsc-demo/integrate-ai-into-app.md)<br>
 
+**Podman Desktop과 AI 모델**
+* [AI 모델 선택](./ai-basic/choosing_ai_model.md)
+* [모델을 로컬에서 실행](./ai-basic/running_models_locally.md)
+* [클라이언트 앱과 모델 연결](./ai-basic/consuming_local_ai_model.md)
+* [Podman Desktop과 AI 모델](./ai-basic/podman_desktop_with_ai_model.md)
+
 **NVIDIA GPU**
 * [소개 및 특징](./nvidia_gpus/nvidia_gpu_features.md)
 
 **참조**
-* [AI 모델 선택](./references/choosing_ai_model.md)
 * [GGUF vs GGLM](./references/gguf_vs_gglm.md)
 * [합성 데이터 생성](./references/synthetic_data_generation.md)
 
