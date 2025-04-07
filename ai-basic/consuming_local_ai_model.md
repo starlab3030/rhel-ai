@@ -343,12 +343,45 @@ LangChain은 모델 클래스 위에 Chat Models라는 추가 추상화를 제�
 > LangChain은 채팅이 아닌 사용 사례에도 채팅 모델 클래스를 사용할 것을 권장합니다.
 <br>
 
-### 4.5 
+### 4.5 출력 파서 (Output Parsers)
 
+일반적으로 텍스트나 메시지 형태로 모델이 생성하는 출력을 받아서 다른 형식으로 변환
+
+JSON 파서가 보조 메시지를 받아서 JSON 사전으로 변환 예제
+```py
+from langchain_core.output_parsers import JsonOutputParser
+
+...<snip>...
+
+messages = [...]
+ai_msg = llm.invoke(messages)
+parser = JsonOutputParser()
+json_dict = parser.invoke(ai_msg)
+
+...<snip>...
+```
 <br>
 
-### 4.6 
+### 4.6 Chains과 LCEL
 
+**Chains**
+* 복잡한 작업을 수행하기 위해 함께 배치하는 LangChain 구성 요소의 시퀀스
+* 체인을 구성하여 복잡한 워크플로 생성
+* 모든 구성 요소의 출력은 다음 체인 구성 요소의 입력으로 전달
+* 따라서 구성 요소의 출력 유형은 다음 구성 요소의 입력 유형과 호환
+
+**LangChain Expression Language (LCEL)**
+* 체인을 만드는 선언적 방법
+* Python에서 LCEL을 사용하여 다음 예와 같이 파이프 기호(|)로 LangChain 구성 요소를 구분하여 체인을 생성
+  ```py
+  prompt_template = ChatPromptTemplate.from_messages([
+      ("system", "You are a {language} translator."),
+      ("user", "Where is the airport?")
+  ])
+  llm = ChatOpenAI(base_url="...")
+  chain = prompt_template | llm | JsonOutputParser()
+  json_dict = chain.invoke({"language": "French"})
+  ```
 <br>
 <br>
 
