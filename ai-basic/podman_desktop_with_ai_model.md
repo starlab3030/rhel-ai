@@ -1,9 +1,9 @@
 # Podman Desktop 
 
 **차례**
-1. 텍스트
-2. 텍스트
-3. 텍스트
+1. [RHEL에 Podman Desktop 설치 및 구성](podman_desktop_with_ai_model.md#1-rhel에-podman-desktop-설치-및-구성)
+2. [Podman AI Lab](podman_desktop_with_ai_model.md#2-podman-ai-lab)
+3. [클라이언트 연결](podman_desktop_with_ai_model.md#3-클라이언트-연결)
 <br>
 <br>
 
@@ -187,16 +187,19 @@ Autostarting podman-desktop.podman container engine
 
 <img src="./images/podman-desktop.png" title="100px" alt="포드맨-데스크탑"></img>
 <br>
+<br>
 
-### 1.3 Podman AI Extension 설치
+## 2. Podman AI Lab
 
-#### 1.3.1 AI Lab 설치
+### 2.1 Podman AI Extension 설치
+
+#### 2.1.1 AI Lab 설치
 
 포드맨 AI 랩 설치 후 확인
 
 <img src="./images/podman-ai-lab.png" title="100px" alt="포드맨 AI 랩"></img>
 
-#### 1.3.2 AI 랩의 **Catalog** 
+#### 2.1.2 AI 랩의 **Catalog** 
 
 다운로드하여 실행할 수 있는 모델 목록
 <img src="./images/ai-lab-models-catalog.png" title="100px" alt="모델 확인 및 다운로드"></img>
@@ -205,8 +208,7 @@ Autostarting podman-desktop.podman container engine
 * 이러한 모델의 대부분은 GGUF 형식으로 양자화되어 워크스테이션에서 실행 가능
 * 카탈로그에 자체 모델을 가져올 수도 있음
 
-
-#### 1.3.3 AI 랩의 **Services**
+#### 2.1.3 AI 랩의 **Services**
 
 모델을 실행하려면 먼저 모델을 다운로드한 다음 서비스를 만들어야 함
 <img src="./images/ai-lab-models-service.png" title="100px" alt="서비스 중인 모델"></img>
@@ -220,7 +222,7 @@ Autostarting podman-desktop.podman container engine
 > [!NOTE]
 > 포드맨 AI 랩은 아직 ResNet을 위한 서비스를 제공하지 않음
 
-#### 1.3.4 AI 랩의 **Playgrouds**
+#### 2.1.4 AI 랩의 **Playgrouds**
 
 Playgroud는 Podman Desktop에 내장된 채팅 창
 <img src="./images/ai-lab-models-playgrouds.png" title="100px" alt="실행 중인 채팅을 위한 플레이그라운드 나열"></img>
@@ -231,10 +233,11 @@ Playgroud는 Podman Desktop에 내장된 채팅 창
 > [!NOTE]
 > 포드맨 AI는, 또한, UI를 포함한 AI 앱 생성을 위한 템플릿인 레시피를 제공합니다.
 <br>
+<br>
 
-### 1.4 모델 관리
+### 2.2 모델 관리
 
-#### 1.4.1 모델 다운로드
+#### 2.2.1 모델 다운로드
 
 <img src="./images/podman-desktop-model-download.png" title="100px" alt="모델 다운로드"></img>
 
@@ -243,7 +246,7 @@ Playgroud는 Podman Desktop에 내장된 채팅 창
 * ResNet과 같은 다른 기본 모델은 LLM이 아니며 PyTorch와 같은 다른 형식으로 다운로드
 * 모델 파일을 다운로드한 후 모델 서비스를 만들거나 파일 시스템에서 모델 파일을 볼 수 있음
 
-#### 1.4.2 다운로드한 모델 확인
+#### 2.2.2 다운로드한 모델 확인
 
 실행 명령어
 ```bash
@@ -263,7 +266,7 @@ tree -F .local/share/containers/podman-desktop/extensions-storage/redhat.ai-lab/
 [root@rhel94-pd ~]# 
 ```
 
-#### 1.4.3 모델 실행
+#### 2.2.3 모델 실행
 
 **다운로드한 LLM 실행을 위해 서비스 생성**
 <img src="./images/podman-desktop-model-service.png" title="100px" alt="모델 서비스"></img>
@@ -278,11 +281,11 @@ tree -F .local/share/containers/podman-desktop/extensions-storage/redhat.ai-lab/
 **생성된 모델 확인**
 <img src="./images/podman-desktop-model-service-created.png" title="100px" alt="모델 서비스"></img>
 
-#### 1.4.4 모델 리스트 확인
+#### 2.2.4 모델 리스트 확인
 
 <img src="./images/podman-desktop-model-service-list.png" title="100px" alt="모델 서비스 리스트"></img>
 
-#### 1.4.5 모델 테스트
+#### 2.2.5 모델 테스트
 
 실행 명령어
 ```bash
@@ -385,7 +388,7 @@ JSON 응답
 }
 ```
 
-#### 1.4.6 모델 서비스 조사
+### 2.3 모델 서비스 조사
 
 **세부 정보**
 <img src="./images/podman-desktop-model-service-detail-info.png" title="100px" alt="모델 서비스 조사"></img>
@@ -396,9 +399,9 @@ JSON 응답
 * ***Inference Endpoint URL***: 추론 모델 서비스 엔드포인트 URL
 <br>
 
-### 1.5 플레이그라운드
+### 2.4 플레이그라운드
 
-#### 1.5.1 플레이그라운드 생성
+#### 2.4.1 플레이그라운드 생성
 
 <img src="./images/ai-lab-models-playgrouds.png" title="100px" alt="모델 플레이그라운드 생성"></img>
 
@@ -406,34 +409,117 @@ JSON 응답
   + 플레이그라운드를 만들려면 플레이그라운드를 클릭한 다음 새 플레이그라운드를 클릭
   + 플레이그라운드는 모델과 상호 작용하는 데 사용할 수 있는 채팅 인터페이스를 제공
 
-#### 1.5.2 플레이그라운드 리스트
+#### 2.4.2 플레이그라운드 리스트
 
 <img src="./images/podman-desktop-model-playgroud-list.png" title="100px" alt="모델 플레이그라운드 리스트"></img>
 
-#### 1.5.3 플레이그라운드 테스트
+#### 2.4.3 플레이그라운드 테스트
 
 <img src="./images/podman-desktop-model-playgroud-test.png" title="100px" alt="모델 플레이그라운드 테스트"></img>
 
 <br>
 
-### 1.6 모델 서비스 모니터링
+### 2.5 모델 서비스 모니터링
 
-#### 1.6.1 컨테이너 리스트
+#### 2.5.1 컨테이너 리스트
 
 <img src="./images/podman-desktop-container-list.png" title="100px" alt="컨테이너 리스트"></img>
 
-#### 1.6.2 해당 컨테이너의 요약
+#### 2.5.2 해당 컨테이너의 요약
 
 <img src="./images/podman-desktop-container-summary.png" title="100px" alt="컨테이너 요약"></img>
 
-#### 1.6.3 컨테이너 앱 YAML
+#### 2.5.3 컨테이너 앱 YAML
 
 <img src="./images/podman-desktop-container-kube.png" title="100px" alt="컨테이너 K8S 앱"></img>
 <br>
 
-### 1.7 모델 서비스에 질의 및 응답
+### 2.6 CLI에서 모델 서비스 모니터링
 
-#### 1.7.1 **~/model-query** 폴더 및 파일 리스트
+실행 명령어
+```bash
+podman stats
+```
+
+실행 결과
+```
+[student@workstation ~]$ podman stats
+ID            NAME                CPU %       MEM USAGE / LIMIT  MEM %       NET IO            BLOCK IO    PIDS        CPU TIME    AVG CPU %
+32aa84fe4b86  mystifying_faraday  0.55%       383.1MB / 16.5GB   2.32%       2.62kB / 1.258kB  0B / 0B     5           40.193812s  0.55%
+^C
+
+[student@workstation ~]$ 
+```
+
+> [!NOTE]
+> 이 수준의 리소스 사용은 LLM에 비해 현저히 낮습니다.<br>
+> <br>
+> 양자화된 모델을 사용하면 리소스 소비를 낮추고 리소스가 제한된 환경에서 모델을 실행할 수 있습니다. 예를 들어, granite-7b-base 비양자화 버전은 동일한 시나리오에서 최대 30GB를 소비할 수 있습니다.
+<br>
+<br>
+
+## 3. 클라이언트 연결
+
+### 3.1 프롬프트 사용
+
+#### 3.1.1 프롬프트를 위한 콘텐츠
+
+예) 프롬포트를 위한 SQL 콘텐츠
+```sql
+# You are a database assistant that generates SQL select statements exclusively.
+
+# These are the tables that form the database schema:
+
+CREATE TABLE Movies (
+    id SERIAL PRIMARY KEY,
+    title VARCHAR(255) NOT NULL,
+    category VARCHAR(100),
+    year INT
+);
+
+CREATE TABLE Actors (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    salary NUMERIC(10, 2)
+);
+
+CREATE TABLE Movies_Actors (
+    movie_id INT REFERENCES Movies(id) ON DELETE CASCADE,
+    actor_id INT REFERENCES Actors(id) ON DELETE CASCADE,
+    PRIMARY KEY (movie_id, actor_id)
+);
+
+# For provided table definitions, create complex `JOIN` queries, subqueries, or conditional aggregations.
+
+# To validate the query do the following tasks:
+1. Verify that the columns exist in the referenced tables.
+2. If the query is not correct provide a different one.
+
+# Finally, respond only with one SQL command.
+```
+
+#### 3.1.2 프롬프트에 입력 후 체크
+
+<img src="./images/podman-desktop-input-contents-to-sysmte-prompt.png" title="100px" alt="프롬프트에 입력"/>
+
+1. 포드맨 데스크탑의 플레이그라운드에서 *Edit system prompt*를 클릭
+2. ***>_Define a system prompt*** 필드에 콘텐츠를 입력
+3. *checkmark*를 클릭
+
+#### 3.1.3 질의 입력
+
+<img src="./images/podman-desktop-model-qna.png" title="100px" alt="질의 및 응답 확인"/>
+
+1. *Type your prompt here*에 다음 질문 입력
+   ```
+   Give me a query to get the actors for the movie titled "Podman Forever".
+   ```
+2. 시간이 걸리지만 SQL 명령어를 설명하는 응답을 제공함
+<br>
+
+### 3.2 모델 서비스에 질의 및 응답
+
+#### 3.2.1 **~/model-query** 폴더 및 파일 리스트
 
 [~/model-query](./src/model-query/) 폴더
 ```
@@ -450,7 +536,7 @@ app/
 [seulee@rhel94-pd ~]$
 ```
 
-#### 1.7.2 **~/model-query/main.py** 주요 내용
+#### 3.2.2 **~/model-query/main.py** 주요 내용
 
 [~/model-query/main.py](./src/model-query/main.py)
 ```py
@@ -462,7 +548,7 @@ click.echo(result) #2
 1. 사용자 요청을 읽고, SQL 문을 생성하는 *generate_query()*를 호출
 2. SQL 문 실행을 위해 *run_query()*를 호출
 
-#### 1.7.3 **~/model-query/assistant.py** 주요 내용
+#### 3.2.3 **~/model-query/assistant.py** 주요 내용
 
 [~/model-query/assistant.py](./src/model-query/assistant.py)
 ```py
@@ -480,7 +566,7 @@ def generate_query(user_input: str):
 1. **OpenAI()**에서 *base_url* 인수로 모델의 URL 전달
 2. *tables*와 *user_input* 변수를 가지고 템플릿 제공
 
-#### 1.7.4 파이썬 가상화 환경
+#### 3.2.4 파이썬 가상화 환경
 
 실행 명령어
 ```bash
@@ -493,7 +579,7 @@ python -m venv .venv && source .venv/bin/activate
 (.venv) [seulee@rhel94-pd ~]$
 ```
 
-#### 1.7.5 필요한 패키지 설치
+#### 3.2.5 필요한 패키지 설치
 
 실행 명령어 - [~/model-query/requirements.txt](./src/model-query/requirements.txt)
 ```bash
@@ -530,7 +616,7 @@ typing-extensions-4.12.2 typing-inspect-0.9.0 urllib3-2.2.2 uvicorn-0.23.2 wheel
 (.venv) [seulee@rhel94-pd ~]$
 ```
 
-#### 1.7.6 데이터베이스 확인
+#### 3.2.6 데이터베이스 확인
 
 실행 명령어
 ```bash
@@ -555,7 +641,7 @@ CONTAINER ID  IMAGE                                     COMMAND         CREATED 
 (.venv) [student@workstation app]$ 
 ```
 
-#### 1.7.7 데이터베이스 연결
+#### 3.2.7 데이터베이스 연결
 
 실행 명령어
 ```bash
@@ -595,7 +681,7 @@ exit
 (.venv) [student@workstation app]$ 
 ```
 
-#### 1.7.8 데이터베이스 외부 연결
+#### 3.2.8 데이터베이스 외부 연결
 
 실행 명령어
 ```
@@ -617,7 +703,7 @@ podman exec movies_db   psql -U student -d movies   -c "SELECT title FROM Movies
 (.venv) [student@workstation app]$ 
 ```
 
-#### 1.7.9 환경 변수 설정
+#### 3.2.9 환경 변수 설정
 
 실행 명령어
 ```bash
@@ -634,7 +720,7 @@ http://localhost:41035/v1
 (.venv) [student@workstation app]$ 
 ```
 
-#### 1.7.10 데이터베이스에 질의 요청
+#### 3.2.10 데이터베이스에 질의 요청
 
 실행 명령어
 ```bash
@@ -687,151 +773,6 @@ Bye...
 
 > [!NOTE]
 > 사용된 모델은 특정 사용 사례에 미세 조정되지 않은 사전 학습된 코딩 LLM을 사용합니다. 예를 들어 모델이 쿼리에 소개 텍스트를 제공하거나 복잡한 조인 쿼리를 시도하는 경우 응용 프로그램이 실패할 수 있습니다.
-<br>
-<br>
-
-## 2. 클라이언트 앱과 모델 연결
-
-### 2.1 사전 훈련된 LLM 사용
-
-사전 훈련된 LLM을 사용할 때, 자연어를 사용하여 LLM의 동작을 사용 사례에 맞게 조정 가능할 수 있습니다.
-* LLM에 무엇을 해야 하는지 설명
-* 어떻게 해야 하는지에 대한 맥락을 제공
-* LLM에 응답에 필요한 톤이나 형식을 알림
-<br>
-
-### 2.2 프롬프트 엔진니어링
-
-#### 2.2.1 프로픔트 엔진니어링
-
-**프롬프트 엔진니어링**
-* 쓰기 기법과 텍스트 패턴을 사용하여 LLM이 작업을 수행하도록 전문화하는 것
-* LLM의 동작을 변경하는 가장 간단하고 저렴한 방법
-
-**프롬프트**
-* LLM에 대한 지침이나 질문이 포함된 텍스트 메시지
-* 시스템 메시지나 시스템 프롬프트를 사용하여 LLM이 특정 방식으로 응답하도록 연결
-* 시스템 메시지는 대화를 시작할 때 한 번 제공하는 프롬프트이며 이후 상호 작용을 위해 LLM을 구성
-
-**프롬프트의 일반적인 구성 요소**
-* 명확한 작업 설명 또는 질문
-* 모델이 작업을 수행하는 데 도움이 되는 상황 정보
-* 모델이 처리할 입력 데이터
-* 톤이나 형식과 같은 출력 지침
-
-#### 2.2.2 프롬프트 예
-
-```
-고대 그리스 철학의 맥락에서 #1
-다음 인용문에 대한 설명을 제공하세요. #2
-
-"나는 아테네인도 아니고 그리스인도 아니지만, 세계 시민입니다." #3
-
-설명은 짧고 이해하기 쉬워야 합니다. #4
-```
-1. 맥락 정보
-2. 과제 (태스크)
-3. 입력 정보
-4. 출력 지침
-
-> [!NOTE]
-> LLM은 비결정적이므로 LLM이 프롬프트의 지시를 완벽하게 따르지 않거나 거짓 진술이나 환각을 생성할 가능성이 있습니다. LLM은 아키텍처, 훈련 데이터 및 훈련 프로세스가 다릅니다.<br>
-> 따라서 동일한 프롬프트 엔지니어링 기술이 다른 모델에서 다르게 수행될 수 있습니다. 프롬프트 엔지니어링이 잘 수행되지 않으면 벡터 데이터베이스와 검색 증강 생성(RAG) 아키텍처를 사용하거나 모델을 미세 조정하여 프롬프트의 컨텍스트 정보를 개선하는 것을 살펴볼 수 있습니다.
-<br>
-
-### 2.3 프롬프트를 정의한는 일반적인 패턴
-
-#### 2.3.1 Persona Pattern 
-
-* 모델에 역할을 채택하거나 특정 페르소나로 행동하도록 지시하여 LLM과의 상호 작용을 더 잘 맥락화
-  + 예를 들어, *"당신은 전문 해양 생물학자입니다…​"*라고 하면 모델이 특정 지식과 어조를 사용
-* 또한 페르소나를 사용하여 프롬프트의 대상을 맥락화
-  + 예를 들어, *"제가 5살인 것처럼 설명해 주세요…​"*와 같은 문장은 모델이 명확하고 기술적이지 않은 응답을 생성하도록 안내
-
-#### 2.3.2 Zero-shot / Few-shot prompts
-
-프롬프트가 원하는 응답의 예를 제공하는지 여부
-* Few-shot 프롬프트
-  + 하나 이상의 예를 제공
-  + LLM은 이를 일반화하여 새로운 작업을 수행하는 능력과 결합
-* Zero-shot 프롬프트
-  + 모델의 지식만 사용
-  + 이 때문에 예가 없음
-  
-프롬프트 예 - LLM에 텍스트에서 특정 형식의 JSON으로 정보를 추출하는 방법을 알려줌
-```
-입력 문장이 주어지면 다음 형식의 JSON 객체를 생성합니다.
-{"이름": "사람 이름", 취미: ["취미1", "취미2", ...]}
-
-예: "영희는 하이킹, 음악, 고양이를 좋아합니다."
-출력: {"이름": "영희", 취미: ["하이킹", "음악", "고양이"]}
-예: "철수는 달리기를 좋아하지만 헬스장은 좋아하지 않습니다."
-출력: {"이름": "철수", 취미: ["달리기"]}
-```
-
-#### 2.3.3 Chain of Thought (CoT)
-
-**CoT 기술**
-* LLM이 해결책을 찾을 수 있도록 잘 설명된 단계가 있는 샘플 문제를 제공
-* 과제를 해결하기 위한 모델을 보여줌
-* LLM이 일반적으로 어려움을 겪는 기본 산술 계산과 같은 구조화된 문제에 유용
-
-CoT 예
-```
-주어진 옵션에서 목적지까지 가장 빠른 경로를 계산합니다.
-
-옵션 A: 2시간 비행을 타고 55분 동안 걷습니다.
-옵션 B: 6시간 기차를 타고 15분 동안 걷습니다.
-
-경로를 선택하는 단계:
-1. 모든 옵션의 시간 단위를 분으로 변환합니다.
-2. 옵션의 분을 더합니다.
-3. 분 수가 적은 옵션을 반환합니다.
-```
-* 이전 예시의 지침을 제거하면 모델은 가장 높은 번호의 옵션을 가장 느린 옵션으로 간주하여 옵션 B를 선택할 수 있음
-
-#### 2.3.4 Prompt Format Patterns
-
-**LLM은 텍스트의 구조를 이해**
-* 일관된 구조로 프롬프트를 구성하면 프롬프트의 성능이 향상
-* 일관성을 유지하는 한 마크다운, 글머리 기호, 번호 매기기 목록 또는 기타 임의의 형식을 사용 가능
-
-예 - 다음 원샷 프롬프트에서 모델은 Q가 예제 입력에 사용되고 A가 예제 출력에 사용된다고 추론
-```
-# Task:
-입력 국가가 주어지면 수도 이름으로 응답하세요.
-# Output format:
-출력 형식으로 JSON을 사용하여 응답하세요.
-# Examples:
-Q: 스페인
-A: {"수도": "마드리드"}
-```
-<br>
-
-### 2.4 모델 하이퍼-파라미터
-
-**하이퍼파라미터 매개변수**
-* LLM에 응답 길이를 제한하거나 응답 창의성을 구성하는 매개변수를 제공하여 LLM의 동작을 수정
-* 추론 프로세스에 영향을 미치고 제어하기 위해 추론 요청의 일부로 보내는 구성 값
-
-> [!NOTE]
-> 추론을 위해 LLM을 구성하는 맥락에서 하이퍼파라미터라는 용어는 머신 러닝에서 모델을 학습하는 데 사용되는 매개변수와 다른 매개변수를 말합니다.
-
-|$\color{lime}{\texttt{시스템}}$|$\color{lime}{\texttt{IP 주소}}$|
-|:---|:---|
-|Temperature|생성된 출력의 다양성을 제어<br><ul><li>높은 값은 덜 일관된 출력을 생성할 위험이 있는 다양한 출력을 생성</li><li>낮은 값은 집중적이고 예측 가능한 출력을 생성</li><ul>|
-|Top-p|텍스트를 생성할 때 단어 선택에 영향을 미침<br><ul><li>이 매개변수는 확률 범위에 있는 단어를 선택하는 값을 제공</li><li>예를 들어, 값 0.1은 상위 10% 확률에 있는 단어를 선택</li></ul>|
-|Maximum tokens|모델이 생성할 수 있는 최대 토큰 수|
-
-<br>
-
-### 2.5 Podman AI Lab을 통한 모델 연결
-
-<br>
-
-### 2.6 LangChain을 통한 LLM 연결
-
-
 <br>
 <br>
 
