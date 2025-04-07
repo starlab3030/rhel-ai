@@ -1,15 +1,13 @@
 # Podman Desktop을 통해 모델을 로컬에서 실행
 
 **차례**
-1. []()<br>
-2. []()<br>
-3. []()<br>
-4. []()<br>
+1. [Podman AI Lab 개요](running_models_locally.md#1-podman-ai-랩-개요)<br>
+2. [Podman Desktop AI Lab 설명](running_models_locally.md#2-podman-desktop-ai-lab-설명)<br>
 <br>
 <br>
 
 
-## 1. Podman AI 랩
+## 1. Podman AI 랩 개요
 
 ### 1.1 모델 테스트를 위한 Podman AI Lab
 
@@ -65,7 +63,7 @@ Podman AI Lab은 ResNet 및 Whisper와 같은 LLM이 아닌 모델도 제공
 <br>
 <br>
 
-## 2. Podman Desktop AI Lab
+## 2. Podman Desktop AI Lab 설명
 
 ### 2.1 AI Lab의 모델 작업을 위한 메뉴
 
