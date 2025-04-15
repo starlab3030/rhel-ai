@@ -2,10 +2,14 @@
 
 **차례**
 1. Neural Magic을 통한 모델 압축<br>
+&nbsp;1.1 [Neural Magic](quantization_model.md#11-neural-magic)<br>
+&nbsp;1.2 [압축된 모델 평가](quantization_model.md#12-압축된-모델-평가)<br>
+&nbsp;1.3 [압축된 granite 작동 방식](quantization_model.md#13-압축된-granite-작동-방식)<br>
+&nbsp;1.4 [에이전트 파이프라인 명령어 수행 평가](quantization_model.md#14-에이전트-파이프라인-명령어-수행-평가)<br>
 2. GGUF vs GGML<br>
-&nbsp;&nbsp;2.1 [PT-Generated Unified Format(GGUF)란](gguf_vs_gglm.md#1-pt-generated-unified-formatgguf란)<br>
-&nbsp;&nbsp;2.2 [GGUF와 GGML의 차이](gguf_vs_gglm.md#2-gguf와-ggml의-차이)<br>
-&nbsp;&nbsp;2.3 [GGUF로 전환](gguf_vs_gglm.md#3-gguf로-전환)<br>
+&nbsp;2.1 [PT-Generated Unified Format(GGUF)란](quantization_model.md#21-pt-generated-unified-formatgguf란)<br>
+&nbsp;2.2 [GGUF와 GGML의 차이](quantization_model.md#22-gguf와-ggml의-차이)<br>
+&nbsp;2.3 [GGUF로 전환](quantization_model.md#23-gguf로-전환)<br>
 3. []()<br>
 
 <br>
