@@ -36,7 +36,7 @@
 * [소개 및 특징](./nvidia_gpus/nvidia_gpu_features.md)
 
 **참조**
-* [GGUF vs GGLM](./references/gguf_vs_gglm.md)
+* [양자화 모델](./references/quantization_model.md)
 * [합성 데이터 생성](./references/synthetic_data_generation.md)
 
 <br>
