@@ -409,7 +409,7 @@ mkdir: created directory '.config/containers'
 ```bash
 lscpu
 free -h
-lspci |grep -i nvidia
+lspci | grep -i nvidia
 nvidia-smi --list-gpus
 nvidia-smi
 ```
@@ -523,7 +523,68 @@ Wed Mar 19 04:29:42 2025
 
 ```
 
-#### 1.3.3 InstructLab 구성 초기화
+#### 1.3.3 ilab으로 시스템 정보 확인
+
+실행 명령어
+```bash
+ilab system info
+```
+
+실행 결과
+```
+[instruct@bastion ~]$ ilab system info
+ggml_cuda_init: GGML_CUDA_FORCE_MMQ:    no
+ggml_cuda_init: GGML_CUDA_FORCE_CUBLAS: no
+ggml_cuda_init: found 1 CUDA devices:
+  Device 0: NVIDIA L4, compute capability 8.9, VMM: yes
+Platform:
+  sys.version: 3.11.7 (main, Jan  8 2025, 00:00:00) [GCC 11.4.1 20231218 (Red Hat 11.4.1-3)]
+  sys.platform: linux
+  os.name: posix
+  platform.release: 5.14.0-427.55.1.el9_4.x86_64
+  platform.machine: x86_64
+  platform.node: bastion.wtw4d.internal
+  platform.python_version: 3.11.7
+  os-release.ID: rhel
+  os-release.VERSION_ID: 9.4
+  os-release.PRETTY_NAME: Red Hat Enterprise Linux 9.4 (Plow)
+  memory.total: 15.01 GB
+  memory.available: 14.12 GB
+  memory.used: 0.56 GB
+
+InstructLab:
+  instructlab.version: 0.23.5
+  instructlab-dolomite.version: 0.2.0
+  instructlab-eval.version: 0.5.1
+  instructlab-quantize.version: 0.1.0
+  instructlab-schema.version: 0.4.2
+  instructlab-sdg.version: 0.7.2
+  instructlab-training.version: 0.7.0
+
+Torch:
+  torch.version: 2.5.1
+  torch.backends.cpu.capability: AVX2
+  torch.version.cuda: 12.4
+  torch.version.hip: None
+  torch.cuda.available: True
+  torch.backends.cuda.is_built: True
+  torch.backends.mps.is_built: False
+  torch.backends.mps.is_available: False
+  torch.cuda.bf16: True
+  torch.cuda.current.device: 0
+  torch.cuda.0.name: NVIDIA L4
+  torch.cuda.0.free: 21.8 GB
+  torch.cuda.0.total: 22.0 GB
+  torch.cuda.0.capability: 8.9 (see https://developer.nvidia.com/cuda-gpus#compute)
+
+llama_cpp_python:
+  llama_cpp_python.version: 0.3.2
+  llama_cpp_python.supports_gpu_offload: True
+  
+[instruct@bastion ~]$
+```
+
+#### 1.3.4 InstructLab 구성 초기화
 
 실행 명령어
 ```bash
@@ -574,7 +635,7 @@ You selected: /var/home/instruct/.local/share/instructlab/internal/system_profil
 [instruct@bastion ~]$
 ```
 
-#### 1.3.4 InstructLab 구성 파일 확인
+#### 1.3.5 InstructLab 구성 파일 확인
 
 실행 명령어
 ```bash
