@@ -82,7 +82,7 @@ for output in llm.generate(prompts)
 **수행 평가**
 * 에이전트 파이프라인의 명령어 수행 작업(프롬프트 토큰 256개, 출력 토큰 128개)과 같이 더 작은 요청 크기의 경우, 압축된 Granite 모델은 다양한 GPU에서 지연 시간, 서버 및 처리량 사용 사례 전반에 걸쳐 일관된 성능 향상을 제공
 
-<img src="./images/compressed_granite_3.1_requests_per_second.webp" title="100px" alt="압축된 granite 3.1 모델 작은 용량 요청 처리 성능/>
+<img src="./images/compressed_granite_3.1_requests_per_second.webp" title="100px" alt="압축된 granite 3.1 모델 작은 용량 요청 처리 성능"/>
 
 * Single Stream, Latency
   + W4A16은 A5000 대비 2.7배, L40 대비 1.5배 낮은 지연 시간으로 가장 높은 효율성을 달성
@@ -98,7 +98,7 @@ for output in llm.generate(prompts)
 **수행 평가**
 * 압축 모델은 검색 증강 생성(RAG)이나 요약 워크플로(프롬프트 토큰 4,096개, 출력 토큰 512개)와 같은 대용량 요청에 대해, 비슷한 성능 이점을 제공
 
-<img src="./images/compressed_granite_3.1_requests_per_second_for_large.webp" title="100px" alt="압축된 granite 3.1 모델 대용량 요청 처리 성능/>
+<img src="./images/compressed_granite_3.1_requests_per_second_for_large.webp" title="100px" alt="압축된 granite 3.1 모델 대용량 요청 처리 성능"/>
 
 * Single Stream, Latency
   + W4A16은 A5000 대비 2.4배, A100 대비 1.7배 낮은 지연 시간으로 최고의 효율성을 달성
