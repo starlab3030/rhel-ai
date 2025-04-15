@@ -50,6 +50,8 @@
 > [!NOTE]
 > OpenLLM Leaderboard V1과 OpenLLM Leaderboard V2의 평균에 따른 정확도 평가를 위해 Granite 3.1 모델(8B, 2B)의 기준선과 양자화 버전을 비교했습니다.
 
+<br>
+
 <img src="./images/compressed_granite_3.1_inference_benchmarks.webp" title="100px" alt="압축된 granite 3.1 모델 성능"/>
 
 > [!NOTE]
