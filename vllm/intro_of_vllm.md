@@ -1,4 +1,4 @@
-# vLLM이란?
+# vLLM 소개
 
 **목차**
 1. [개요](intro_of_vllm.md#1-개요)<br>
