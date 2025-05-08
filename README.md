@@ -32,6 +32,9 @@
 * [클라이언트 앱과 모델 연결](./ai-basic/consuming_local_ai_model.md)
 * [Podman Desktop과 AI 모델](./ai-basic/podman_desktop_with_ai_model.md)
 
+**vLLM**
+1. [vLLM 소개](./vllm/intro_of_vllm.md)<br>
+
 **NVIDIA GPU**
 * [소개 및 특징](./nvidia_gpus/nvidia_gpu_features.md)
 
