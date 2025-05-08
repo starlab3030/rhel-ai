@@ -1,9 +1,10 @@
 # 클라이언트 앱과 모델 연결
 
 **차례**
-1. 텍스트
-2. 텍스트
-3. 텍스트
+1. [사전 훈련된 LLM 사용](consuming_local_ai_model.md#1-사전-훈련된-llm-사용)<br>
+2. [프롬프트 엔진니어링](consuming_local_ai_model.md#2-프롬프트-엔진니어링)<br>
+3. [Podman AI Lab을 통한 모델 연결](consuming_local_ai_model.md#3-podman-ai-lab을-통한-모델-연결)<br>
+4. [`langchaing`을 통한 LLM 연결](consuming_local_ai_model.md#4-langchain을-통한-llm-연결)<br>
 <br>
 <br>
 
