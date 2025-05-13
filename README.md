@@ -25,19 +25,23 @@
 1. [RHSC 키노트 데모 소개](./rhsc-demo/introdution-of-lab.md)<br>
 2. [InstructLab 시작](./rhsc-demo/start-with-instructlab.md)<br>
 3. [AI를 앱에 통합](./rhsc-demo/integrate-ai-into-app.md)<br>
+<br>
 
 **Podman Desktop과 AI 모델**
 * [AI 모델 선택](./ai-basic/choosing_ai_model.md)
 * [모델을 로컬에서 실행](./ai-basic/running_models_locally.md)
 * [클라이언트 앱과 모델 연결](./ai-basic/consuming_local_ai_model.md)
 * [Podman Desktop과 AI 모델](./ai-basic/podman_desktop_with_ai_model.md)
+<br>
 
 **vLLM**
 1. [vLLM 소개](./vllm/intro_of_vllm.md)<br>
+<br>
 
 **NVIDIA GPU**
 * [소개 및 특징](./nvidia_gpus/nvidia_gpu_features.md)
 * [GPUDirect RDMA를 통한 모델 훈련 가속화](./nvidia_gpus/accelerate_model_training_with_nvidia_gpudirect_rdma.md)
+<br>
 
 **참조**
 * [모델 최적화](./references/model_optimization.md)
