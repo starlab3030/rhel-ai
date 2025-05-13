@@ -34,7 +34,7 @@
 <br>
 <br>
 
-## 2. 
+## 2. 분산 모델 훈련 아키텍처
 
 ### 2.1 레드햇의 고성능 분산 모델 훈련 아키텍처
 
@@ -49,7 +49,7 @@ NVidia와 레드햇은 NVidia 가속 컴퓨팅 및 네트워킹 스택과 레드
 
 ### 2.2 솔루션 구성 컴포넌트
 
-|$\color{lime}{\texttt{섹션}}$|$\color{lime}{\texttt{설명}}$|
+|$\color{lime}{\texttt{컴포넌트}}$|$\color{lime}{\texttt{설명}}$|
 |:---|:---|
 |NVidia 네트워크 오퍼레이터|네트워킹 드라이버, 장치 플러그인, 보조 네트워크 NIC 플러그인 및 NVidia NIC 기능 검색과 같은 NVidia 네트워킹 구성 요소의 노드 배포를 자동화|
 |NVidia GPU 오퍼레이터|컨테이너가 GPU를 사용할 수 있도록 노드에서 소프트웨어 구성 요소의 배포를 자동화하고 NVidia 네트워크 오퍼레이터와 협력하여 GPU와 NIC 간에 GPUDirect RDMA를 활성화|
@@ -64,7 +64,472 @@ NVidia와 레드햇은 NVidia 가속 컴퓨팅 및 네트워킹 스택과 레드
 <br>
 <br>
 
-## 3. 
+## 3. LLM Fine-Tuning
+
+### 3.1 네트워킹 플랫폼 구성
+
+#### 3.1.1 **NicClusterPolicy** 리소스
+
+```yaml
+apiVersion: mellanox.com/v1alpha1
+kind: NicClusterPolicy
+metadata:
+  name: nic-cluster-policy
+spec:
+  nicFeatureDiscovery:
+    image: nic-feature-discovery
+    repository: ghcr.io/mellanox
+    version: v0.0.1
+  nvIpam:
+    image: nvidia-k8s-ipam
+    repository: ghcr.io/mellanox
+    version: v0.2.0
+  ofedDriver:
+    repository: nvcr.io/nvidia/mellanox
+    image: doca-driver
+  rdmaSharedDevicePlugin:
+    config: |
+      {
+        "configList": [
+          {
+            "resourceName": "rdma_shared_device_eth",
+            "rdmaHcaMax": 63,
+            "selectors": {
+              "ifNames": ["ens8f0np0"]
+            }
+          }
+        ]
+      }
+    repository: ghcr.io/mellanox
+    version: v1.5.2
+```
+* *spec.rdmaSharedDevicePlugin* 필드
+  + *resourceName*: 확장 리소스 이름 
+  + *rdmaHcaMax*: 미세 조정 작업 리소스 요청 
+  + *selectors*: RoCE 네트워크 인터페이스
+
+#### 3.1.2 **MacvlanNetwork** 리소스
+
+```yaml
+apiVersion: mellanox.com/v1alpha1
+kind: MacvlanNetwork
+metadata:
+  name: rdmashared-net
+spec:
+  ipam: '{"type": "whereabouts", "range": "192.168.2.0/24", "gateway": "192.168.2.1"}'
+  master: ens8f0np0
+  mode: bridge
+  mtu: 1500
+```
+* *RDMA over Converged Ethernet (RoCE)* 리소스
+
+#### 3.1.3 **NetworkAttachementDefinition** 리소스
+
+```yaml
+apiVersion: k8s.cni.cncf.io/v1
+kind: NetworkAttachmentDefinition
+metadata:
+  name: rdmashared-net
+spec:
+  config: '{ "cniVersion":"0.3.1", "name":"rdmashared-net", "type":"macvlan","master": "ens8f0np0","mode" : "bridge","mtu" : 1500,"ipam":{"type":"whereabouts","range":"192.168.2.0/24","gateway":"192.168.2.1"} }'
+```
+
+#### 3.1.4 **ClusterPolicy** 리소스
+
+```yaml
+apiVersion: nvidia.com/v1
+kind: ClusterPolicy
+metadata:
+  name: gpu-cluster-policy
+spec:
+  driver:
+    rdma:
+      enabled: true
+```
+* *spec.driver.rdma.enabled*: GPU 디바이스 상에서 GPUDirect RDMA를 활성화하기 위해 `true`로 설정
+* 설정 값에 따라 NVidia GPU 오퍼레이터를 구성
+<br>
+
+### 3.2 `root`가 아닌 사용자를 위해 RDMA를 활성화하도록 컨테이넌 엔진(CRI-O) 구성
+
+#### 3.2.1 GPU 노드간 통신
+
+**요구 사항**
+* GPU 노드 간 통신은 RDMA를 통해 버퍼 복사 없이 이루어져야 함
+* 이를 위해 가상 주소로 매핑된 호스트 메모리의 고정된 메모리 블록을 CUDA를 통해 할당 및 등록
+
+**제한 사항 및 방안**
+* 루트가 아닌 사용자에게 할당할 수 있는 메모리 양은 일반적으로 NCCL에 필요한 것보다 너무 제한적인 기본값으로 설정됨
+* 이 때문에, 루트가 아닌 사용자로 제한적인 오픈시프트 기본 보안 컨텍스트를 사용하면 메모리가 제한됨
+* 모델 훈련 프로세스를 실행하려면, 컨테이너 엔진(CRI-O) 구성에서 이러한 제한을 늘려야 하며, Machine Configuration Opeartor(MCO)로 이를 구성
+
+#### 3.2.2 MCO 구성
+
+```yaml
+apiVersion: machineconfiguration.openshift.io/v1
+kind: MachineConfig
+metadata:
+  labels:
+    machineconfiguration.openshift.io/role: worker
+  name: 02-worker-container-runtime
+spec:
+  config:
+    ignition:
+      version: 3.2.0
+    storage:
+      files:
+        - contents:
+            inline: |
+              [crio.runtime]
+              default_ulimits = [
+                "memlock=-1:-1"
+              ]
+          mode: 420
+          overwrite: true
+          path: /etc/crio/crio.conf.d/10-custom
+```
+* **crio.runtime**에서 *default_ulimits* 내에, memlock의 값을 `-1:-1`(unlimite)로 설정 
+* 예제처럼 사용자 스페이스 애플리케이션에서 고정된 메모리를 무제한으로 할당할 수 있지만, 애플리케이션에 맞게 충분히 큰 고정된 한도로 설정하는 것을 권장
+* MachineConfig 리소스가 생성되면 해당 리소스가 적용되도록 해당 워커 노드를 다시 시작
+<br>
+
+### 3.3 예제 실행
+
+#### 3.3.1 Fine-Tuning을 위한 구성 파일
+
+**config.yaml** 파일
+```yaml
+# Model
+model_name_or_path: Meta-Llama/Meta-Llama-3.1-8B-Instruct
+model_revision: main
+torch_dtype: bfloat16
+attn_implementation: flash_attention_2    # one of eager (default), sdpa or flash_attention_2
+use_liger: true                           # use Liger kernels
+
+# PEFT / LoRA
+use_peft: true
+lora_r: 16
+lora_alpha: 8
+lora_dropout: 0.05
+lora_target_modules: ["q_proj", "v_proj", "k_proj", "o_proj", "gate_proj", "up_proj", "down_proj"]
+
+# Dataset
+dataset_name: gsm8k                       # id or path to the dataset
+dataset_config: main                      # name of the dataset configuration
+dataset_train_split: train                # dataset split to use for training
+dataset_test_split: test                  # dataset split to use for evaluation
+dataset_text_field: text                  # name of the text field of the dataset
+
+# SFT
+max_seq_length: 4096                      # max sequence length for model and packing of the dataset
+
+# Training
+num_train_epochs: 10                      # number of training epochs
+
+per_device_train_batch_size: 32           # batch size per device during training
+per_device_eval_batch_size: 32            # batch size for evaluation
+eval_strategy: epoch                      # evaluate every epoch
+
+bf16: true                                # use bf16 16-bit (mixed) precision
+tf32: false                               # use tf32 precision
+
+learning_rate: 2.0e-4                     # initial learning rate
+warmup_steps: 10                          # steps for a linear warmup from 0 to `learning_rate`
+lr_scheduler_type: inverse_sqrt           # learning rate scheduler (see transformers.SchedulerType)
+
+# FSDP
+fsdp: "full_shard auto_wrap"              # add offload if not enough GPU memory
+fsdp_config:
+  activation_checkpointing: true
+
+# Checkpointing
+save_strategy: epoch                      # save checkpoint every epoch
+save_total_limit: 1                       # limit the total amount of checkpoints
+
+# Logging
+log_level: warning                        # logging level (see transformers.logging)
+logging_strategy: steps
+logging_steps: 1                          # log every N steps
+report_to:
+  - tensorboard                           # report metrics to tensorboard
+
+output_dir: /mnt/shared/Meta-Llama-3.1-8B-Instruct
+```
+* 모델: 사전 학습된 Meta-Llama/Meta-Llama-3.1-8B-Instruct
+* 데이터 셋: 허깅페이스의 GSM8K
+
+#### 3.3.2 Fine-Tuning 내용을 가진 훈련 스크립트
+
+**sft.py** 스크립트 (SFT: Supervised Fine-Tuning)
+```py
+from datasets import load_dataset
+from transformers import AutoTokenizer, set_seed
+from trl import (
+    ModelConfig,
+    ScriptArguments,
+    SFTConfig,
+    SFTTrainer,
+    TrlParser,
+    get_peft_config,
+    get_quantization_config,
+    get_kbit_device_map,
+)
+
+def train(script_args, training_args, model_args):
+    # model and tokenizer
+    quantization_config = get_quantization_config(model_args)
+    training_args.model_init_kwargs = dict(
+        revision=model_args.model_revision,
+        trust_remote_code=model_args.trust_remote_code,
+        attn_implementation=model_args.attn_implementation,
+        torch_dtype=model_args.torch_dtype,
+        use_cache=False if training_args.gradient_checkpointing or
+            training_args.fsdp_config.get("activation_checkpointing", False) else True,
+        device_map=get_kbit_device_map() if quantization_config is not None else None,
+        quantization_config=quantization_config,
+    )
+    tokenizer = AutoTokenizer.from_pretrained(model_args.model_name_or_path,
+        trust_remote_code=model_args.trust_remote_code,
+        use_fast=True)
+    if tokenizer.pad_token is None:
+        tokenizer.pad_token = tokenizer.eos_token
+
+    # training and evaluation datasets
+    train_dataset = load_dataset(
+        path=script_args.dataset_name,
+        name=script_args.dataset_config,
+        split=script_args.dataset_train_split,
+    )
+    test_dataset = None
+    if training_args.eval_strategy != "no":
+        test_dataset = load_dataset(
+            path=script_args.dataset_name,
+            name=script_args.dataset_config,
+            split=script_args.dataset_test_split,
+        )
+
+    # templatize datasets
+    def template_dataset(sample):
+        messages = [
+            {"role": "user", "content": sample['question']},
+            {"role": "assistant", "content": sample['answer']},
+        ]
+        return {"text": tokenizer.apply_chat_template(messages, tokenize=False)}
+
+    train_dataset = train_dataset.map(template_dataset,
+                                      remove_columns=["question", "answer"])
+    if training_args.eval_strategy != "no":
+        test_dataset = test_dataset.map(template_dataset,
+                                        remove_columns=["question", "answer"])
+
+    # training loop
+    trainer = SFTTrainer(
+        model=model_args.model_name_or_path,
+        args=training_args,
+        train_dataset=train_dataset,
+        eval_dataset=test_dataset,
+        peft_config=get_peft_config(model_args),
+        processing_class=tokenizer,
+    )
+
+    if trainer.accelerator.is_main_process and hasattr(trainer.model, "print_trainable_parameters"):
+        trainer.model.print_trainable_parameters()
+
+    checkpoint = None
+    if training_args.resume_from_checkpoint is not None:
+        checkpoint = training_args.resume_from_checkpoint
+
+    trainer.train(resume_from_checkpoint=checkpoint)
+
+    trainer.save_model(training_args.output_dir)
+
+    with training_args.main_process_first(desc="Training completed"):
+        print(f"Training completed, model checkpoint written to {training_args.output_dir}")
+
+parser = TrlParser((ScriptArguments, SFTConfig, ModelConfig))
+script_args, training_args, model_args = parser.parse_args_and_config()
+set_seed(training_args.seed)
+train(script_args, training_args, model_args)
+```
+
+#### 3.3.3 ConfigMap 생성
+
+실행 명령어
+```bash
+oc create configmap sft --from-file=config.yaml=config.yaml --from-file=sft.py=sft.py
+```
+* 두 개의 파일 config.yaml 및 sft.py을 가지고 ConfigMap을 생성
+  + 해당 파일은 PyTorchJob 포드에 마운트
+
+#### 3.3.4 (옵션) PVC 생성
+
+**pvc.yaml** 파일
+```yaml
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: shared
+spec:
+  accessModes:
+  - ReadWriteMany
+  resources:
+    requests:
+      storage: 500Gi
+  storageClassName: ocs-storagecluster-cephfs
+```
+* PVC를 아직 만들지 않았다면, 생성
+* *spec.storageClassName*는 구성된 스토리지로 설정
+
+실행 명령어
+```bash
+kubectl apply -f pvc.yaml
+```
+
+#### 3.3.5 **PyTorchJob** 리소스
+
+**SFT-Baseline** 구성 YAML
+```yaml
+apiVersion: kubeflow.org/v1
+kind: PyTorchJob
+metadata:
+  name: sft-baseline
+spec:
+  nprocPerNode: "2"
+  pytorchReplicaSpecs:
+    Master:
+      replicas: 1
+      template: &template
+        spec:
+          containers:
+            - name: pytorch
+              command:
+                - bash
+                - -c
+                - torchrun /etc/config/sft.py --config /etc/config/config.yaml
+              env:
+                - name: HF_HOME
+                  value: /mnt/shared/.cache
+                - name: HF_TOKEN
+                  value: ""
+                - name: PYTORCH_CUDA_ALLOC_CONF
+                  value: "expandable_segments:True"
+                - name: NCCL_DEBUG
+                  value: INFO
+              image: "quay.io/modh/training:py311-cuda121-torch241"
+              resources:
+                limits: &resources
+                  cpu: "4"
+                  memory: 96Gi
+                  nvidia.com/gpu: "2"
+                requests: *resources
+              volumeMounts:
+                - mountPath: /etc/config
+                  name: config
+                - mountPath: /mnt/shared
+                  name: shared
+                - name: shm
+                  mountPath: /dev/shm
+          volumes:
+            - configMap:
+                name: sft
+              name: config
+            - name: shared
+              persistentVolumeClaim:
+                claimName: shared
+            - name: shm
+              emptyDir:
+                medium: Memory
+                sizeLimit: 2Gi
+    Worker:
+      replicas: 1
+      template: *template
+```
+* *spec.nprocPerNode*: `2` (노드 당 GPU 2개)
+* 노드 내 및 노드 간 통신을 테스트하기 위해 두 개의 GPU가 연결된 두 개의 포드로 구성
+
+#### 3.3.6 업데이트된 PyTorchJob 리소스
+
+**SFT-RoCE** 구성 YAML
+```yaml
+apiVersion: kubeflow.org/v1
+kind: PyTorchJob
+metadata:
+  name: sft-roce
+spec:
+  pytorchReplicaSpecs:
+    Master:
+      template: &template
+        metadata:
+          annotations:
+            k8s.v1.cni.cncf.io/networks: "rdmashared-net"
+        spec:
+          containers:
+            - name: pytorch
+              env:
+                - name: NCCL_SOCKET_IFNAME
+                  value: "net1"
+                - name: NCCL_IB_HBA
+                  value: "mlx5_1"
+              resources:
+                limits: &resources
+                  rdma/rdma_shared_device_eth: "1"
+```
+* 네트워크 구성을 고려하여, *RDMA over Ethernet(RoCE)*을 사용하게 하는 `sft-baselin`에 적용하는 패치 YAML
+* *spec.pytorchReplicaSpecs.Master.template*
+  + *metadata.annotations."k8s.v1.cni.cncf.io/networks"*
+    - 보조 네트워크를 PyTorchJob 포드에 연결
+  + *spec.containers* 중 `pytorch` 컨테이너의 환경 변수 NCCL_SOCKET_IFNAME:net1
+    - NCCL이 이 보조 네트워크를 통해 통신하기 위해 네트워크 인터페이스를 사용하도록 지시
+  + *spec.containers* 중 `pytorch` 컨테이너의 환경 변수 NCCL_IB_HCA:mlx5_1
+    - NCCL이 사용할 호스트 채널 어댑터(HCA)를 지정
+    - 환경 변수가 설정 되지 않으면, 자동으로 검색
+  + *spec.containers* 중 `pytorch` 컨테이너의 리소스 rdma/rdma_shared_device_eth:1
+
+#### 3.3.7 진행 사항 확인
+
+실행 명령어
+```bash
+oc logs -l training.kubeflow.org/job-role=master -f
+```
+
+실행 결과 - NCCL이 적절히 구성되었다면, 다음 메시지 확인 가능
+```log
+NCCL INFO NET/IB : Using [0]mlx5_1:1/RoCE [RO]; OOB net1:192.168.2.5<0>
+NCCL INFO NET/IB : GPU Direct RDMA Enabled for HCA 0 'mlx5_1'
+NCCL INFO GPU Direct RDMA Enabled for GPU 1 / HCA 1
+NCCL INFO GPU Direct RDMA Enabled for GPU 0 / HCA 1
+NCCL INFO Channel 00/0 : 2[0] -> 1[1] [receive] via NET/IB/1/GDRDMA
+NCCL INFO Channel 01/0 : 2[0] -> 1[1] [receive] via NET/IB/1/GDRDMA
+NCCL INFO Channel 00/0 : 0[0] -> 3[1] [send] via NET/IB/1/GDRDMA
+NCCL INFO Channel 01/0 : 0[0] -> 3[1] [send] via NET/IB/1/GDRDMA
+```
+<br>
+
+### 3.4 성능 비교
+
+#### 3.4.1 테스트 환경
+
+* Dell PowerEdge-R760xa * 2대
+* NVidia A40 GPU * 2장 (각 노드 당)
+* NIC 모드로 설정된 BludeField-3 DPU * 2장
+* NVidia Spectrum-4 이더넷 스위치
+
+#### 3.4.2 테스트 시나리오 별 기본 파이토치 작업 테스트 결과
+
+1. 기본 OVN 네트워크를 사용 - 5시간
+2. RDMA over Ethernet을 사용 - 1시간 40분
+   + 미세 조정 시간을 3분의 1로 단축
+3. NVidia Spectrum-4에 연결된 보조 인터페이스 사용 및 NCCL을 RDMA over Ethernet 대신 TCP 소켓 사용 - 2시간 30분
+   + OVN 대비 2분 1로 단축
+
+#### 3.4.3 다양한 네트워크 구성에 따른 훈련 성능 지표
+
+<img src="images/training_metrics_for_different_network_configurations.webp" title="100px" alt="네트워크 구성에 따른 모델 훈련 성능 지표"/>
+
+* green - GPUDirect RDMA
+* blue - Spectrum-4 이더넷 스위치에 연결된 TCP 소켓
+* red - 기본 OVN 네트워크
+
 
 <br>
 <br>
