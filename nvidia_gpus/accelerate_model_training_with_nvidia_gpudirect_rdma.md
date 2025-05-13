@@ -530,7 +530,25 @@ NCCL INFO Channel 01/0 : 0[0] -> 3[1] [send] via NET/IB/1/GDRDMA
 * blue - Spectrum-4 이더넷 스위치에 연결된 TCP 소켓
 * red - 기본 OVN 네트워크
 
+#### 3.4.4 다양한 네트워크 구성에 따른 평가 성능 지표
 
+<img src="images/evaluation_metrics_for_different_network_configurations.webp" title="100px" alt="네트워크 구성에 따른 모델 평가 성능 지표"/>
+
+* green - GPUDirect RDMA
+* blue - Spectrum-4 이더넷 스위치에 연결된 TCP 소켓
+* red - 기본 OVN 네트워크
+
+#### 3.4.5 다른 배치 크기에 따른 RDMA over Ethernet의 모델 훈련 성능 지표
+
+<img src="images/training_metrics_for_different_batch_sizes.webp" title="100px" alt="배치 작업 크기에 따른 모델 훈련 성능 지표"/>
+
+#### 3.4.6 Flash Attention & Liger Kernel에 따른 모델 훈련 성능 지표
+
+<img src="images/training_metrics_for_flash_attention_and_liger_kernel.webp" title="100px" alt="Flash Attention 및 Liger Kernel에 따른 모델 훈련 성능 지표"/>
+
+* green - Flash Attention + Liger Kernel
+* blue - Flash Attention
+* red - 기본 attention 구현, 커널 최적화 없음
 <br>
 <br>
 
