@@ -37,6 +37,7 @@
 
 **NVIDIA GPU**
 * [소개 및 특징](./nvidia_gpus/nvidia_gpu_features.md)
+* [GPUDirect RDMA를 통한 모델 훈련 가속화](./nvidia_gpus/accelerate_model_training_with_nvidia_gpudirect_rdma.md)
 
 **참조**
 * [모델 최적화](./references/model_optimization.md)
