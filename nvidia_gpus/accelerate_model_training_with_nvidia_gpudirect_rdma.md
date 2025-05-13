@@ -1,10 +1,10 @@
 # NVidia GPUDirect RDMA를 모델 훈련 가속화
 
 **목차**
-1. []()<br>
-2. []()<br>
-3. []()<br>
-4. []()<br>
+1. [분산 모델 훈련](accelerate_model_training_with_nvidia_gpudirect_rdma.md#1-분산-모델-훈련)<br>
+2. [분산 모델 훈련 아키텍처](accelerate_model_training_with_nvidia_gpudirect_rdma.md#2-분산-모델-훈련-아키텍처)<br>
+3. [LLM Fine-Tuning](accelerate_model_training_with_nvidia_gpudirect_rdma.md#3-llm-fine-tuning)<br>
+4. [요약](accelerate_model_training_with_nvidia_gpudirect_rdma.md#4-요약)<br>
 
 <br>
 <br>
@@ -540,9 +540,16 @@ NCCL INFO Channel 01/0 : 0[0] -> 3[1] [send] via NET/IB/1/GDRDMA
 
 #### 3.4.5 다른 배치 크기에 따른 RDMA over Ethernet의 모델 훈련 성능 지표
 
+GPUDirect RDMA에 의에 모델 훈련은 더 이상 IO가 아닌 컴퓨팅에 따라 영향을 받음
+
 <img src="images/training_metrics_for_different_batch_sizes.webp" title="100px" alt="배치 작업 크기에 따른 모델 훈련 성능 지표"/>
 
+* *learning_rate* 메트릭 차트에서, 왼쪽에서 오른쪽으로, 32/64/96/112의 배치 크기
+
 #### 3.4.6 Flash Attention & Liger Kernel에 따른 모델 훈련 성능 지표
+
+GPUDirect RDMA에 의해 모델 훈련이 컴퓨팅 바운드가 됨
+* Flash Attention과 Liger Kernel의 융합 커널을 사용함으로써 얻는 속도 향상의 이점도 제공
 
 <img src="images/training_metrics_for_flash_attention_and_liger_kernel.webp" title="100px" alt="Flash Attention 및 Liger Kernel에 따른 모델 훈련 성능 지표"/>
 
@@ -552,10 +559,15 @@ NCCL INFO Channel 01/0 : 0[0] -> 3[1] [send] via NET/IB/1/GDRDMA
 <br>
 <br>
 
-## 4. 
+## 4. 요약
 
+LLM(그리고 일반적으로 딥 러닝 모델) 훈련은 본질적으로 매우 반복적인 프로세스입니다. 실험 단계에서 개발 주기를 단축하는 것은 경쟁 우위를 제공하며, 통신의 병목 현상을 제거하는 것은 GPU의 막대한 컴퓨팅 성능을 최대한 활용하는 데 필수적입니다.
 
+앞에서 설명한 전형적인 LLM Fine-Tuning 사례를 통해 NVidia GPUDirect RDMA가 모델 분산 훈련에서 이러한 통신 병목 현상을 어떻게 제거할 수 있는지 보여주었습니다. 또한 GPU의 컴퓨팅 성능에 맞는 네트워킹 플랫폼에 투자하는 것이 얼마나 중요한지 강조했습니다.
 
+NVidia GPUDirect RDMA는 분산 모델 서빙과 같은 다른 사용 사례의 가속화를 지원합니다. NVidia GPUDirect는 스토리지와 GPU 메모리 간의 데이터 이동을 가속화하는 GPUDirect 스토리지와 같은 다른 기술의 기반이 됩니다.
+
+레드햇 오픈시프트 AI는 Spectrum-X와 같은 고성능 NVidia 네트워킹 플랫폼과 선도적인 컨테이너 오케스트레이션 플랫폼인 오프시프트를 통해 최고의 하드웨어와 소프트웨어를 지원하는 다재다능하면서도 강력한 AI/ML 플랫폼을 제공할 수 있습니다.
 <br>
 <br>
 
