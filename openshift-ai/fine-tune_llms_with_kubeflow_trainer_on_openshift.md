@@ -197,9 +197,10 @@ lora_target_modules: ["q_proj", "v_proj", "k_proj", "o_proj", "gate_proj", "up_p
 > * 전체 미세 조정에 비해 학습되는 매개변수 수를 대폭 줄임
 > * 비슷한 성능을 유지
 > * 제한된 컴퓨팅 리소스를 수용할 수 있는 유연성을 제공
-> <br>
-> LoRA 사용 예<br>
-> 사전 훈련된 모델인 Llama 3.1 8B Instruct의 8,072,204,288개의 매개변수 대신에, 기본 LoRA 매개변수를 사용하면  41,943,000개만으로 훈련 가능한 매개변수가 생성되며, 이는 모델 매개변수 대비 0.5196%에 불과합니다.
+> * 사용 예
+>   + 사전 훈련된 모델인 Llama 3.1 8B Instruct의 8,072,204,288개의 매개변수 대신
+>   + 기본 LoRA 매개변수를 사용하면 41,943,000개만으로 훈련 가능한 매개변수가 생성
+>   + 이는 모델 매개변수 대비 0.5196%
 
 > [!NOTE]
 > **[Catastrophic Forgetting](https://en.wikipedia.org/wiki/Catastrophic_interference)**
