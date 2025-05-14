@@ -53,9 +53,79 @@
   + AMD 가속기 (Instinct MI300X 이상의 가속기)
 * Node Feature Discovery 오퍼레이터
 * GPU 오퍼레이터
-  + NVidia GPU 오퍼레이터
+  + NVidia GPU 오퍼레이터 ([ClusterPolicy](https://docs.nvidia.com/datacenter/cloud-native/openshift/latest/install-gpu-ocp.html#create-the-clusterpolicy-instance) 리소스 설정)
   + AMD GPU 오퍼레이터 ([구성 방법](https://instinct.docs.amd.com/projects/gpu-operator/en/latest/installation/openshift-olm.html#configuration))
+* 스토리지 클래스 제공
+  + 동적 프로비저닝을 제공하는 PVC
+  + RWX (ReadWriteMany) 액세스 모드
+  + 예
+    - 오픈시프트 데이터 파운데이션 (ODF)
+    - [NFS 동적 프로비저너](https://github.com/opendatahub-io/distributed-workloads/tree/main/workshops/llm-fine-tuning#nfs-provisioner-optional)
+<br>
 
+### 2.2 워크벤치 생성
+
+#### 2.2.1 RHOAI 대시보드에 로그인
+
+오픈시프트 웹 콘솔 상단에서 RHOAI 대시보드에 액세스
+<img src="images/login_rhoai_dash-board.webp" title="100px" alt="RHOAI 대시보드에 로그인"/>
+
+* 지정한 사용자 로그인 정보를 이용
+
+#### 2.2.2 데이터 사이언스 프로젝트 생성
+
+왼쪽 메뉴에서 **Data Science Projects** 선택 후 **Create project**를 클릭
+<img src="images/create_data_science_project_for_llm_fine_tuning.webp" title="100px" alt="데이터 사이언스 프로젝트 생성"/>
+
+* 프로젝트 이름 (예: `LLM Fine Tuning`) 입력 후 **Create**를 클릭
+
+#### 2.2.3 워크벤치 생성
+
+생성된 프로젝트 `LLM Fine Tuning`에서 **Create a workbench**를 클릭
+<img src="images/create_workbench_for_llm_fine_tuning.webp" title="100px" alt="워크벤치 생성"/>
+
+#### 2.2.3 워크벤치 설정
+
+**이름 및 노트북 이미지 설정**
+<img src="images/input_name_and_select_image_of_workbench_for_llm_fine_tuning.webp" title="100px" alt="워크벤치의 이름 및 이미지 설정"/>
+
+* *Name and description* 섹션
+  + 이름: `notebook`
+* *Notebook image* 섹션
+  + 이미지: `PyTorch` (NVidia GPU) 또는 `ROCm-PyTorch` (AMD 가속기) 
+  + 버전: 기본값 사용
+
+**컨테이너 크기 및 가속기 설정**
+<img src="images/set_container_size_and_select_accelerator_for_llm_fine_tuning.webp" title="100px" alt="워크벤치의 컨테이너 크기 및 가속기 설정"/>
+
+* *Deployment size* 섹션
+  + 컨테이너 크기: `Medium`
+  + 가속기: NVidia GPU (혹은 AMD)
+
+**스토리지 설정**
+
+<img src="images/create_storage_of_workbench_for_llm_fine_tuning.webp" title="100px" alt="워크벤치의 영구 스토리지 생성"/>
+
+* *Cluster storage* 섹션
+  + 스토리지 생성
+    - 이름: `shared`
+    - 스토리지 클래스: `nfs-csi` (예: 동적 프로비저너로 구성된 NFS 스토리지 클래스)
+    - 크기: `500` GiB
+    - 마운트 경로: *Standard path* (`/opt/app-root/src/shared`)
+* 해당 스토리지는 워크벤치인 `notebook`과 Finin-Tuning 작업사이에서 모델 체크포인트를 유지하기 위한 공유 저장소
+  + 이를 위해 RWX가 제공되는 스토리지 클래스에서 생성
+
+**설정 리뷰후 워크벤치 생성**
+<img src="images/review_settings_of_workbench_for_llm_fine_tuning.webp" title="100px" alt="워크벤치 설정 리뷰"/>
+
+* 클러스터 스토리지 설정을 리뷰
+* **Create workbench**를 클릭
+
+#### 2.2.4 프로젝트 `LLM Fine Tuning`의 **워크벤치** 탭에서 `notebook` 상태 확인
+
+<img src="images/check_created_workbench_for_llm_fine_tuning.webp" title="100px" alt="생성된 워크벤치 확인"/>
+
+* 워크벤치가 준비되면 **Open**을 클릭
 <br>
 <br>
 
