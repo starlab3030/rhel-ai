@@ -42,6 +42,8 @@
 
 ### 2.1 시스템 구성
 
+#### 2.1.1 플랫폼 구성
+
 * 오픈시프트 4.14+
 * 오픈시프트 AI 오퍼레이터 2.19+
   + 대시보드
@@ -61,6 +63,13 @@
   + 예
     - 오픈시프트 데이터 파운데이션 (ODF)
     - [NFS 동적 프로비저너](https://github.com/opendatahub-io/distributed-workloads/tree/main/workshops/llm-fine-tuning#nfs-provisioner-optional)
+
+#### 2.2.2 AI 
+
+* 예제 리포지토리: [LLM fine-tuning w/ Kubeflow Training on OpenShift AI](https://github.com/opendatahub-io/distributed-workloads.git)
+* 사전 훈련된 AI 모델: [Llama 3.1 8B Instruct](https://huggingface.co/meta-llama/Llama-3.1-8B-Instruct)
+* 데이터 셋: 허깅페이스의 [GSM8K](https://huggingface.co/datasets/openai/gsm8k)
+
 <br>
 
 ### 2.2 워크벤치 생성
@@ -135,6 +144,77 @@
 <br>
 
 ## 3. LLM Fine-Tuning
+
+### 3.1 LLM Fine-Tuning 노트북 예제 준비
+
+#### 3.1.1 Git에서 예제를 복제
+
+<img src="images/clone_git_repo_for_llm_fine_tuning.webp" title="100px" alt="예제 리포지토리 복제"/>
+
+1. 노트북의 왼쪽 메뉴의 Git 아이콘을 클릭
+2. 아래 URL을 입력
+   ```
+   https://github.com/opendatahub-io/distributed-workloads.git
+   ```
+3. **Clone**을 클릭하여 Git의 리포지토리를 복제
+
+#### 3.1.2 *sft.ipynb* 노트북 오픈
+
+<img src="images/open_notebook_file_for_llm_fine_tuning.webp" title="100px" alt="노트북 파일 오픈"/>
+
+1. 네비게이션 창에서 `distributed-workloads/examples/kfto-sft-llm` 디렉터리로 이동
+2. 파일 `sft.ipynb`을 클릭
+<br>
+
+### 3.2 Fine-Tuning 작업 구성
+
+#### 3.2.1 `[sft.ipynb](https://github.com/opendatahub-io/distributed-workloads/blob/main/examples/kfto-sft-llm/sft.ipynb)`의 모델 및 데이터셋 구성
+
+```yaml
+# Model
+model_name_or_path: Meta-Llama/Meta-Llama-3.1-8B-Instruct
+model_revision: main
+# Dataset
+dataset_name: gsm8k                       # id or path to the dataset
+dataset_config: main                      # name of the dataset configuration
+```
+
+#### 3.2.2 `[sft.ipynb](https://github.com/opendatahub-io/distributed-workloads/blob/main/examples/kfto-sft-llm/sft.ipynb)`의 PEFT 및 LoRA 구성
+
+```yaml
+# PEFT / LoRA
+lora_r: 16
+lora_alpha: 8
+lora_dropout: 0.05
+lora_target_modules: ["q_proj", "v_proj", "k_proj", "o_proj", "gate_proj", "up_proj", "down_proj"]
+```
+
+> [!NOTE]
+> PEFT는 Parameter-Efficient Fine-Tuning의 약자입니다.
+
+> [!INFORMATION]
+> **LoRA**<br>
+> * 전체 미세 조정에 비해 학습되는 매개변수 수를 대폭 줄임
+> * 비슷한 성능을 유지
+> * 제한된 컴퓨팅 리소스를 수용할 수 있는 유연성을 제공
+> <br>
+> **LoRA 사용 예**<br>
+> 사전 훈련된 모델인 Llama 3.1 8B Instruct의 8,072,204,288개의 매개변수 대신에, 기본 LoRA 매개변수를 사용하면  41,943,000개만으로 훈련 가능한 매개변수가 생성되며, 이는 모델 매개변수 대비 0.5196%에 불과합니다.
+
+> [!INFORMATION]
+> **[Catastrophic Forgetting](https://en.wikipedia.org/wiki/Catastrophic_interference)**<br>
+> * 추가된 LoRA 어댑터 가중치만 학습되고 사전 학습된 모델의 원래 가중치는 변경되지 않음
+> * 모델이 사전 훈련 중에, 훈련한 지식이 다른 데이터셋에서 미세 조정된 후에도 "***잊혀지지***" 않도록 유지
+<br>
+
+### 3.3 데이터셋 준비
+
+
+### 3.4 클라이언트 SDK 구성
+
+
+### 3.5 Fine-Tuning 작업 생성
+
 
 <br>
 <br>
