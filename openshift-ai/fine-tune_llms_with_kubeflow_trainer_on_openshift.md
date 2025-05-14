@@ -194,7 +194,7 @@ lora_target_modules: ["q_proj", "v_proj", "k_proj", "o_proj", "gate_proj", "up_p
 
 > [!INFORMATION]
 >
-> \\**LoRA**
+> \\**LoRA\\**
 > * 전체 미세 조정에 비해 학습되는 매개변수 수를 대폭 줄임
 > * 비슷한 성능을 유지
 > * 제한된 컴퓨팅 리소스를 수용할 수 있는 유연성을 제공
