@@ -168,7 +168,7 @@
 
 ### 3.2 Fine-Tuning 작업 구성
 
-#### 3.2.1 `[sft.ipynb](https://github.com/opendatahub-io/distributed-workloads/blob/main/examples/kfto-sft-llm/sft.ipynb)`의 모델 및 데이터셋 구성
+#### 3.2.1 [`sft.ipynb`](https://github.com/opendatahub-io/distributed-workloads/blob/main/examples/kfto-sft-llm/sft.ipynb)의 모델 및 데이터셋 구성
 
 ```yaml
 # Model
@@ -179,7 +179,7 @@ dataset_name: gsm8k                       # id or path to the dataset
 dataset_config: main                      # name of the dataset configuration
 ```
 
-#### 3.2.2 `[sft.ipynb](https://github.com/opendatahub-io/distributed-workloads/blob/main/examples/kfto-sft-llm/sft.ipynb)`의 PEFT 및 LoRA 구성
+#### 3.2.2 [sft.ipynb](https://github.com/opendatahub-io/distributed-workloads/blob/main/examples/kfto-sft-llm/sft.ipynb)의 PEFT 및 LoRA 구성
 
 ```yaml
 # PEFT / LoRA
@@ -198,7 +198,7 @@ lora_target_modules: ["q_proj", "v_proj", "k_proj", "o_proj", "gate_proj", "up_p
 > * 비슷한 성능을 유지
 > * 제한된 컴퓨팅 리소스를 수용할 수 있는 유연성을 제공
 > * 사용 예
->   + 사전 훈련된 모델인 Llama 3.1 8B Instruct의 8,072,204,288개의 매개변수 대신
+>   + 사전 훈련된 모델인 Llama 3.1 8B Instruct는 8,072,204,288개의 매개변수 사용
 >   + 기본 LoRA 매개변수를 사용하면 41,943,000개만으로 훈련 가능한 매개변수가 생성
 >   + 이는 모델 매개변수 대비 0.5196%
 
@@ -206,15 +206,132 @@ lora_target_modules: ["q_proj", "v_proj", "k_proj", "o_proj", "gate_proj", "up_p
 > **[Catastrophic Forgetting](https://en.wikipedia.org/wiki/Catastrophic_interference)**
 > * 추가된 LoRA 어댑터 가중치만 학습되고 사전 학습된 모델의 원래 가중치는 변경되지 않음
 > * 모델이 사전 훈련 중에, 훈련한 지식이 다른 데이터셋에서 미세 조정된 후에도 "***잊혀지지***" 않도록 유지
+
+#### 3.2.3 [sft.ipynb](https://github.com/opendatahub-io/distributed-workloads/blob/main/examples/kfto-sft-llm/sft.ipynb)의 모델 훈련 하이퍼-패러미터 및 가속기 리소스 설정
+
+```yaml
+attn_implementation: flash_attention_2    # one of eager, sdpa or flash_attention_2
+use_liger: false                          # use Liger kernels
+per_device_train_batch_size: 32           # batch size per device during training
+per_device_eval_batch_size: 32            # batch size for evaluation
+bf16: true                                # use bf16 16-bit (mixed) precision
+tf32: false                               # use tf32 precision
+```
+* 패러미터 중 일부는 사용 환경에 따라 제한이 있을 수 있음
+  + 구형 가속기는 *bfloat16*/*tfloat32*와 같은 부동 소수점 정밀도 형식은 지원 안할 수 있음
+  + *FlashAttention-2*는 *fp16* / *bf16* 데이터 유형만 지원
+  + Liger 커널는 [일부 모델](https://github.com/linkedin/Liger-Kernel?tab=readme-ov-file#high-level-apis)에서만 사용 가능
+
+#### 3.2.5 [sft.ipynb](https://github.com/opendatahub-io/distributed-workloads/blob/main/examples/kfto-sft-llm/sft.ipynb)의 체크포인트 및 로깅 구성
+
+```yaml
+# Checkpointing
+save_strategy: epoch                      # save checkpoint every epoch
+save_total_limit: 1                       # limit the total amount of checkpoints
+# Logging
+log_level: warning                        # logging level (see transformers.logging)
+logging_strategy: steps
+logging_steps: 1                          # log every N steps
+report_to:
+- tensorboard                             # report metrics to tensorboard
+output_dir: /mnt/shared/Meta-Llama-3.1-8B-Instruct
+```
 <br>
 
 ### 3.3 데이터셋 준비
 
+#### 3.3.1 SFT (Supervised Fine-Tuning)을 위한 데이터셋
+
+**도메인 지식 및 토큰화**
+* 선택한 사전 훈련된 모델에 통합해야 하는 도메인 지식을 제공
+* 데이터셋 항목 토큰화
+  + 훈련 중에 모델에 입력으로 전달될 수 있도록 특정 형식으로 구성됨
+
+#### 3.3.2 허깅페이스 Transformers 라이브러리
+
+* 다중 턴 대화 템플릿 스타일을 위한 *ChatML* 구조 지원
+  + 데이터 세트 구조화 형식
+    ```py
+    [{"role": str, "content": str}]
+    ```
+
+* 프롬프트 완성 템플릿 스타일을 위한 *Instruction* 구조 지원
+  + 데이터 세트 구조화 형식
+    ```py
+    [{"prompt": str, "completion": str}]
+    ```
+
+#### 3.3.3 데이터셋 변환 및 준비
+
+[GSM8K](https://huggingface.co/datasets/openai/gsm8k) 데이터셋처럼 지정된 구조화된 형식을 따르지 않는 경우 변환이 필요
+
+**template_dataset() 함수**
+```py
+# Templatize dataset
+def template_dataset(sample):
+    messages = [
+        {"role": "user", "content": sample['question']},
+        {"role": "assistant", "content": sample['answer']},
+    ]
+return {"text": tokenizer.apply_chat_template(messages, tokenize=False)}
+```
+* GSM8K 데이터셋의 *question* & *answer*를 *ChatML* 구조 형식으로 변환
+
+#### 3.3.4 채팅 템플릿 준비
+
+데이터세트가 준비되면 [chat template](https://huggingface.co/docs/transformers/main/en/chat_templating#template-selection)을 선택
+* 기본적으로 사전 학습된 모델 토크나이저의 구성 파일에서 지정한 템플릿 사용
+  + *`tokenizer_config.json`* 파일의 *chat_template* 필드
+  + 일반적으로 Llama 3.1 8B Instruct와 같은 명령어 튜닝 모델에 사용
+* 또는 직접 템플릿을 제공
+
+**템플릿 제공 예**
+```py
+# Chat template
+# Anthropic/Vicuna like template without the need for special tokens
+LLAMA_3_CHAT_TEMPLATE = (
+    "{% for message in messages %}"
+    "{% if message['role'] == 'system' %}"
+    "{{ message['content'] }}"
+    "{% elif message['role'] == 'user' %}"
+    "{{ '\n\nHuman: ' + message['content'] +  eos_token }}"
+    "{% elif message['role'] == 'assistant' %}"
+    "{{ '\n\nAssistant: '  + message['content'] +  eos_token  }}"
+    "{% endif %}"
+    "{% endfor %}"
+    "{% if add_generation_prompt %}"
+    "{{ '\n\nAssistant: ' }}"
+    "{% endif %}"
+)
+tokenizer.chat_template = LLAMA_3_CHAT_TEMPLATE
+```
+<br>
 
 ### 3.4 클라이언트 SDK 구성
 
+#### 3.4.1 **PyTorchJob** 리소스
+
+* Kubeflow 훈련 SDK를 사용하여 Kubeflow Trainer 오퍼레이터가 PyTorch 포드 구성
+* 포드 생성을 위한 권한 필요
+  + SDK가 오픈시프트 API 서버에 인증
+  + 해당 PyTorchJob 리소스를 생성할 권한을 부여 받음
+  + 이를 위한 유효한 베어러 토큰을 제공
+
+#### 3.4.2 노트북에서 인증 및 권한을 위한 구성
+
+```py
+api_server = "<API_SERVER>"
+token = "<TOKEN>"
+# Un-comment if your cluster API server uses a self-signed certificate or an un-trusted CA
+#configuration.verify_ssl = False
+```
+1. 오픈시프트 콘솔의 오른쪽 상단의 드롭다운 메뉴
+2. **로그인 명령 복사**를 선택
+3. 베어러 토근 및 API URL 정보 확인
+<br>
 
 ### 3.5 Fine-Tuning 작업 생성
+
 
 
 <br>
