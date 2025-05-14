@@ -193,16 +193,16 @@ lora_target_modules: ["q_proj", "v_proj", "k_proj", "o_proj", "gate_proj", "up_p
 > PEFT는 Parameter-Efficient Fine-Tuning의 약자입니다.
 
 > [!INFORMATION]
-> **LoRA**<br>
+> **LoRA**
 > * 전체 미세 조정에 비해 학습되는 매개변수 수를 대폭 줄임
 > * 비슷한 성능을 유지
 > * 제한된 컴퓨팅 리소스를 수용할 수 있는 유연성을 제공
 > <br>
-> **LoRA 사용 예**<br>
+> **LoRA 사용 예**
 > 사전 훈련된 모델인 Llama 3.1 8B Instruct의 8,072,204,288개의 매개변수 대신에, 기본 LoRA 매개변수를 사용하면  41,943,000개만으로 훈련 가능한 매개변수가 생성되며, 이는 모델 매개변수 대비 0.5196%에 불과합니다.
 
 > [!INFORMATION]
-> **[Catastrophic Forgetting](https://en.wikipedia.org/wiki/Catastrophic_interference)**<br>
+> **[Catastrophic Forgetting](https://en.wikipedia.org/wiki/Catastrophic_interference)**
 > * 추가된 LoRA 어댑터 가중치만 학습되고 사전 학습된 모델의 원래 가중치는 변경되지 않음
 > * 모델이 사전 훈련 중에, 훈련한 지식이 다른 데이터셋에서 미세 조정된 후에도 "***잊혀지지***" 않도록 유지
 <br>
