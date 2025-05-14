@@ -83,8 +83,11 @@
 
 생성된 프로젝트 `LLM Fine Tuning`에서 **Create a workbench**를 클릭
 <img src="images/create_workbench_for_llm_fine_tuning.webp" title="100px" alt="워크벤치 생성"/>
+<br>
 
-#### 2.2.3 워크벤치 설정 - 이름 및 노트북 이미지 설정
+### 2.3 워크벤치 설정
+
+#### 2.3.1 이름 및 노트북 이미지 설정
 
 <img src="images/input_name_and_select_image_of_workbench_for_llm_fine_tuning.webp" title="100px" alt="워크벤치의 이름 및 이미지 설정"/>
 
@@ -94,7 +97,7 @@
   + 이미지: `PyTorch` (NVidia GPU) 또는 `ROCm-PyTorch` (AMD 가속기) 
   + 버전: 기본값 사용
 
-#### 2.2.3 워크벤치 설정 - 컨테이너 크기 및 가속기 설정
+#### 2.3.2 컨테이너 크기 및 가속기 설정
 
 <img src="images/set_container_size_and_select_accelerator_for_llm_fine_tuning.webp" title="100px" alt="워크벤치의 컨테이너 크기 및 가속기 설정"/>
 
@@ -102,7 +105,7 @@
   + 컨테이너 크기: `Medium`
   + 가속기: NVidia GPU (혹은 AMD)
 
-#### 2.2.3 워크벤치 설정 - 스토리지 설정
+#### 2.3.3 스토리지 설정
 
 <img src="images/create_storage_of_workbench_for_llm_fine_tuning.webp" title="100px" alt="워크벤치의 영구 스토리지 생성"/>
 
@@ -115,7 +118,7 @@
 * 해당 스토리지는 워크벤치인 `notebook`과 Finin-Tuning 작업사이에서 모델 체크포인트를 유지하기 위한 공유 저장소
   + 이를 위해 RWX가 제공되는 스토리지 클래스에서 생성
 
-#### 2.2.3 워크벤치 설정 - 설정 리뷰후 워크벤치 생성
+#### 2.3.4 설정 리뷰후 워크벤치 생성
 
 <img src="images/review_settings_of_workbench_for_llm_fine_tuning.webp" title="100px" alt="워크벤치 설정 리뷰"/>
 
@@ -123,7 +126,7 @@
 * **Create workbench**를 클릭
 <br>
 
-### 2.3 프로젝트 `LLM Fine Tuning`의 **워크벤치** 탭에서 `notebook` 상태 확인
+### 2.4 프로젝트 `LLM Fine Tuning`의 **워크벤치** 탭에서 `notebook` 상태 확인
 
 <img src="images/check_created_workbench_for_llm_fine_tuning.webp" title="100px" alt="생성된 워크벤치 확인"/>
 
