@@ -38,9 +38,13 @@
 1. [vLLM 소개](./vllm/intro_of_vllm.md)<br>
 <br>
 
+**오픈시프트 AI**
+* [오픈시프트 상에서 KubeFlow를 통한 LLM Fine-Tuning](./openshift-ai/fine-tune_llms_with_kubeflow_trainer_on_openshift.md)
+* [GPUDirect RDMA를 통한 모델 훈련 가속화](./openshift-ai/accelerate_model_training_with_nvidia_gpudirect_rdma.md)
+<br>
+
 **NVIDIA GPU**
 * [소개 및 특징](./nvidia_gpus/nvidia_gpu_features.md)
-* [GPUDirect RDMA를 통한 모델 훈련 가속화](./nvidia_gpus/accelerate_model_training_with_nvidia_gpudirect_rdma.md)
 <br>
 
 **참조**
