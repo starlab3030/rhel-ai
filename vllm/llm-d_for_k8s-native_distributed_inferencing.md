@@ -24,6 +24,7 @@
 쿠버네티스는 일반적으로 균일한 복제본과 라운드 로빈 로드 밸런싱을 사용하여 애플리케이션 워크로드를 스케일아웃합니다. 반면에, LLM 추론 확장은 고유한 워크로드 특성으로 인하여 일반적인 애플리케이션보다 더 복잡합니다.
 
 **예: 여러 vLLM 인스턴스에 서비스 배포**
+
 <img src="images/deploying_service_to_multiple_vllm_instance.png" title="100px" alt="여러 vLLM 인스턴스에 서비스 배포"/>
 
 * 위와 같은 패턴은 다음과 같은 특성을 가진 대부분의 서비스 요청(request) 패턴에 매우 효과적
@@ -42,6 +43,7 @@
 각 LLM 추론 요청은 입력 토큰과 출력 토큰의 개수로 측정되는 서로 다른 *"형태"*를 가지며, 이러한 매개변수는 요청과 워크로드에 따라 상당한 차이를 보입니다.
 
 **사전 채우기 및 디코딩 단계에서의 `RAG 패턴` vs `사고/추론 패턴` 비교** 
+
 <img src="images/comparing_rag_pattern_and_thinking_reasoning_pattern.png" title="100px" alt="`RAG 패턴` vs `사고/추론 패턴` 비교"/>
 
 * 패턴 비교
@@ -65,6 +67,7 @@
 vLLM과 같은 LLM 추론 서버는 *"자동 접두사 캐싱"*이라는 방법을 구현하여 캐시 적중 시 상당한 양의 사전 채우기 계산을 **건너뛸** 수 있도록 합니다.
 
 **접두사 캐싱(Prefix Caching)**
+
 <img src="images/prefix_caching_method.png" title="100px" alt="접두사 캐시"/>
 
 * 캐시에 데이터가 있는 vLLM 복제본으로 요청이 라우팅되면, 계산을 건너뜀
