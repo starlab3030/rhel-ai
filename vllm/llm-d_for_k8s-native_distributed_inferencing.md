@@ -36,7 +36,7 @@
 
 ### 2.2 LLM 서빙의 고유한 특징
 
-<img src="images/deploying_service_to_multiple_vllm_instance.png" title="100px" alt="현대의 HTTP 요청 비교"/>
+<img src="images/comparison_of_modern_http_requests.png" title="100px" alt="현대의 HTTP 요청 비교"/>
 
 #### 2.2.1 요청은 비용이 많이 들고 리소스 활용도도 크게 다름
 
