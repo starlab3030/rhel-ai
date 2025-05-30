@@ -2,15 +2,17 @@
 
 **차례**
 1. Neural Magic을 통한 모델 압축<br>
-&nbsp;1.1 [Neural Magic](quantization_model.md#11-neural-magic)<br>
-&nbsp;1.2 [압축된 모델 평가](quantization_model.md#12-압축된-모델-평가)<br>
-&nbsp;1.3 [압축된 granite 작동 방식](quantization_model.md#13-압축된-granite-작동-방식)<br>
-&nbsp;1.4 [에이전트 파이프라인 명령어 수행 평가](quantization_model.md#14-에이전트-파이프라인-명령어-수행-평가)<br>
+&nbsp;1.1 [Neural Magic](model_optimization.md#11-neural-magic)<br>
+&nbsp;1.2 [압축된 모델 평가](model_optimization.md#12-압축된-모델-평가)<br>
+&nbsp;1.3 [압축된 granite 작동 방식](model_optimization.mdd#13-압축된-granite-작동-방식)<br>
+&nbsp;1.4 [에이전트 파이프라인 명령어 수행 평가](model_optimization.md#14-에이전트-파이프라인-명령어-수행-평가)<br>
 2. GGUF vs GGML<br>
-&nbsp;2.1 [PT-Generated Unified Format(GGUF)란](quantization_model.md#21-pt-generated-unified-formatgguf란)<br>
-&nbsp;2.2 [GGUF와 GGML의 차이](quantization_model.md#22-gguf와-ggml의-차이)<br>
-&nbsp;2.3 [GGUF로 전환](quantization_model.md#23-gguf로-전환)<br>
-3. []()<br>
+&nbsp;2.1 [PT-Generated Unified Format(GGUF)란](model_optimization.md#21-pt-generated-unified-formatgguf란)<br>
+&nbsp;2.2 [GGUF와 GGML의 차이](model_optimization.md#22-gguf와-ggml의-차이)<br>
+&nbsp;2.3 [GGUF로 전환](model_optimization.md#23-gguf로-전환)<br>
+&nbsp;2.4 [GGUF 아키텍처](model_optimization.md#24-gguf-아키텍처)<br>
+&nbsp;2.5 [GGUF 모델 및 사용 사례](model_optimization.md#25-gguf-모델-및-사용-사례)<br>
+&nbsp;2.6 [커뮤니티 및 에코시스템](model_optimization.md#26-커뮤니티-및-에코시스템)<br>
 
 <br>
 
