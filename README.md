@@ -39,11 +39,6 @@
 2. [llm-d: 쿠버네티스-네이티브 분산 추론](./vllm/llm-d_for_k8s-native_distributed_inferencing.md)<br>
 <br>
 
-**오픈시프트 AI**
-* [오픈시프트 상에서 KubeFlow를 통한 LLM Fine-Tuning](./openshift-ai/fine-tune_llms_with_kubeflow_trainer_on_openshift.md)
-* [GPUDirect RDMA를 통한 모델 훈련 가속화](./openshift-ai/accelerate_model_training_with_nvidia_gpudirect_rdma.md)
-<br>
-
 **NVIDIA GPU**
 * [소개 및 특징](./nvidia_gpus/nvidia_gpu_features.md)
 <br>
