@@ -57,12 +57,12 @@
 
 코넬 대학의 [PagedAttention을 사용한 대규모 언어 모델의 효율적인 메모리 관리](https://arxiv.org/abs/2309.06180)의 연구에서 기존 LLM 메모리 관리 시스템이 다소 비효율적인 방식으로 계산을 체계화한다고 지적되었습니다. 
 
-> [!INFORMATION]
+> [!NOTE]
 > **PagedAttention**은 운영 체제 내의 페이징 시스템과 가상 메모리에서 영감을 얻은 vLLM을 통해 도입된 메모리 관리 기법입니다.
 
 이 연구는 키-값(KV: Key & Value) 캐시(LLM의 단기 메모리)가 처리 중에 어떻게 감소하고 증가하는지 확인하고, 더욱 안정적인 방식으로 공간과 컴퓨팅 성능을 관리하기 위한 솔루션으로 vLLM을 제시합니다.
 
-> [!INFORMATION]
+> [!NOTE]
 > 기본적으로, vLLM은 사용자 응답을 연속적으로 '배치 처리'하여 KV 캐시가 바로가기(shortcut)를 만들도록 안내하는 일련의 지침입니다.
 <br>
 
@@ -112,6 +112,7 @@
 ### 4.2 `vLLM`의 이점
 
 **`vLLM`을 LLM의 추론 서버로 사용 시 이점**
+
 |$\color{lime}{\texttt{항목}}$|$\color{lime}{\texttt{설명}}$|
 |:---:|:---|
 |더 빠른 응답 시간|일부 계산을 기준으로, `vLLM`은 LLM에 사용되는 인기 오픈소스 라이브러리인 *Hugging Face Transformers*와 비교하여 [LLM의 데이터 처리량을 최대 24배 더 높게](https://blog.vllm.ai/2023/06/20/vllm.html) 제공|
