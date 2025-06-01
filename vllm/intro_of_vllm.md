@@ -113,7 +113,8 @@
 
 **`vLLM`을 LLM의 추론 서버로 사용 시 이점**
 
-|$$\color{lime}{\texttt{항목}}$$|$\color{lime}{\texttt{설명}}$|
+<!--|$\color{lime}{\texttt{항목}}$|$\color{lime}{\texttt{설명}}$|-->
+|$$\color{lime}{\texttt{항목}}$$|<code style="color : aqua">설명</code>|
 |:---:|:---|
 |더 빠른 응답 시간|일부 계산을 기준으로, `vLLM`은 LLM에 사용되는 인기 오픈소스 라이브러리인 *Hugging Face Transformers*와 비교하여 [LLM의 데이터 처리량을 최대 24배 더 높게](https://blog.vllm.ai/2023/06/20/vllm.html) 제공|
 |하드웨어 비용 감소|리소스를 더욱 효율적으로 사용하기 때문에 LLM 처리에 필요한 GPU 성능이 줄어듦|
