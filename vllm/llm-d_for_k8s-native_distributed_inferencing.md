@@ -140,7 +140,7 @@ vLLM과 같은 LLM 추론 서버는 *"자동 접두사 캐싱"*이라는 방법�
 
 |$\color{lime}{\texttt{컴포넌트}}$|$\color{lime}{\texttt{설명}}$|
 |:---:|:---|
-|vLLM|<ul><li>업계를 선도하는 오픈소스 LLM 추론 엔진</li><li>다양한 모델(Llama 및 DeepSeek 포함)과 고성능 하드웨어 가속기(NVIDIA GPU, Google TPU, AMD 포함)를 지원</li></ul>>|
+|vLLM|<ul><li>업계를 선도하는 오픈소스 LLM 추론 엔진</li><li>다양한 모델(Llama 및 DeepSeek 포함)과 고성능 하드웨어 가속기(NVIDIA GPU, Google TPU, AMD 포함)를 지원</li></ul>|
 |쿠버네티스|<ul><li>컨테이너화된 애플리케이션의 배포, 확장 및 관리를 자동화하는 오픈소스 컨테이너 오케스트레이션 엔진</li><li>다양한 하드웨어 가속기에 LLM 추론 엔진을 배포하고 업데이트하는 업계 표준</li></ul>|
 |Inference Gateway(IGW)|<ul><li>추론 전용 라우팅을 통해 Gateway API(차세대 쿠버네티스 Ingress 및 부하 분산 API)를 확장하는 공식 쿠버네티스 프로젝트</li><li>모델 라우팅, 서비스 우선순위, "스마트" 부하 분산을 위한 확장 가능한 스케줄링 로직과 같은 여러 중요한 기능을 포함</li><li>Envoy 등 다양한 게이트웨이 구현과 통합되어 쿠버네티스 클러스터 전반에 걸쳐 폭넓게 이식 가능</li></ul>|
 <br>
