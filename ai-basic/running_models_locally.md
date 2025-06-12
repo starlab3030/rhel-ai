@@ -39,7 +39,7 @@
   BaseName-Size-FineTune-Version-Encoding-Type.gguf
   ```
   |$\color{lime}{\texttt{필드}}$|$\color{lime}{\texttt{설명}}$|
-  |:---:|:---:|
+  |:---:|:---|
   |BaseName|`granite`과 같이 모델 기본 유형이나 아키텍처를 설명하는 이름|
   |Size|매개변수 번호에 대한 반올림된 소수점 뒤에 지수를 나타내는 문자<br>  예1) 120M은 1억 2천만 개의 매개변수<br>  예2) 7B는 70억 개의 매개변수<br>  예3) 전문가 혼합(MoE) 모델은 매개변수 번호 앞에 전문가 수를 추가한 다음 x를 붙임|
   |FineTune|모델이 훈련받은 작업이나 접근 방식을 나타내는 키워드(예: chat, instruct, lab)|
