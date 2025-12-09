@@ -35,8 +35,8 @@
 <br>
 
 **vLLM**
-1. [vLLM 소개](./vllm/intro_of_vllm.md)<br>
-2. [llm-d: 쿠버네티스-네이티브 분산 추론](./vllm/llm-d_for_k8s-native_distributed_inferencing.md)<br>
+* [vLLM 소개](./vllm/intro_of_vllm.md)<br>
+<br>ㄱ
 <br>
 
 **NVIDIA GPU**
